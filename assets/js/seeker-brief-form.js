@@ -40,6 +40,117 @@ const matcherWarning = document.querySelector(".matcher-warning");
 const briefSidebar = document.querySelector(".brief-sidebar");
 const briefLayout = document.querySelector(".brief-layout");
 
+const navigationToggle = siteNavigation?.querySelector(".navigation-toggle");
+
+function setAccountMenuOpen(isOpen) {
+  siteNavigation?.classList.toggle("account-menu-open", isOpen);
+  navigationToggle?.setAttribute("aria-expanded", String(isOpen));
+  navigationToggle?.setAttribute(
+    "aria-label",
+    isOpen ? "Đóng menu tài khoản" : "Mở menu tài khoản",
+  );
+}
+
+navigationToggle?.addEventListener("click", () => {
+  setAccountMenuOpen(navigationToggle.getAttribute("aria-expanded") !== "true");
+});
+
+siteNavigation?.addEventListener("click", (event) => {
+  if (event.target.closest(".account-navigation a")) {
+    setAccountMenuOpen(false);
+  }
+});
+
+siteNavigation?.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") setAccountMenuOpen(false);
+});
+
+document.addEventListener("click", (event) => {
+  if (!siteNavigation?.contains(event.target)) setAccountMenuOpen(false);
+});
+
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 760) setAccountMenuOpen(false);
+});
+
+const userAccount = document.querySelector("#user-account");
+const userName = document.querySelector("#user-name");
+const notificationCount = document.querySelector("#notification-count");
+const notificationEvents = Object.freeze({
+  briefSubmitted: "brief-submitted",
+  brokerReceivedBrief: "broker-received-brief",
+  brokerDeclinedBrief: "broker-declined-brief",
+  briefEdited: "brief-edited",
+  briefDeleted: "brief-deleted",
+});
+const allowedNotificationEvents = new Set(Object.values(notificationEvents));
+let unreadNotificationCount = 0;
+
+const pageNavigation = new Map([
+  ["seeker-search.html", "search"],
+  ["seeker-brief-form.html", "brief"],
+  ["agent-selection.html", "broker"],
+  ["seeker-saved.html", "saved"],
+]);
+
+function renderActiveNavigation() {
+  const currentPage = window.location.pathname.split("/").pop();
+  const activePage = pageNavigation.get(currentPage);
+
+  for (const link of document.querySelectorAll(
+    ".primary-navigation a[data-nav-page]",
+  )) {
+    if (link.dataset.navPage === activePage) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  }
+}
+
+renderActiveNavigation();
+window.addEventListener("pageshow", renderActiveNavigation);
+
+function renderNotificationCount() {
+  notificationCount.textContent =
+    unreadNotificationCount > 99 ? "99+" : String(unreadNotificationCount);
+  notificationCount.hidden =
+    unreadNotificationCount === 0 || userAccount.hidden;
+}
+
+function setNotificationCount(count) {
+  const numericCount = Number(count);
+  unreadNotificationCount = Number.isFinite(numericCount)
+    ? Math.max(0, Math.floor(numericCount))
+    : 0;
+
+  renderNotificationCount();
+}
+
+function recordNotification(eventType) {
+  if (!allowedNotificationEvents.has(eventType) || userAccount.hidden) {
+    return false;
+  }
+
+  setNotificationCount(unreadNotificationCount + 1);
+  return true;
+}
+
+function setUser(user) {
+  const rawName = typeof user === "string" ? user : user?.name;
+  const name = typeof rawName === "string" ? rawName.trim() : "";
+
+  userName.textContent = name;
+  userAccount.hidden = !name;
+  setNotificationCount(0);
+}
+
+window.HomeFitNavigation = Object.freeze({
+  events: notificationEvents,
+  recordNotification,
+  setUser,
+});
+
 function updateBriefLayout() {
   const submissionSection = document
     .querySelector("#agent-heading")
