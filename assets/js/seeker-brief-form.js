@@ -70,6 +70,13 @@ let briefExists =
   Boolean(briefNumber.textContent.trim()) || !briefStatus.hidden;
 let selectedAgent = null;
 
+const agentRequestsKey = "homefit-agent-requests";
+const briefLeadKey = "homefit-brief-lead-id";
+const viewParams = new URLSearchParams(window.location.search);
+const viewedRequest = viewParams.get("view")
+  ? readAgentRequests().find((r) => r.id === viewParams.get("briefId"))
+  : null;
+
 function restoreSelectedAgent() {
   try {
     selectedAgent = JSON.parse(
@@ -123,6 +130,7 @@ updateMatcherWarning();
 
 restoreSelectedAgent();
 updateBriefActions();
+applyBriefViewMode();
 agentConsent.addEventListener("change", updateBriefActions);
 
 function validateBudgetRange() {
@@ -155,6 +163,7 @@ briefForm?.addEventListener("submit", (event) => {
   updateBriefActions();
   showBriefActionStatus("Brief đã được gửi.");
   window.HomeFitNavigation.recordNotification(eventType);
+  sendBriefToBroker();
 });
 
 saveDraftButton?.addEventListener("click", () => {
@@ -183,6 +192,7 @@ deleteBriefButton?.addEventListener("click", () => {
   briefStatus.hidden = true;
   sessionStorage.removeItem("homefit-brief-draft");
   sessionStorage.removeItem("homefit-brief-archived");
+  sessionStorage.removeItem(briefLeadKey);
   needTags.replaceChildren();
   clearGeneratedCriteria();
   matcherResult.hidden = true;
@@ -253,6 +263,86 @@ const lifestyleNeeds = [
   },
 ];
 
+function readAgentRequests() {
+  try {
+    const arr = JSON.parse(localStorage.getItem(agentRequestsKey) || "[]");
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
+}
+
+function sendBriefToBroker() {
+  const reqs = readAgentRequests();
+  const number =
+    reqs.reduce(
+      (max, r) => Math.max(max, Number(String(r.id).slice(2)) || 0),
+      24,
+    ) + 1;
+  const code = String(number).padStart(3, "0");
+  const leadCode = `L-${code}`;
+  const id = reqs.some((r) => r.id === sessionStorage.getItem(briefLeadKey))
+    ? sessionStorage.getItem(briefLeadKey)
+    : leadCode;
+  const sentAtIso = new Date().toISOString();
+  const brief = Object.fromEntries(new FormData(briefForm).entries());
+  const summary = brief.lifestyle || "";
+  const request = {
+    id,
+    leadCode: id,
+    briefCode: `B-${id.slice(2)}`,
+    clientName: brief.title || "Gia đình tìm nhà",
+    familyInfo: `Gia đình ${brief["household-size"] || "?"} người`,
+    source: `B-${id.slice(2)}`,
+    status: "new",
+    email: brief.email || "",
+    phone: brief.phone || "",
+    brokerName: selectedAgent?.name || defaultBrokerName,
+    consent: true,
+    createdAt: sentAtIso,
+    updatedAt: sentAtIso,
+    briefSummary: summary,
+    note: "",
+    history: [`${fmtBriefDate(sentAtIso)} — ${brief.title || "Khách"} gửi B-${id.slice(2)}`],
+    brief,
+  };
+  const index = reqs.findIndex((r) => r.id === id);
+  if (index < 0) reqs.unshift(request);
+  else reqs[index] = { ...reqs[index], ...request, status: reqs[index].status };
+  localStorage.setItem(agentRequestsKey, JSON.stringify(reqs));
+  sessionStorage.setItem(briefLeadKey, id);
+}
+
+function fmtBriefDate(iso) {
+  const d = new Date(iso);
+  const pad = (n) => String(n).padStart(2, "0");
+  return `${pad(d.getDate())}/${pad(d.getMonth() + 1)} • ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function applyBriefViewMode() {
+  if (!viewedRequest) return;
+  document.body.classList.add("brief-view-mode");
+  document.getElementById("brief-back").hidden = false;
+  briefNumber.textContent = viewedRequest.id;
+  for (const [name, value] of Object.entries(viewedRequest.brief || {})) {
+    const field = briefForm.elements[name];
+    if (field) field.value = value;
+  }
+  selectedAgentName.textContent = viewedRequest.brokerName || "—";
+  selectedAgentCard.hidden = !viewedRequest.brokerName;
+  agentNotSelected.hidden = true;
+  briefStatus.hidden = false;
+  document.getElementById("recipient-name").textContent = viewedRequest.brokerName || "";
+  sentAt.dateTime = viewedRequest.createdAt;
+  sentAt.textContent = new Intl.DateTimeFormat("vi-VN", {
+    dateStyle: "short",
+    timeStyle: "short",
+  }).format(new Date(viewedRequest.createdAt));
+  briefForm
+    .querySelectorAll("input, textarea, select, button")
+    .forEach((el) => el.setAttribute("disabled", ""));
+}
+
 function normalizeText(value) {
   return value
     .toLocaleLowerCase("vi")
@@ -281,11 +371,7 @@ function getNeedPriority(description, need) {
     )
   )
     return 4;
-  if (
-    /bat buoc|phai co|khong the thieu|nhat dinh|\bcan (?:co|phai|khong gian|mot|them|goc|gan|duoc)\b/.test(
-      sentence,
-    )
-  )
+  if (/\bcan (?:co|phai|khong gian|mot|them|goc|gan|duoc)\b/.test(sentence))
     return 3;
   if (/uu tien|quan trong|mong muon|muon/.test(sentence)) return 3;
   return 2;

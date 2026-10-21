@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tạo bài đăng | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/agent-post.css" />
+    <script src="../js/common.js" defer></script>
+    <script src="../js/agent-posts.js" defer></script>
+    <script src="../js/agent-post.js" defer></script>
+  </head>
+  <body>
+    <main class="agent-post-page">
+      <p class="agent-header-meta">
+        <span class="prefix">KHÔNG GIAN MÔI GIỚI</span>
+        <span class="sep" id="agent-meta-sep" style="display: none;">/</span>
+        <span id="agent-broker-name"></span>
+        <span class="dot">•</span>
+        <span id="agent-broker-notif">Thông báo (0)</span>
+      </p>
+
+      <div>
+        <a href="agent-posts.html" class="agent-post-back-btn">
+          ← Quay lại quản lý bài đăng
+        </a>
+      </div>
+
+      <header class="agent-post-heading">
+        <p class="agent-post-eyebrow" id="agent-post-eyebrow">CHỈNH SỬA HF-104 / PALM RESIDENCE</p>
+        <h1>Thông tin rõ ràng, niềm tin vững vàng</h1>
+        <p id="agent-post-subtitle">
+          Bản sửa được lưu riêng. AI chỉ hỗ trợ nội dung; môi giới gửi duyệt và kiểm duyệt viên quyết định công khai.
+        </p>
+      </header>
+
+      <p class="agent-post-notice">
+        <strong>Trước khi gửi:</strong> Tin đăng sẽ được kiểm duyệt. Chỉ tin
+        được chấp nhận mới xuất hiện trong danh sách tìm nhà.
+      </p>
+
+      <div class="agent-post-layout">
+        <form class="agent-post-form" id="agent-post-form">
+          <section class="agent-post-section">
+            <h2>01 / Thông tin căn nhà</h2>
+            <fieldset class="agent-post-transaction">
+              <legend class="visually-hidden">Loại giao dịch</legend>
+              <label
+                ><input type="radio" name="transaction" value="rent" checked />
+                Cho thuê</label
+              >
+              <label
+                ><input type="radio" name="transaction" value="buy" /> Cần
+                bán</label
+              >
+            </fieldset>
+            <div class="agent-post-fields">
+              <label class="agent-post-field agent-post-field--wide">
+                Tiêu đề tin <span>*</span>
+                <input
+                  name="title"
+                  required
+                  maxlength="100"
+                  placeholder="Ví dụ: Căn hộ 2 phòng ngủ, nhiều ánh sáng"
+                />
+              </label>
+              <label class="agent-post-field agent-post-field--wide">
+                Địa chỉ / khu vực <span>*</span>
+                <input
+                  name="location"
+                  required
+                  placeholder="Quận, phường, đường..."
+                />
+              </label>
+              <label class="agent-post-field">
+                Giá <span>*</span>
+                <input name="price" required placeholder="19 triệu / tháng" />
+              </label>
+              <label class="agent-post-field">
+                Diện tích
+                <input name="size" placeholder="80 m²" />
+              </label>
+              <label class="agent-post-field">
+                Phòng ngủ
+                <input name="bedrooms" type="number" min="0" placeholder="2" />
+              </label>
+              <label class="agent-post-field">
+                Phòng tắm
+                <input name="bathrooms" type="number" min="0" placeholder="2" />
+              </label>
+              <label class="agent-post-field agent-post-field--wide">
+                Mô tả căn nhà <span>*</span>
+                <textarea
+                  name="description"
+                  required
+                  rows="4"
+                  placeholder="Mô tả không gian, điểm nổi bật và thông tin cần lưu ý..."
+                ></textarea>
+              </label>
+            </div>
+          </section>
+
+          <section class="agent-post-section">
+            <h2>02 / Tiện ích &amp; nhu cầu sống</h2>
+            <div class="agent-post-fields">
+              <label class="agent-post-field">
+                Nội thất
+                <input name="furnishing" placeholder="Đầy đủ nội thất" />
+              </label>
+              <label class="agent-post-field">
+                Pháp lý
+                <input name="legal" placeholder="Sổ hồng riêng" />
+              </label>
+              <label class="agent-post-field agent-post-field--wide">
+                Tiện ích / điểm nổi bật
+                <textarea
+                  name="amenities"
+                  rows="3"
+                  placeholder="Gần trường học, công viên, trạm metro..."
+                ></textarea>
+              </label>
+              <label class="agent-post-field">
+                Ngày có thể nhận nhà
+                <input name="availableDate" type="date" />
+              </label>
+              <label class="agent-post-field">
+                Thời hạn thuê / tầng
+                <input
+                  name="contract"
+                  placeholder="Tối thiểu 12 tháng · tầng 8"
+                />
+              </label>
+            </div>
+          </section>
+
+          <section class="agent-post-section">
+            <h2>03 / Ảnh &amp; liên hệ</h2>
+            <div class="agent-post-fields">
+              <label class="agent-post-field agent-post-field--wide">
+                Đường dẫn ảnh căn nhà
+                <input name="image" type="url" placeholder="https://..." />
+              </label>
+              <label class="agent-post-field">
+                Tên môi giới <span>*</span>
+                <input name="brokerName" required placeholder="Tên hiển thị" />
+              </label>
+              <label class="agent-post-field">
+                Số điện thoại liên hệ <span>*</span>
+                <input
+                  name="contact"
+                  type="tel"
+                  required
+                  placeholder="090..."
+                />
+              </label>
+            </div>
+            <p
+              class="agent-post-form-message"
+              id="agent-post-message"
+              role="status"
+              hidden
+            ></p>
+            <button class="agent-post-submit" type="submit">
+              Gửi bài đăng để duyệt
+            </button>
+          </section>
+        </form>
+
+        <aside class="agent-post-sidebar">
+          <section class="agent-post-aside agent-post-tips">
+            <h2>Gợi ý để tin nổi bật</h2>
+            <ul>
+              <li>Tiêu đề nêu rõ loại nhà và điểm khác biệt.</li>
+              <li>Giá, diện tích và khu vực nên chính xác.</li>
+              <li>Ảnh sáng rõ, thể hiện đúng hiện trạng căn nhà.</li>
+            </ul>
+            <a href="#agent-post-form">Bổ sung thông tin</a>
+          </section>
+
+          <section class="agent-post-aside agent-post-preview">
+            <h2>Xem trước bài đăng</h2>
+            <img
+              id="agent-post-preview-image"
+              alt="Ảnh xem trước căn nhà"
+              hidden
+            />
+            <p class="agent-post-preview__type" id="agent-post-preview-type">
+              Cho thuê
+            </p>
+            <h3 id="agent-post-preview-title">Tiêu đề bài đăng</h3>
+            <p id="agent-post-preview-location">Khu vực căn nhà</p>
+            <strong id="agent-post-preview-price">Giá đăng</strong>
+          </section>
+
+          <section class="agent-post-aside agent-post-statuses">
+            <h2>Trạng thái bài đăng</h2>
+            <p class="agent-post-statuses__empty" id="agent-post-empty">
+              Bài bạn gửi sẽ xuất hiện tại đây.
+            </p>
+            <ul id="agent-post-list" aria-live="polite"></ul>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>

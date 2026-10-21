@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hồ sơ môi giới | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/seeker-pages.css" />
+    <link rel="stylesheet" href="../css/seeker-agent-profile.css" />
+    <script src="../js/common.js" defer></script>
+    <script src="../js/seeker-agent-profile.js" defer></script>
+  </head>
+  <body>
+    <nav id="site-navigation" aria-label="Điều hướng chính"></nav>
+    <main class="site-page agent-profile-page">
+      <nav class="agent-profile__breadcrumb" aria-label="Đường dẫn">
+        <a href="seeker-agent-selection.html">Môi giới</a>
+        <span aria-hidden="true">/</span>
+        <span id="agent-profile-breadcrumb">Hồ sơ</span>
+      </nav>
+
+      <section class="agent-profile__empty" id="agent-profile-empty" hidden>
+        <h1>Chưa có hồ sơ môi giới được chọn</h1>
+        <p>Hãy quay lại danh sách và chọn một môi giới để xem hồ sơ.</p>
+        <a href="seeker-agent-selection.html">Quay lại danh sách môi giới</a>
+      </section>
+
+      <article class="agent-profile" id="agent-profile" hidden>
+        <header class="agent-profile__heading">
+          <p>TRANG CHI TIẾT MÔI GIỚI</p>
+          <h1>Hồ sơ chi tiết của môi giới</h1>
+          <span>
+            Xem thông tin chuyên môn, kinh nghiệm và các bài đăng môi giới phụ
+            trách.
+          </span>
+        </header>
+
+        <section
+          class="agent-profile__card"
+          aria-labelledby="agent-profile-name"
+        >
+          <header class="agent-profile__topline">
+            <div
+              class="agent-profile__avatar"
+              id="agent-profile-initials"
+            ></div>
+            <span
+              class="agent-profile__verified"
+              id="agent-profile-verified"
+              hidden
+            >
+              Đã xác minh
+            </span>
+          </header>
+          <div class="agent-profile__identity">
+            <h2 id="agent-profile-name"></h2>
+            <span
+              class="agent-profile__specialty-badge"
+              id="agent-profile-specialty"
+            ></span>
+          </div>
+          <p class="agent-profile__location" id="agent-profile-location"></p>
+          <p class="agent-profile__bio" id="agent-profile-bio"></p>
+          <ul class="agent-profile__tags" id="agent-profile-tags"></ul>
+
+          <dl class="agent-profile__stats">
+            <div>
+              <dt id="agent-profile-fit"></dt>
+              <dd>Khớp brief</dd>
+            </div>
+            <div>
+              <dt id="agent-profile-listing-count"></dt>
+              <dd>Bài đăng công khai</dd>
+            </div>
+            <div>
+              <dt id="agent-profile-response"></dt>
+              <dd>Thời gian phản hồi</dd>
+            </div>
+          </dl>
+
+          <button
+            class="agent-profile__send"
+            id="agent-profile-send"
+            type="button"
+            hidden
+          >
+            Gửi brief
+          </button>
+          <p
+            class="agent-profile__status"
+            id="agent-profile-status"
+            role="status"
+            hidden
+          ></p>
+        </section>
+
+        <section class="agent-profile__callout">
+          <div>
+            <h2>Môi giới nhận đúng brief, bạn giữ quyền lựa chọn.</h2>
+            <p>
+              Chỉ gửi thông tin ngân sách, khu vực, nhu cầu sống và các liên hệ
+              bạn đã đồng ý chia sẻ.
+            </p>
+          </div>
+          <a href="seeker-brief-form.html">Xem &amp; sửa brief của tôi</a>
+        </section>
+
+        <section
+          class="agent-profile__listings"
+          aria-labelledby="agent-listings-heading"
+        >
+          <header>
+            <h2 id="agent-listings-heading">
+              Bài đăng của <span id="agent-listings-name"></span>
+            </h2>
+            <span id="agent-listings-count"></span>
+          </header>
+          <ul
+            class="agent-profile__listing-grid"
+            id="agent-profile-listings"
+          ></ul>
+          <p
+            class="agent-profile__listings-empty"
+            id="agent-profile-listings-empty"
+            hidden
+          >
+            Chưa có dữ liệu bài đăng để hiển thị.
+          </p>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

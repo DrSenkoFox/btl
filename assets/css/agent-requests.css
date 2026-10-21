@@ -1,0 +1,593 @@
+/* ==========================================================================
+   HomeFit AI - Yêu cầu & khách hàng (Agent Requests / CRM)
+   ========================================================================== */
+
+.agent-requests-page {
+  width: min(1160px, calc(100% - 48px));
+  margin: 24px auto 48px;
+}
+
+/* Tab trạng thái: gọn theo nội dung, không trải khắp màn hình */
+.agent-tabs {
+  width: fit-content;
+  max-width: 100%;
+  margin: -6px 0 14px;
+  padding: 0 2px;
+}
+
+/* Layout 2 cột: danh sách bên trái, chi tiết bên phải */
+.requests-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, 1fr);
+  align-items: start;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.req-col {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-width: 0;
+}
+
+/* Card chung */
+.req-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Danh sách khách hàng
+   -------------------------------------------------------------------------- */
+.req-list-card {
+  padding: 16px;
+}
+
+.req-list-card h2 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #172a22;
+}
+
+.req-search-box {
+  margin-bottom: 12px;
+  padding: 7px 10px 8px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+}
+
+.req-search-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #55665f;
+}
+
+.req-search-input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  color: var(--ink);
+  padding: 2px 0;
+  outline: none;
+  font-family: inherit;
+}
+
+.req-search-input::placeholder {
+  color: #92a09a;
+}
+
+.req-table-scroll {
+  overflow-x: auto;
+}
+
+.req-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.req-table thead tr {
+  background: #f7f8f7;
+  border-bottom: 1px solid #edf0ed;
+}
+
+.req-table th {
+  padding: 9px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #6f7f78;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.req-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid #f1f3f0;
+  vertical-align: middle;
+  color: #33443c;
+}
+
+.req-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.req-table tbody tr {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.req-table tbody tr:hover {
+  background: #f7faf8;
+}
+
+.req-table tbody tr.is-selected {
+  background: #edf6f0;
+}
+
+.req-table .empty-row td {
+  text-align: center;
+  color: var(--muted);
+  padding: 28px 12px;
+  cursor: default;
+}
+
+.req-table-footer {
+  margin-top: 10px;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+/* Badge trạng thái nhỏ trong bảng */
+.req-badge {
+  font-size: 11.5px;
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.req-badge--new { color: #17684d; }
+.req-badge--consulting { color: #2c6e8f; }
+.req-badge--scheduled { color: #6b5b1e; }
+.req-badge--completed { color: #3b6b3a; }
+.req-badge--rejected { color: #a8483b; }
+
+/* --------------------------------------------------------------------------
+   Panel chi tiết bên phải
+   -------------------------------------------------------------------------- */
+.req-detail-card {
+  padding: 18px;
+}
+
+.req-detail-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  color: var(--muted);
+  font-size: 12.5px;
+  text-align: center;
+}
+
+.detail-client-name {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #172a22;
+}
+
+.detail-status-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.detail-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #edf6f0;
+  color: #17684d;
+}
+
+.detail-badge::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.detail-badge--consulting { background: #e8f4fb; color: #2c6e8f; }
+.detail-badge--scheduled { background: #faf5e4; color: #6b5b1e; }
+.detail-badge--completed { background: #eaf6ea; color: #3b6b3a; }
+.detail-badge--rejected { background: #fdf0ee; color: #a8483b; }
+
+.detail-consent {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #17684d;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.detail-consent::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2f9e6f;
+}
+
+.detail-info-list {
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 5px;
+  font-size: 12px;
+  color: #33443c;
+}
+
+/* Khung con trong chi tiết */
+.detail-box {
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.detail-box-label,
+.detail-box-label label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #55665f;
+  margin: 0 0 6px;
+}
+
+.detail-status-value {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #172a22;
+  margin: 0 0 10px;
+}
+
+.detail-box textarea {
+  width: 100%;
+  min-height: 52px;
+  padding: 8px 10px;
+  border: 1px solid #dfe4df;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-family: inherit;
+  resize: vertical;
+  color: var(--ink);
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.detail-box textarea::placeholder {
+  color: #92a09a;
+}
+
+.detail-box-hint {
+  margin: 6px 0 0;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.detail-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.detail-appointment {
+  margin-top: 2px;
+}
+
+/* Nút hành động */
+.btn-accept,
+.btn-schedule {
+  background: var(--green);
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  padding: 9px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.btn-accept:hover,
+.btn-schedule:hover {
+  background: var(--green-hover);
+}
+
+.btn-reject,
+.btn-cancel-schedule {
+  background: transparent;
+  border: 0;
+  padding: 9px 4px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn-reject {
+  color: var(--green);
+}
+
+.btn-cancel-schedule {
+  color: #a8483b;
+}
+
+.btn-reject:hover,
+.btn-cancel-schedule:hover {
+  text-decoration: underline;
+}
+
+/* Form tạo lịch hẹn trong khối chi tiết */
+.appt-form {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.appt-field {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.appt-field > span {
+  display: block;
+  margin-bottom: 4px;
+  color: #55665f;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.appt-field input,
+.appt-field textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12.5px;
+}
+
+.appt-field textarea {
+  min-height: 54px;
+  resize: vertical;
+}
+
+.btn-appt-link {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.btn-appt-link:hover {
+  text-decoration: underline;
+}
+
+.btn-save-note {
+  display: block;
+  margin: -4px 0 12px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--green);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn-save-note:hover {
+  text-decoration: underline;
+}
+
+/* Khối bên phải khi yêu cầu đã từ chối: chỉ hiện thông báo */
+.req-detail-content.is-rejected > :not(.detail-rejected-only) {
+  display: none;
+}
+
+.req-detail-content.is-rejected > .detail-rejected-only {
+  display: block;
+}
+
+.detail-rejected-only {
+  display: none;
+  margin: 0 0 12px;
+  padding: 12px;
+  background: #fdf0ee;
+  border-radius: 6px;
+  color: #a8483b;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Lịch sử liên hệ (ngoài card chi tiết) */
+.detail-history {
+  padding: 0 2px;
+}
+
+.detail-history[hidden] {
+  display: none;
+}
+
+.detail-history h3 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #172a22;
+}
+
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 7px;
+  font-size: 11.5px;
+  color: #33443c;
+}
+
+.history-list li {
+  padding-bottom: 7px;
+  border-bottom: 1px solid #e6eae7;
+}
+
+.history-list li:last-child {
+  border-bottom: 0;
+}
+
+.history-empty {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   Yêu cầu mới cần tiếp nhận
+   -------------------------------------------------------------------------- */
+.req-highlight-card {
+  padding: 16px;
+}
+
+.req-highlight-card[hidden] {
+  display: none;
+}
+
+.req-highlight-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.req-highlight-header h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #172a22;
+}
+
+.req-highlight-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #c07817;
+  white-space: nowrap;
+}
+
+.req-highlight-tag::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e0a12a;
+}
+
+.req-highlight-client {
+  font-size: 13px;
+  font-weight: 700;
+  color: #172a22;
+  margin: 0 0 3px;
+}
+
+.req-highlight-meta {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 0 0 8px;
+}
+
+.req-highlight-brief {
+  font-size: 11.5px;
+  color: #33443c;
+  margin: 0 0 10px;
+  line-height: 1.55;
+}
+
+.req-highlight-links {
+  display: flex;
+  gap: 16px;
+  font-size: 11.5px;
+}
+
+.req-highlight-links a {
+  color: var(--green);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.req-highlight-links a:hover {
+  text-decoration: underline;
+}
+
+/* Gợi ý bước tiếp */
+.req-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #f4f8f5;
+  border: 1px solid #dfe9e1;
+  border-radius: 8px;
+  font-size: 11.5px;
+  color: #33443c;
+  line-height: 1.5;
+}
+
+.req-tip[hidden] {
+  display: none;
+}
+
+.req-tip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #b9d3c3;
+  border-radius: 50%;
+  color: var(--green);
+  font-size: 10px;
+}
+
+.req-tip strong {
+  display: block;
+  margin-bottom: 2px;
+  color: #172a22;
+}
+
+/* Responsive */
+@media (max-width: 840px) {
+  .requests-layout {
+    grid-template-columns: 1fr;
+  }
+}

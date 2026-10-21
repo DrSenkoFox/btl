@@ -36,7 +36,7 @@ if (siteNavigation) {
         </a>
       </li>
       <li>
-        <a id="broker-nav-link" href="agent-selection.html" data-nav-page="broker">
+        <a id="broker-nav-link" href="seeker-agent-selection.html" data-nav-page="broker">
           <svg class="navigation-icon" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="9" cy="8" r="3" />
             <path d="M3 20v-1a6 6 0 0 1 12 0v1M16 5.5a3 3 0 0 1 0 5.8M18 14a5 5 0 0 1 3 4.6V20" />
@@ -64,7 +64,7 @@ if (siteNavigation) {
         <a href="seeker-brief-form.html#history-heading">Lịch sử brief</a>
       </li>
       <li class="account-user" id="user-account" hidden>
-        <span class="account-name" id="user-name"></span>
+        <a class="account-name" id="user-name" href="seeker-profile.html"></a>
       </li>
     </ul>
   `;
@@ -119,7 +119,9 @@ let unreadNotificationCount = 0;
 const pageNavigation = new Map([
   ["seeker-search.html", "search"],
   ["seeker-brief-form.html", "brief"],
-  ["agent-selection.html", "broker"],
+  ["seeker-agent-selection.html", "broker"],
+  ["agent-post.html", "agent-post"],
+  ["agent-posts.html", "agent-post"],
   ["seeker-saved.html", "saved"],
 ]);
 

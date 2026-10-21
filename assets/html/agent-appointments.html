@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch hẹn | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/agent-posts.css" />
+    <link rel="stylesheet" href="../css/agent-requests.css" />
+    <link rel="stylesheet" href="../css/agent-appointments.css" />
+    <script src="../js/common.js" defer></script>
+    <script src="../js/appointments.js" defer></script>
+    <script src="../js/agent-appointments.js" defer></script>
+  </head>
+  <body>
+    <main class="agent-appointments-page">
+      <!-- Khối 1: đầu trang + lịch sắp tới -->
+      <header class="agent-header">
+        <div class="agent-header-main">
+          <p class="agent-header-meta">
+            <span class="prefix">KHÔNG GIAN MÔI GIỚI</span>
+            <span class="sep">/</span>
+            <span id="agent-broker-name"></span>
+            <span class="dot">•</span>
+            <span id="agent-broker-notif">Thông báo (0)</span>
+          </p>
+          <p class="agent-eyebrow">LỊCH CỦA <span id="appt-broker-name"></span></p>
+          <h1 class="agent-title">Mỗi cuộc hẹn, một bước gần hơn</h1>
+          <p class="agent-desc" id="appt-desc"></p>
+        </div>
+        <div>
+          <a href="agent-requests.html" class="btn-primary">Xem yêu cầu</a>
+        </div>
+      </header>
+
+      <section class="appt-next" id="appt-next" hidden>
+        <span class="appt-next-icon" aria-hidden="true">◷</span>
+        <div>
+          <p class="appt-next-title" id="appt-next-title"></p>
+          <p class="appt-next-desc" id="appt-next-desc"></p>
+        </div>
+      </section>
+
+      <!-- Khối 2: xem lịch theo tuần / tháng -->
+      <section class="appt-card appt-calendar">
+        <div class="appt-cal-bar">
+          <div class="appt-view-toggle" role="tablist" aria-label="Chế độ xem lịch">
+            <button type="button" class="view-btn is-active" data-view="week" role="tab">Tuần</button>
+            <button type="button" class="view-btn" data-view="month" role="tab">Tháng</button>
+          </div>
+          <div class="appt-range-nav">
+            <button type="button" class="appt-nav-btn" data-shift="-1">
+              ← <span id="nav-prev-text">Tuần trước</span>
+            </button>
+            <span class="appt-range-label" id="appt-range-label"></span>
+            <button type="button" class="appt-nav-btn" data-shift="1">
+              <span id="nav-next-text">Tuần sau</span> →
+            </button>
+          </div>
+        </div>
+
+        <div class="appt-week" id="appt-week"></div>
+        <div class="appt-month" id="appt-month" hidden></div>
+        <p class="appt-cal-foot" id="appt-cal-foot">
+          Thứ 7 / Chủ nhật: chưa có lịch. Khung giờ xem nhà 08:00–18:00.
+        </p>
+      </section>
+
+      <!-- Khối 3: danh sách lịch hẹn + bảng chi tiết -->
+      <section class="appt-layout">
+        <div class="appt-card appt-list-card">
+          <h2>Danh sách lịch hẹn</h2>
+          <div class="req-table-scroll">
+            <table class="req-table appt-table">
+              <thead>
+                <tr>
+                  <th>Khách / căn nhà</th>
+                  <th>Thời gian</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="appt-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="appt-card appt-panel" id="appt-panel"></div>
+      </section>
+
+      <footer class="agent-footer">
+        <p>HomeFit AI • Tìm nhà theo cách bạn sống. &nbsp;/&nbsp; Dữ liệu minh họa - 03/10/2026</p>
+      </footer>
+    </main>
+  </body>
+</html>

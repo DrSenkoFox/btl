@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết nhà | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/seeker-pages.css" />
+    <script src="../js/common.js" defer></script>
+    <script src="../js/saved-homes.js" defer></script>
+    <script src="../js/seeker-detail.js" defer></script>
+  </head>
+  <body>
+    <nav id="site-navigation" aria-label="Điều hướng chính"></nav>
+    <main class="site-page property-detail-page">
+      <nav class="property-breadcrumb" aria-label="Đường dẫn">
+        <a href="seeker-search.html">Tìm nhà</a>
+        <span aria-hidden="true">/</span>
+        <span id="property-breadcrumb-title">Chi tiết nhà</span>
+      </nav>
+
+      <section class="property-detail-empty" id="property-detail-empty" hidden>
+        <h1>Chưa có căn nhà được chọn</h1>
+        <p>Hãy quay lại danh sách và chọn một tin nhà để xem chi tiết.</p>
+        <a href="seeker-search.html">Quay lại tìm nhà</a>
+      </section>
+
+      <article class="property-detail" id="property-detail" hidden>
+        <header class="property-detail__heading">
+          <div>
+            <p class="property-detail__eyebrow" id="property-code"></p>
+            <h1 id="property-title"></h1>
+            <p class="property-detail__location" id="property-location"></p>
+          </div>
+          <div class="property-detail__actions">
+            <button class="property-action" type="button" data-save-detail>
+              Lưu tin
+            </button>
+            <button class="property-action" type="button" data-share-detail>
+              Chia sẻ
+            </button>
+          </div>
+        </header>
+
+        <section class="property-gallery" aria-label="Hình ảnh căn nhà">
+          <img id="property-image-main" alt="" />
+          <div class="property-gallery__secondary">
+            <img id="property-image-second" alt="" />
+            <img id="property-image-third" alt="" />
+          </div>
+        </section>
+
+        <div class="property-detail__layout">
+          <div class="property-detail__primary">
+            <section
+              class="property-panel property-overview"
+              aria-labelledby="property-price"
+            >
+              <header class="property-overview__heading">
+                <div>
+                  <h2 id="property-price"></h2>
+                  <p id="property-quick-facts"></p>
+                </div>
+                <p
+                  class="property-fit-score"
+                  id="property-fit-score"
+                  hidden
+                ></p>
+              </header>
+              <p class="property-description" id="property-description"></p>
+              <dl class="property-facts">
+                <div>
+                  <dt>Thời hạn thuê</dt>
+                  <dd id="property-contract"></dd>
+                </div>
+                <div>
+                  <dt>Pháp lý</dt>
+                  <dd id="property-legal"></dd>
+                </div>
+                <div>
+                  <dt>Chi phí</dt>
+                  <dd id="property-costs"></dd>
+                </div>
+                <div>
+                  <dt>Nội thất</dt>
+                  <dd id="property-furnishing"></dd>
+                </div>
+                <div>
+                  <dt>Tiện ích</dt>
+                  <dd id="property-amenities"></dd>
+                </div>
+                <div>
+                  <dt>Ngày có thể nhận</dt>
+                  <dd id="property-available"></dd>
+                </div>
+              </dl>
+              <p class="property-disclaimer">
+                Thông tin được cung cấp từ tin đăng. Vui lòng xác nhận chi phí
+                và tình trạng căn nhà với môi giới.
+              </p>
+            </section>
+
+            <section
+              class="property-panel property-ai-summary"
+              aria-labelledby="property-ai-heading"
+            >
+              <header>
+                <h2 id="property-ai-heading">✧ AI: Living Summary</h2>
+                <p id="property-fit-label"></p>
+              </header>
+              <p id="property-ai-intro"></p>
+              <h3>Vì sao căn nhà này phù hợp?</h3>
+              <ul id="property-ai-reasons"></ul>
+              <a href="seeker-brief-form.html">Cập nhật brief</a>
+            </section>
+
+            <section
+              class="property-panel property-nearby"
+              aria-labelledby="property-nearby-heading"
+            >
+              <h2 id="property-nearby-heading">
+                Vị trí &amp; tiện ích lân cận
+              </h2>
+              <div class="property-nearby__scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Địa điểm</th>
+                      <th>Khoảng cách</th>
+                      <th>Nguồn</th>
+                    </tr>
+                  </thead>
+                  <tbody id="property-nearby-list"></tbody>
+                </table>
+              </div>
+              <p
+                class="property-nearby__empty"
+                id="property-nearby-empty"
+                hidden
+              >
+                Chưa có thông tin tiện ích lân cận.
+              </p>
+            </section>
+          </div>
+
+          <aside
+            class="property-detail__sidebar"
+            aria-label="Thông tin liên hệ"
+          >
+            <section
+              class="property-panel property-contact"
+              aria-labelledby="property-contact-heading"
+            >
+              <h2 id="property-contact-heading">Hẹn xem nhà này</h2>
+              <p class="property-contact__broker" id="property-broker"></p>
+              <p
+                class="property-contact__description"
+                id="property-contact-description"
+              ></p>
+              <form id="property-viewing-form">
+                <label
+                  >Ngày xem nhà<input name="date" type="date" required
+                /></label>
+                <label
+                  >Thời gian<select name="time" required>
+                    <option value="">Chọn khung giờ</option>
+                    <option>Sáng (09:00 - 12:00)</option>
+                    <option>Chiều (13:00 - 17:00)</option>
+                    <option>Tối (17:00 - 20:00)</option>
+                  </select></label
+                >
+                <label
+                  >Lời nhắn cho môi giới<textarea
+                    name="message"
+                    rows="3"
+                    placeholder="Thời điểm bạn muốn ghé xem..."
+                  ></textarea>
+                </label>
+                <button type="submit">Yêu cầu xem nhà</button>
+                <p
+                  id="property-viewing-status"
+                  role="status"
+                  aria-live="polite"
+                ></p>
+              </form>
+            </section>
+
+            <section
+              class="property-panel property-brief"
+              aria-labelledby="property-brief-heading"
+            >
+              <h2 id="property-brief-heading">Brief đang sử dụng</h2>
+              <p id="property-brief-summary"></p>
+              <a href="seeker-brief-form.html">Sửa nhu cầu</a>
+            </section>
+
+            <section
+              class="property-panel property-listing-info"
+              aria-labelledby="property-report-heading"
+            >
+              <h2 id="property-report-heading">Thông tin chưa chính xác?</h2>
+              <p>
+                Báo cáo giá, ảnh hoặc nội dung sai. HomeFit sẽ xem xét bằng
+                chứng, không tự kết luận.
+              </p>
+              <a id="property-report-link" href="seeker-report.html">
+                Báo cáo bài đăng
+              </a>
+            </section>
+          </aside>
+        </div>
+      </article>
+    </main>
+  </body>
+</html>

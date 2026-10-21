@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yêu cầu & khách hàng | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/agent-posts.css" />
+    <link rel="stylesheet" href="../css/agent-requests.css" />
+    <script src="../js/common.js" defer></script>
+    <script src="../js/appointments.js" defer></script>
+    <script src="../js/agent-requests.js" defer></script>
+  </head>
+  <body>
+    <main class="agent-requests-page">
+      <!-- Header meta nhỏ -->
+      <header class="agent-header">
+        <div class="agent-header-main">
+          <p class="agent-header-meta">
+            <span class="prefix">KHÔNG GIAN MÔI GIỚI</span>
+            <span class="sep" id="agent-meta-sep" style="display: none;">/</span>
+            <span id="agent-broker-name"></span>
+            <span class="dot">•</span>
+            <span id="agent-broker-notif">Thông báo (0)</span>
+          </p>
+          <p class="agent-eyebrow">CRM / BRIEF & LEAD</p>
+          <h1 class="agent-title">Hiểu nhu cầu, bắt đầu cuộc trò chuyện</h1>
+          <p class="agent-desc">
+            Yêu cầu mới chỉ trở thành khách đang tư vấn sau khi bạn tiếp nhận.
+          </p>
+        </div>
+      </header>
+
+      <!-- Tabs trạng thái -->
+      <div class="agent-tabs" role="tablist" aria-label="Trạng thái yêu cầu">
+        <button type="button" class="tab-btn is-active" data-status="new" role="tab">
+          Mới (<span id="count-new">0</span>)
+        </button>
+        <button type="button" class="tab-btn" data-status="consulting" role="tab">
+          Đang tư vấn (<span id="count-consulting">0</span>)
+        </button>
+        <button type="button" class="tab-btn" data-status="scheduled" role="tab">
+          Đã đặt lịch (<span id="count-scheduled">0</span>)
+        </button>
+        <button type="button" class="tab-btn" data-status="completed" role="tab">
+          Hoàn tất (<span id="count-completed">0</span>)
+        </button>
+        <button type="button" class="tab-btn" data-status="rejected" role="tab">
+          Từ chối
+        </button>
+        <button type="button" class="tab-btn" data-status="archived" role="tab">
+          Đã lưu trữ
+        </button>
+      </div>
+
+      <!-- Bố cục 2 cột: danh sách bên trái, chi tiết bên phải -->
+      <section class="requests-layout">
+        <div class="req-col">
+          <!-- Cột trái: Danh sách khách hàng -->
+          <div class="req-card req-list-card">
+            <h2>Danh sách khách hàng</h2>
+            <div class="req-search-box">
+              <label for="req-search" class="req-search-label">Tìm khách, brief hoặc bài đăng</label>
+              <input
+                type="search"
+                id="req-search"
+                class="req-search-input"
+                placeholder="Tên / số điện thoại / B-024..."
+                autocomplete="off"
+              />
+            </div>
+            <div class="req-table-scroll">
+              <table class="req-table">
+                <thead>
+                  <tr>
+                    <th>Khách / mã lead</th>
+                    <th>Nguồn</th>
+                    <th>Trạng thái</th>
+                    <th>Cập nhật</th>
+                  </tr>
+                </thead>
+                <tbody id="req-tbody">
+                  <tr class="empty-row">
+                    <td colspan="4">Chưa có yêu cầu nào từ người tìm nhà.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="req-table-footer" id="req-table-footer">
+              Hiển thị 0 / 0 khách • Trạng thái trước từng yêu cầu, không đánh giá con người.
+            </p>
+          </div>
+
+          <!-- Yêu cầu mới cần tiếp nhận -->
+          <section class="req-card req-highlight-card" id="req-highlight" hidden>
+            <div class="req-highlight-header">
+              <h3>Yêu cầu mới cần tiếp nhận</h3>
+              <span class="req-highlight-tag" id="highlight-tag">Chờ môi giới</span>
+            </div>
+            <p class="req-highlight-client" id="highlight-client"></p>
+            <p class="req-highlight-meta" id="highlight-meta"></p>
+            <p class="req-highlight-brief" id="highlight-brief"></p>
+            <div class="req-highlight-links" id="highlight-links"></div>
+          </section>
+
+          <!-- Gợi ý bước tiếp -->
+          <div class="req-tip" id="req-tip" hidden>
+            <span class="req-tip-icon" aria-hidden="true">✓</span>
+            <div>
+              <strong>Gợi ý bước tiếp theo</strong>
+              <span id="req-tip-text">Xác nhận nhu cầu và mức phí quản lý trước khi đề xuất lịch xem. Không gửi tin nhắn tự động.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="req-col">
+          <!-- Cột phải: Chi tiết yêu cầu đã chọn -->
+          <div class="req-card req-detail-card" id="req-detail">
+            <div class="req-detail-empty" id="req-detail-empty">
+              Chọn một yêu cầu từ danh sách bên trái để xem chi tiết.
+            </div>
+            <div id="req-detail-content" class="req-detail-content" hidden>
+              <p class="detail-rejected-only">Đã từ chối yêu cầu</p>
+              <h2 class="detail-client-name" id="detail-name"></h2>
+              <div class="detail-status-line">
+                <span class="detail-badge" id="detail-badge"></span>
+                <span class="detail-consent" id="detail-consent"></span>
+              </div>
+              <ul class="detail-info-list" id="detail-info"></ul>
+
+              <!-- Khung trạng thái & hành động -->
+              <div class="detail-box">
+                <p class="detail-box-label">Trạng thái khách hàng</p>
+                <p class="detail-status-value" id="detail-status-value"></p>
+                <div class="detail-actions" id="detail-actions"></div>
+              </div>
+
+              <!-- Lý do từ chối (chỉ hiện khi trạng thái Mới) -->
+              <div class="detail-box reject-reason-box" id="reject-reason-box" hidden>
+                <p class="detail-box-label">Lý do nếu từ chối</p>
+                <textarea id="reject-reason" placeholder="Chọn lý do / ghi rõ nội dung..."></textarea>
+                <p class="detail-box-hint">Bắt buộc khi từ chối, người tìm nhà nhận được phản hồi.</p>
+              </div>
+
+              <!-- Ghi chú nội bộ -->
+              <div class="detail-box">
+                <p class="detail-box-label"><label for="detail-note">Ghi chú nội bộ</label></p>
+                <textarea id="detail-note" placeholder="Khách muốn xem gốc WFH và mức tiếng ồn."></textarea>
+              </div>
+              <button type="button" class="btn-save-note" id="btn-save-note">Lưu ghi chú</button>
+
+              <!-- Lịch hẹn -->
+              <div class="detail-actions detail-appointment" id="detail-appointment"></div>
+            </div>
+          </div>
+
+          <!-- Lịch sử liên hệ -->
+          <section class="detail-history" id="detail-history-box" hidden>
+            <h3>Lịch sử liên hệ</h3>
+            <ul class="history-list" id="detail-history"></ul>
+            <p class="history-empty" id="detail-history-empty">
+              Chưa tiếp nhận. Chưa có cuộc gọi hoặc lịch xem xác nhận.
+            </p>
+          </section>
+        </div>
+      </section>
+
+      <!-- Chân trang -->
+      <footer class="agent-footer">
+        <p>HomeFit AI • Tìm nhà theo cách bạn sống. &nbsp;/&nbsp; Dữ liệu minh họa - 03/10/2026</p>
+      </footer>
+    </main>
+  </body>
+</html>
