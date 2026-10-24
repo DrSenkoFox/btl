@@ -115,8 +115,11 @@ function showBriefActionStatus(message) {
 }
 
 function storeBriefDraft() {
-  const draft = Object.fromEntries(new FormData(briefForm).entries());
-  sessionStorage.setItem("homefit-brief-draft", JSON.stringify(draft));
+  const draft = JSON.stringify(
+    Object.fromEntries(new FormData(briefForm).entries()),
+  );
+  sessionStorage.setItem("homefit-brief-draft", draft);
+  localStorage.setItem("homefit-brief-draft", draft);
 }
 
 function handleBriefChange() {
@@ -191,6 +194,7 @@ deleteBriefButton?.addEventListener("click", () => {
   briefNumber.textContent = "";
   briefStatus.hidden = true;
   sessionStorage.removeItem("homefit-brief-draft");
+  localStorage.removeItem("homefit-brief-draft");
   sessionStorage.removeItem("homefit-brief-archived");
   sessionStorage.removeItem(briefLeadKey);
   needTags.replaceChildren();

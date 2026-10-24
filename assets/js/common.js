@@ -182,3 +182,27 @@ window.HomeFitNavigation = Object.freeze({
   recordNotification,
   setUser,
 });
+
+const briefDraftStorageKey = "homefit-brief-draft";
+
+window.HomeFitBrief = Object.freeze({
+  get() {
+    try {
+      const brief = JSON.parse(
+        sessionStorage.getItem(briefDraftStorageKey) ||
+          localStorage.getItem(briefDraftStorageKey) ||
+          "{}",
+      );
+      return brief && typeof brief === "object" && !Array.isArray(brief)
+        ? brief
+        : {};
+    } catch {
+      return {};
+    }
+  },
+  exists() {
+    return Object.values(this.get()).some((value) =>
+      String(value).trim() !== "",
+    );
+  },
+});

@@ -325,6 +325,12 @@
   font-size: 11px;
 }
 
+.saved-comparison__empty {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
 .saved-priorities ul {
   display: grid;
   gap: 7px;
@@ -965,7 +971,7 @@
   font-weight: 650;
 }
 
-.property-ai-summary > p,
+.property-ai-summary p,
 .property-ai-summary li,
 .property-contact__description,
 .property-listing-info p {
@@ -995,6 +1001,15 @@
   margin-top: 10px;
   font-size: 9px;
   font-weight: 650;
+}
+
+.property-ai-summary .property-ai-need-brief {
+  margin: 10px 0 0;
+  padding: 8px 10px;
+  border-radius: 5px;
+  background: var(--amber-soft);
+  color: var(--amber);
+  font-size: 9px;
 }
 
 .property-nearby__scroll {

@@ -53,22 +53,16 @@ function getSelectedProperty() {
 function getBriefSummary(property) {
   if (property.briefSummary) return property.briefSummary;
 
-  try {
-    const brief = JSON.parse(
-      sessionStorage.getItem("homefit-brief-draft") || "{}",
-    );
-    return [
-      brief["preferred-area"],
-      brief["size-and-bedrooms"],
-      brief.lifestyle,
-      brief["must-haves"],
-    ]
-      .filter((value) => typeof value === "string" && value.trim())
-      .map((value) => value.trim())
-      .join(" · ");
-  } catch {
-    return "";
-  }
+  const brief = window.HomeFitBrief?.get() || {};
+  return [
+    brief["preferred-area"],
+    brief["size-and-bedrooms"],
+    brief.lifestyle,
+    brief["must-haves"],
+  ]
+    .filter((value) => typeof value === "string" && value.trim())
+    .map((value) => value.trim())
+    .join(" · ");
 }
 
 function renderProperty(property) {
@@ -76,6 +70,11 @@ function renderProperty(property) {
     propertyEmpty.hidden = false;
     return;
   }
+
+  const hasBrief = window.HomeFitBrief?.exists() || false;
+  const fitScoreText =
+    hasBrief && property.fitScore ? `● ${property.fitScore} phù hợp` : "";
+  const fitScore = document.querySelector("#property-fit-score");
 
   propertyDetail.hidden = false;
   document.title = `${property.title || "Chi tiết nhà"} | HomeFit AI`;
@@ -97,11 +96,8 @@ function renderProperty(property) {
   setPropertyText("#property-furnishing", property.furnishing);
   setPropertyText("#property-amenities", property.amenities);
   setPropertyText("#property-available", property.availableDate);
-  setPropertyText(
-    "#property-fit-label",
-    property.fitScore ? `● ${property.fitScore} phù hợp` : "",
-  );
-  setPropertyText("#property-ai-intro", property.aiSummary, "");
+  setPropertyText("#property-fit-label", fitScoreText, "");
+  setPropertyText("#property-ai-intro", hasBrief ? property.aiSummary : "", "");
   setPropertyText(
     "#property-broker",
     property.brokerName,
@@ -114,16 +110,20 @@ function renderProperty(property) {
   setPropertyText(
     "#property-brief-summary",
     getBriefSummary(property),
-    "Chưa có brief được lưu trong phiên này.",
+    "Chưa có brief. Tạo brief để bắt đầu đánh giá.",
   );
   document.querySelector("#property-report-link").href =
     `seeker-report.html?id=${encodeURIComponent(property.id)}`;
 
-  const fitScore = document.querySelector("#property-fit-score");
-  fitScore.textContent = property.fitScore
-    ? `● ${property.fitScore} phù hợp`
-    : "";
-  fitScore.hidden = !property.fitScore;
+  fitScore.textContent = fitScoreText;
+  fitScore.hidden = !fitScoreText;
+  document.querySelector("#property-ai-verdict").hidden = !hasBrief;
+  document.querySelector("#property-ai-need-brief").hidden = hasBrief;
+  for (const link of document.querySelectorAll(
+    "#property-brief-link, #property-brief-edit",
+  )) {
+    link.textContent = hasBrief ? "Cập nhật brief" : "Tạo brief";
+  }
 
   const gallery = document.querySelector(".property-gallery");
   const images = Array.isArray(property.images) ? property.images : [];

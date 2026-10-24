@@ -108,10 +108,24 @@
                 <h2 id="property-ai-heading">✧ AI: Living Summary</h2>
                 <p id="property-fit-label"></p>
               </header>
-              <p id="property-ai-intro"></p>
-              <h3>Vì sao căn nhà này phù hợp?</h3>
-              <ul id="property-ai-reasons"></ul>
-              <a href="seeker-brief-form.html">Cập nhật brief</a>
+              <p
+                class="property-ai-need-brief"
+                id="property-ai-need-brief"
+                role="status"
+                aria-live="polite"
+                hidden
+              >
+                Bạn chưa có brief nên HomeFit chưa đưa ra kết luận phù hợp. Tạo
+                brief để bắt đầu đánh giá căn này theo nhu cầu của bạn.
+              </p>
+              <section id="property-ai-verdict" hidden>
+                <p id="property-ai-intro"></p>
+                <h3>Vì sao căn nhà này phù hợp?</h3>
+                <ul id="property-ai-reasons"></ul>
+              </section>
+              <a id="property-brief-link" href="seeker-brief-form.html">
+                Cập nhật brief
+              </a>
             </section>
 
             <section
@@ -191,7 +205,9 @@
             >
               <h2 id="property-brief-heading">Brief đang sử dụng</h2>
               <p id="property-brief-summary"></p>
-              <a href="seeker-brief-form.html">Sửa nhu cầu</a>
+              <a id="property-brief-edit" href="seeker-brief-form.html">
+                Sửa nhu cầu
+              </a>
             </section>
 
             <section

@@ -4,6 +4,11 @@ const savedSummary = document.querySelector("#saved-summary");
 const savedAddLabel = document.querySelector("#saved-add-label");
 const comparisonColumns = document.querySelector("#comparison-columns");
 const comparisonRows = document.querySelectorAll("[data-criterion]");
+const comparisonScroll = document.querySelector(".saved-comparison__scroll");
+const comparisonEmpty = document.querySelector("#comparison-empty");
+const briefLinks = document.querySelectorAll(
+  'main a[href="seeker-brief-form.html"]',
+);
 const prioritiesList = document.querySelector("#saved-priorities-list");
 const prioritiesEmpty = document.querySelector("#priorities-empty");
 const assistantStatus = document.querySelector("#assistant-status");
@@ -17,6 +22,7 @@ function createTextElement(tagName, className, text) {
 
 function renderSavedHomes() {
   const savedHomes = window.HomeFitSavedHomes.getAll();
+  const hasBrief = window.HomeFitBrief?.exists() || false;
   savedHouseList.replaceChildren();
   comparisonColumns.replaceChildren(createTextElement("th", "", "Tiêu chí"));
 
@@ -95,27 +101,17 @@ function renderSavedHomes() {
   }
 
   renderPriorities();
-  assistantStatus.textContent = savedHomes.length
-    ? `${savedHomes.length} căn nhà đã sẵn sàng để đối chiếu theo brief của bạn.`
-    : "Lưu nhà để bắt đầu so sánh theo ưu tiên cá nhân.";
+  comparisonScroll.hidden = !hasBrief;
+  comparisonEmpty.hidden = hasBrief;
+  assistantStatus.textContent = !hasBrief
+    ? "Chưa có brief. Hãy tạo brief để bắt đầu đánh giá và so sánh theo ưu tiên của bạn."
+    : savedHomes.length
+      ? `${savedHomes.length} căn nhà đã sẵn sàng để đối chiếu theo brief của bạn.`
+      : "Lưu nhà để bắt đầu so sánh theo ưu tiên cá nhân.";
 }
 
 function renderPriorities() {
-  let brief = {};
-  try {
-    const savedBrief = JSON.parse(
-      sessionStorage.getItem("homefit-brief-draft") || "{}",
-    );
-    if (
-      savedBrief &&
-      typeof savedBrief === "object" &&
-      !Array.isArray(savedBrief)
-    ) {
-      brief = savedBrief;
-    }
-  } catch {
-    brief = {};
-  }
+  const brief = window.HomeFitBrief?.get() || {};
 
   const priorities = [
     brief["weighted-priorities"],
@@ -135,6 +131,11 @@ function renderPriorities() {
   );
   prioritiesList.hidden = priorities.length === 0;
   prioritiesEmpty.hidden = priorities.length > 0;
+  for (const link of briefLinks) {
+    link.textContent = window.HomeFitBrief?.exists()
+      ? "Cập nhật brief"
+      : "Tạo brief";
+  }
 }
 
 document.addEventListener("click", (event) => {

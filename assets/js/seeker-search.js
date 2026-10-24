@@ -86,22 +86,7 @@ document.addEventListener("click", (event) => {
 });
 
 if (houseFiltersForm) {
-  let brief = {};
-
-  try {
-    const savedBrief = JSON.parse(
-      sessionStorage.getItem("homefit-brief-draft") || "{}",
-    );
-    if (
-      savedBrief &&
-      typeof savedBrief === "object" &&
-      !Array.isArray(savedBrief)
-    ) {
-      brief = savedBrief;
-    }
-  } catch {
-    brief = {};
-  }
+  const brief = window.HomeFitBrief?.get() || {};
 
   document.querySelector("#filter-area").value = brief["preferred-area"] || "";
   document.querySelector("#filter-budget-min").value =
