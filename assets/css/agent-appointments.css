@@ -1,7 +1,3 @@
-/* ==========================================================================
-   HomeFit AI - Trang lịch hẹn (Agent Appointments)
-   ========================================================================== */
-
 .agent-appointments-page {
   width: min(1160px, calc(100% - 48px));
   margin: 24px auto 48px;
@@ -13,9 +9,6 @@
   border-radius: 9px;
 }
 
-/* --------------------------------------------------------------------------
-   Khối 1: lịch sắp tới
-   -------------------------------------------------------------------------- */
 .appt-next {
   display: flex;
   align-items: flex-start;
@@ -51,9 +44,6 @@
   color: #4d6357;
 }
 
-/* --------------------------------------------------------------------------
-   Khối 2: xem lịch theo tuần / tháng
-   -------------------------------------------------------------------------- */
 .appt-calendar {
   margin-bottom: 16px;
   padding: 14px 16px 12px;
@@ -95,6 +85,9 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .appt-nav-btn {
@@ -122,6 +115,11 @@
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
+}
+
+.appt-week[hidden],
+.appt-month[hidden] {
+  display: none;
 }
 
 .appt-day {
@@ -273,9 +271,6 @@
   font-size: 11px;
 }
 
-/* --------------------------------------------------------------------------
-   Khối 3: danh sách + bảng chi tiết
-   -------------------------------------------------------------------------- */
 .appt-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(300px, 1fr);

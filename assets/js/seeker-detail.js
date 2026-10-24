@@ -38,10 +38,16 @@ function getSelectedProperty() {
     return selectedProperty;
   }
 
-  return (
-    window.HomeFitSavedHomes?.getAll().find((home) => home.id === propertyId) ||
-    null
-  );
+  try {
+    const posts = JSON.parse(localStorage.getItem("homefit-agent-posts") || "[]");
+    return (
+      window.HomeFitSavedHomes?.getAll().find((home) => home.id === propertyId) ||
+      posts.find((post) => post.id === propertyId || post.code === propertyId) ||
+      null
+    );
+  } catch {
+    return null;
+  }
 }
 
 function getBriefSummary(property) {
@@ -119,24 +125,21 @@ function renderProperty(property) {
     : "";
   fitScore.hidden = !property.fitScore;
 
+  const gallery = document.querySelector(".property-gallery");
   const images = Array.isArray(property.images) ? property.images : [];
   const mainImage = property.image || images[0];
-  document.querySelector(".property-gallery").hidden = !mainImage;
+  gallery.hidden = !mainImage;
   setPropertyImage(
     "#property-image-main",
     mainImage,
     `Ảnh ${property.title || "căn nhà"}`,
   );
-  setPropertyImage(
-    "#property-image-second",
-    images[1] || mainImage,
-    "Không gian bên trong căn nhà",
-  );
-  setPropertyImage(
-    "#property-image-third",
-    images[2] || mainImage,
-    "Góc sinh hoạt trong căn nhà",
-  );
+  const extras = images.filter((src) => src !== mainImage).slice(0, 2);
+  setPropertyImage("#property-image-second", extras[0], "Không gian bên trong căn nhà");
+  setPropertyImage("#property-image-third", extras[1], "Góc sinh hoạt trong căn nhà");
+  gallery.classList.toggle("is-single", extras.length === 0);
+  document.querySelector(".property-gallery__secondary").hidden =
+    extras.length === 0;
 
   const reasons =
     Array.isArray(property.aiReasons) && property.aiReasons.length

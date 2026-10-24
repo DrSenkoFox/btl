@@ -27,40 +27,40 @@
 
       <article class="property-detail" id="property-detail" hidden>
         <header class="property-detail__heading">
-          <div>
+          <hgroup>
             <p class="property-detail__eyebrow" id="property-code"></p>
             <h1 id="property-title"></h1>
             <p class="property-detail__location" id="property-location"></p>
-          </div>
-          <div class="property-detail__actions">
+          </hgroup>
+          <menu class="property-detail__actions">
             <button class="property-action" type="button" data-save-detail>
               Lưu tin
             </button>
             <button class="property-action" type="button" data-share-detail>
               Chia sẻ
             </button>
-          </div>
+          </menu>
         </header>
 
         <section class="property-gallery" aria-label="Hình ảnh căn nhà">
           <img id="property-image-main" alt="" />
-          <div class="property-gallery__secondary">
+          <figure class="property-gallery__secondary">
             <img id="property-image-second" alt="" />
             <img id="property-image-third" alt="" />
-          </div>
+          </figure>
         </section>
 
-        <div class="property-detail__layout">
-          <div class="property-detail__primary">
+        <section class="property-detail__layout" aria-label="Nội dung chi tiết">
+          <section class="property-detail__primary" aria-label="Thông tin chính">
             <section
               class="property-panel property-overview"
               aria-labelledby="property-price"
             >
               <header class="property-overview__heading">
-                <div>
+                <hgroup>
                   <h2 id="property-price"></h2>
                   <p id="property-quick-facts"></p>
-                </div>
+                </hgroup>
                 <p
                   class="property-fit-score"
                   id="property-fit-score"
@@ -68,32 +68,32 @@
                 ></p>
               </header>
               <p class="property-description" id="property-description"></p>
-              <dl class="property-facts">
-                <div>
+              <section class="property-facts" aria-label="Thông số căn nhà">
+                <dl>
                   <dt>Thời hạn thuê</dt>
                   <dd id="property-contract"></dd>
-                </div>
-                <div>
+                </dl>
+                <dl>
                   <dt>Pháp lý</dt>
                   <dd id="property-legal"></dd>
-                </div>
-                <div>
+                </dl>
+                <dl>
                   <dt>Chi phí</dt>
                   <dd id="property-costs"></dd>
-                </div>
-                <div>
+                </dl>
+                <dl>
                   <dt>Nội thất</dt>
                   <dd id="property-furnishing"></dd>
-                </div>
-                <div>
+                </dl>
+                <dl>
                   <dt>Tiện ích</dt>
                   <dd id="property-amenities"></dd>
-                </div>
-                <div>
+                </dl>
+                <dl>
                   <dt>Ngày có thể nhận</dt>
                   <dd id="property-available"></dd>
-                </div>
-              </dl>
+                </dl>
+              </section>
               <p class="property-disclaimer">
                 Thông tin được cung cấp từ tin đăng. Vui lòng xác nhận chi phí
                 và tình trạng căn nhà với môi giới.
@@ -121,7 +121,7 @@
               <h2 id="property-nearby-heading">
                 Vị trí &amp; tiện ích lân cận
               </h2>
-              <div class="property-nearby__scroll">
+              <section class="property-nearby__scroll" aria-label="Bảng tiện ích lân cận">
                 <table>
                   <thead>
                     <tr>
@@ -132,7 +132,7 @@
                   </thead>
                   <tbody id="property-nearby-list"></tbody>
                 </table>
-              </div>
+              </section>
               <p
                 class="property-nearby__empty"
                 id="property-nearby-empty"
@@ -141,7 +141,7 @@
                 Chưa có thông tin tiện ích lân cận.
               </p>
             </section>
-          </div>
+          </section>
 
           <aside
             class="property-detail__sidebar"
@@ -208,7 +208,7 @@
               </a>
             </section>
           </aside>
-        </div>
+        </section>
       </article>
     </main>
   </body>

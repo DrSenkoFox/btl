@@ -46,10 +46,16 @@ function renderAgentPostStatuses() {
   agentPostEmpty.hidden = posts.length > 0;
 }
 
+function readPostImages(data) {
+  return ["image", "image2", "image3"]
+    .map((key) => String(data.get(key) || "").trim())
+    .filter(Boolean);
+}
+
 function updateAgentPostPreview() {
   const data = new FormData(agentPostForm);
-  const imageUrl = String(data.get("image") || "").trim();
-  const image = document.querySelector("#agent-post-preview-image");
+  const images = readPostImages(data);
+  const preview = document.querySelector("#agent-post-preview-images");
 
   document.querySelector("#agent-post-preview-type").textContent =
     data.get("transaction") === "buy" ? "Cần bán" : "Cho thuê";
@@ -59,8 +65,14 @@ function updateAgentPostPreview() {
     data.get("location") || "Khu vực căn nhà";
   document.querySelector("#agent-post-preview-price").textContent =
     data.get("price") || "Giá đăng";
-  image.hidden = !imageUrl;
-  if (imageUrl) image.src = imageUrl;
+  preview.replaceChildren(
+    ...images.map((src, index) => {
+      const image = document.createElement("img");
+      image.src = src;
+      image.alt = `Ảnh xem trước ${index + 1}`;
+      return image;
+    }),
+  );
 }
 
 agentPostForm.addEventListener("input", updateAgentPostPreview);
@@ -103,6 +115,11 @@ function loadPostForEditing() {
     }
   });
 
+  ["image", "image2", "image3"].forEach((key, index) => {
+    const input = agentPostForm.elements[key];
+    if (input && post.images?.[index]) input.value = post.images[index];
+  });
+
   const submitBtn = agentPostForm.querySelector("button[type='submit']");
   if (submitBtn) {
     submitBtn.textContent = "Cập nhật bài đăng & gửi duyệt";
@@ -114,6 +131,12 @@ function loadPostForEditing() {
 agentPostForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const formData = Object.fromEntries(new FormData(agentPostForm).entries());
+  const images = ["image", "image2", "image3"]
+    .map((key) => String(formData[key] || "").trim())
+    .filter(Boolean);
+  formData.image = images[0] || "";
+  delete formData.image2;
+  delete formData.image3;
   const params = new URLSearchParams(window.location.search);
   const editId = params.get("edit");
 
@@ -127,7 +150,7 @@ agentPostForm.addEventListener("submit", (event) => {
         ...formData,
         transactionType: formData.transaction,
         brokerMeta: formData.contact,
-        images: formData.image ? [formData.image] : existing.images || [],
+        images: images.length ? images : existing.images || [],
         status: "pending",
         updatedAt: new Date().toLocaleDateString("vi-VN"),
       };
@@ -140,10 +163,9 @@ agentPostForm.addEventListener("submit", (event) => {
     post = {
       ...formData,
       id: `post-${Date.now()}`,
-      code: `HF-${Date.now().toString().slice(-3)}`,
       transactionType: formData.transaction,
       brokerMeta: formData.contact,
-      images: formData.image ? [formData.image] : [],
+      images,
       status: "pending",
       createdAt: new Date().toISOString(),
     };

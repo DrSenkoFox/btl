@@ -7,15 +7,18 @@
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/agent-posts.css" />
     <link rel="stylesheet" href="../css/agent-requests.css" />
+    <link rel="stylesheet" href="../css/agent-nav.css" />
     <script src="../js/common.js" defer></script>
+    <script src="../js/agent-nav.js" defer></script>
     <script src="../js/appointments.js" defer></script>
     <script src="../js/agent-requests.js" defer></script>
   </head>
   <body>
+    <aside class="agent-nav" id="agent-nav" aria-label="Điều hướng môi giới"></aside>
     <main class="agent-requests-page">
       <!-- Header meta nhỏ -->
       <header class="agent-header">
-        <div class="agent-header-main">
+        <hgroup class="agent-header-main">
           <p class="agent-header-meta">
             <span class="prefix">KHÔNG GIAN MÔI GIỚI</span>
             <span class="sep" id="agent-meta-sep" style="display: none;">/</span>
@@ -28,11 +31,11 @@
           <p class="agent-desc">
             Yêu cầu mới chỉ trở thành khách đang tư vấn sau khi bạn tiếp nhận.
           </p>
-        </div>
+        </hgroup>
       </header>
 
       <!-- Tabs trạng thái -->
-      <div class="agent-tabs" role="tablist" aria-label="Trạng thái yêu cầu">
+      <section class="agent-tabs" role="tablist" aria-label="Trạng thái yêu cầu">
         <button type="button" class="tab-btn is-active" data-status="new" role="tab">
           Mới (<span id="count-new">0</span>)
         </button>
@@ -51,15 +54,15 @@
         <button type="button" class="tab-btn" data-status="archived" role="tab">
           Đã lưu trữ
         </button>
-      </div>
+      </section>
 
       <!-- Bố cục 2 cột: danh sách bên trái, chi tiết bên phải -->
       <section class="requests-layout">
-        <div class="req-col">
+        <section class="req-col" aria-label="Danh sách yêu cầu">
           <!-- Cột trái: Danh sách khách hàng -->
-          <div class="req-card req-list-card">
+          <article class="req-card req-list-card">
             <h2>Danh sách khách hàng</h2>
-            <div class="req-search-box">
+            <search class="req-search-box">
               <label for="req-search" class="req-search-label">Tìm khách, brief hoặc bài đăng</label>
               <input
                 type="search"
@@ -68,8 +71,8 @@
                 placeholder="Tên / số điện thoại / B-024..."
                 autocomplete="off"
               />
-            </div>
-            <div class="req-table-scroll">
+            </search>
+            <section class="req-table-scroll" aria-label="Bảng yêu cầu">
               <table class="req-table">
                 <thead>
                   <tr>
@@ -85,74 +88,74 @@
                   </tr>
                 </tbody>
               </table>
-            </div>
+            </section>
             <p class="req-table-footer" id="req-table-footer">
               Hiển thị 0 / 0 khách • Trạng thái trước từng yêu cầu, không đánh giá con người.
             </p>
-          </div>
+          </article>
 
           <!-- Yêu cầu mới cần tiếp nhận -->
           <section class="req-card req-highlight-card" id="req-highlight" hidden>
-            <div class="req-highlight-header">
+            <header class="req-highlight-header">
               <h3>Yêu cầu mới cần tiếp nhận</h3>
               <span class="req-highlight-tag" id="highlight-tag">Chờ môi giới</span>
-            </div>
+            </header>
             <p class="req-highlight-client" id="highlight-client"></p>
             <p class="req-highlight-meta" id="highlight-meta"></p>
             <p class="req-highlight-brief" id="highlight-brief"></p>
-            <div class="req-highlight-links" id="highlight-links"></div>
+            <menu class="req-highlight-links" id="highlight-links"></menu>
           </section>
 
           <!-- Gợi ý bước tiếp -->
-          <div class="req-tip" id="req-tip" hidden>
+          <aside class="req-tip" id="req-tip" hidden>
             <span class="req-tip-icon" aria-hidden="true">✓</span>
-            <div>
+            <p class="req-tip-body">
               <strong>Gợi ý bước tiếp theo</strong>
               <span id="req-tip-text">Xác nhận nhu cầu và mức phí quản lý trước khi đề xuất lịch xem. Không gửi tin nhắn tự động.</span>
-            </div>
-          </div>
-        </div>
+            </p>
+          </aside>
+        </section>
 
-        <div class="req-col">
+        <section class="req-col" aria-label="Chi tiết yêu cầu">
           <!-- Cột phải: Chi tiết yêu cầu đã chọn -->
-          <div class="req-card req-detail-card" id="req-detail">
-            <div class="req-detail-empty" id="req-detail-empty">
+          <article class="req-card req-detail-card" id="req-detail">
+            <p class="req-detail-empty" id="req-detail-empty">
               Chọn một yêu cầu từ danh sách bên trái để xem chi tiết.
-            </div>
-            <div id="req-detail-content" class="req-detail-content" hidden>
+            </p>
+            <section id="req-detail-content" class="req-detail-content" aria-label="Nội dung yêu cầu" hidden>
               <p class="detail-rejected-only">Đã từ chối yêu cầu</p>
               <h2 class="detail-client-name" id="detail-name"></h2>
-              <div class="detail-status-line">
+              <p class="detail-status-line">
                 <span class="detail-badge" id="detail-badge"></span>
                 <span class="detail-consent" id="detail-consent"></span>
-              </div>
+              </p>
               <ul class="detail-info-list" id="detail-info"></ul>
 
               <!-- Khung trạng thái & hành động -->
-              <div class="detail-box">
+              <section class="detail-box" aria-label="Trạng thái và hành động">
                 <p class="detail-box-label">Trạng thái khách hàng</p>
                 <p class="detail-status-value" id="detail-status-value"></p>
-                <div class="detail-actions" id="detail-actions"></div>
-              </div>
+                <menu class="detail-actions" id="detail-actions"></menu>
+              </section>
 
               <!-- Lý do từ chối (chỉ hiện khi trạng thái Mới) -->
-              <div class="detail-box reject-reason-box" id="reject-reason-box" hidden>
+              <fieldset class="detail-box reject-reason-box" id="reject-reason-box" hidden>
                 <p class="detail-box-label">Lý do nếu từ chối</p>
                 <textarea id="reject-reason" placeholder="Chọn lý do / ghi rõ nội dung..."></textarea>
                 <p class="detail-box-hint">Bắt buộc khi từ chối, người tìm nhà nhận được phản hồi.</p>
-              </div>
+              </fieldset>
 
               <!-- Ghi chú nội bộ -->
-              <div class="detail-box">
+              <fieldset class="detail-box">
                 <p class="detail-box-label"><label for="detail-note">Ghi chú nội bộ</label></p>
                 <textarea id="detail-note" placeholder="Khách muốn xem gốc WFH và mức tiếng ồn."></textarea>
-              </div>
+              </fieldset>
               <button type="button" class="btn-save-note" id="btn-save-note">Lưu ghi chú</button>
 
               <!-- Lịch hẹn -->
-              <div class="detail-actions detail-appointment" id="detail-appointment"></div>
-            </div>
-          </div>
+              <section class="detail-actions detail-appointment" id="detail-appointment" aria-label="Lịch hẹn"></section>
+            </section>
+          </article>
 
           <!-- Lịch sử liên hệ -->
           <section class="detail-history" id="detail-history-box" hidden>
@@ -162,7 +165,7 @@
               Chưa tiếp nhận. Chưa có cuộc gọi hoặc lịch xem xác nhận.
             </p>
           </section>
-        </div>
+        </section>
       </section>
 
       <!-- Chân trang -->

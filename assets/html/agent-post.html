@@ -20,11 +20,9 @@
         <span id="agent-broker-notif">Thông báo (0)</span>
       </p>
 
-      <div>
-        <a href="agent-posts.html" class="agent-post-back-btn">
-          ← Quay lại quản lý bài đăng
-        </a>
-      </div>
+      <a href="agent-posts.html" class="agent-post-back-btn">
+        ← Quay lại quản lý bài đăng
+      </a>
 
       <header class="agent-post-heading">
         <p class="agent-post-eyebrow" id="agent-post-eyebrow">CHỈNH SỬA HF-104 / PALM RESIDENCE</p>
@@ -39,7 +37,7 @@
         được chấp nhận mới xuất hiện trong danh sách tìm nhà.
       </p>
 
-      <div class="agent-post-layout">
+      <section class="agent-post-layout" aria-label="Biểu mẫu và xem trước">
         <form class="agent-post-form" id="agent-post-form">
           <section class="agent-post-section">
             <h2>01 / Thông tin căn nhà</h2>
@@ -54,7 +52,7 @@
                 bán</label
               >
             </fieldset>
-            <div class="agent-post-fields">
+            <fieldset class="agent-post-fields">
               <label class="agent-post-field agent-post-field--wide">
                 Tiêu đề tin <span>*</span>
                 <input
@@ -97,12 +95,12 @@
                   placeholder="Mô tả không gian, điểm nổi bật và thông tin cần lưu ý..."
                 ></textarea>
               </label>
-            </div>
+            </fieldset>
           </section>
 
           <section class="agent-post-section">
             <h2>02 / Tiện ích &amp; nhu cầu sống</h2>
-            <div class="agent-post-fields">
+            <fieldset class="agent-post-fields">
               <label class="agent-post-field">
                 Nội thất
                 <input name="furnishing" placeholder="Đầy đủ nội thất" />
@@ -130,15 +128,23 @@
                   placeholder="Tối thiểu 12 tháng · tầng 8"
                 />
               </label>
-            </div>
+            </fieldset>
           </section>
 
           <section class="agent-post-section">
             <h2>03 / Ảnh &amp; liên hệ</h2>
-            <div class="agent-post-fields">
+            <fieldset class="agent-post-fields">
               <label class="agent-post-field agent-post-field--wide">
-                Đường dẫn ảnh căn nhà
+                Ảnh chính của căn nhà
                 <input name="image" type="url" placeholder="https://..." />
+              </label>
+              <label class="agent-post-field">
+                Ảnh 2
+                <input name="image2" type="url" placeholder="https://..." />
+              </label>
+              <label class="agent-post-field">
+                Ảnh 3
+                <input name="image3" type="url" placeholder="https://..." />
               </label>
               <label class="agent-post-field">
                 Tên môi giới <span>*</span>
@@ -153,7 +159,7 @@
                   placeholder="090..."
                 />
               </label>
-            </div>
+            </fieldset>
             <p
               class="agent-post-form-message"
               id="agent-post-message"
@@ -179,11 +185,10 @@
 
           <section class="agent-post-aside agent-post-preview">
             <h2>Xem trước bài đăng</h2>
-            <img
-              id="agent-post-preview-image"
-              alt="Ảnh xem trước căn nhà"
-              hidden
-            />
+            <figure
+              class="agent-post-preview__imgs"
+              id="agent-post-preview-images"
+            ></figure>
             <p class="agent-post-preview__type" id="agent-post-preview-type">
               Cho thuê
             </p>
@@ -200,7 +205,7 @@
             <ul id="agent-post-list" aria-live="polite"></ul>
           </section>
         </aside>
-      </div>
+      </section>
     </main>
   </body>
 </html>

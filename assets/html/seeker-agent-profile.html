@@ -40,10 +40,10 @@
           aria-labelledby="agent-profile-name"
         >
           <header class="agent-profile__topline">
-            <div
+            <span
               class="agent-profile__avatar"
               id="agent-profile-initials"
-            ></div>
+            ></span>
             <span
               class="agent-profile__verified"
               id="agent-profile-verified"
@@ -52,31 +52,31 @@
               Đã xác minh
             </span>
           </header>
-          <div class="agent-profile__identity">
+          <hgroup class="agent-profile__identity">
             <h2 id="agent-profile-name"></h2>
-            <span
+            <p
               class="agent-profile__specialty-badge"
               id="agent-profile-specialty"
-            ></span>
-          </div>
+            ></p>
+          </hgroup>
           <p class="agent-profile__location" id="agent-profile-location"></p>
           <p class="agent-profile__bio" id="agent-profile-bio"></p>
           <ul class="agent-profile__tags" id="agent-profile-tags"></ul>
 
-          <dl class="agent-profile__stats">
-            <div>
+          <section class="agent-profile__stats" aria-label="Chỉ số hoạt động">
+            <dl>
               <dt id="agent-profile-fit"></dt>
               <dd>Khớp brief</dd>
-            </div>
-            <div>
+            </dl>
+            <dl>
               <dt id="agent-profile-listing-count"></dt>
               <dd>Bài đăng công khai</dd>
-            </div>
-            <div>
+            </dl>
+            <dl>
               <dt id="agent-profile-response"></dt>
               <dd>Thời gian phản hồi</dd>
-            </div>
-          </dl>
+            </dl>
+          </section>
 
           <button
             class="agent-profile__send"
@@ -95,13 +95,13 @@
         </section>
 
         <section class="agent-profile__callout">
-          <div>
+          <hgroup>
             <h2>Môi giới nhận đúng brief, bạn giữ quyền lựa chọn.</h2>
             <p>
               Chỉ gửi thông tin ngân sách, khu vực, nhu cầu sống và các liên hệ
               bạn đã đồng ý chia sẻ.
             </p>
-          </div>
+          </hgroup>
           <a href="seeker-brief-form.html">Xem &amp; sửa brief của tôi</a>
         </section>
 

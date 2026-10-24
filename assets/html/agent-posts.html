@@ -6,14 +6,17 @@
     <title>Quản lý bài đăng | HomeFit AI</title>
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/agent-posts.css" />
+    <link rel="stylesheet" href="../css/agent-nav.css" />
     <script src="../js/common.js" defer></script>
+    <script src="../js/agent-nav.js" defer></script>
     <script src="../js/agent-posts.js" defer></script>
   </head>
   <body>
+    <aside class="agent-nav" id="agent-nav" aria-label="Điều hướng môi giới"></aside>
     <main class="agent-posts-page">
       <!-- Tiêu đề & Nút Tạo bài đăng với dòng thông tin nhỏ trên đầu header -->
       <header class="agent-header">
-        <div class="agent-header-main">
+        <hgroup class="agent-header-main">
           <p class="agent-header-meta">
             <span class="prefix">KHÔNG GIAN MÔI GIỚI</span>
             <span class="sep" id="agent-meta-sep" style="display: none;">/</span>
@@ -26,59 +29,59 @@
           <p class="agent-desc">
             Theo dõi từ bản nháp đến công khai. Chỉ bài được duyệt mới xuất hiện với người tìm nhà.
           </p>
-        </div>
-        <div>
+        </hgroup>
+        <section class="agent-header-actions" aria-label="Hành động chính">
           <a href="agent-post.html" class="btn-primary">+ Tạo bài đăng</a>
-        </div>
+        </section>
       </header>
 
       <!-- 4 Card thống kê (mặc định rỗng khi chưa có bài đăng) -->
       <section class="agent-stats-grid" aria-label="Thống kê">
         <article class="stat-card">
           <p class="stat-title">Bài đăng của tôi</p>
-          <div class="stat-value" id="stat-total">0</div>
+          <p class="stat-value" id="stat-total">0</p>
           <p class="stat-sub" id="stat-approved">0 đang công khai</p>
         </article>
 
         <article class="stat-card">
           <p class="stat-title">Lượt xem • 7 ngày</p>
-          <div class="stat-value" id="stat-views">0</div>
+          <p class="stat-value" id="stat-views">0</p>
           <p class="stat-sub" id="stat-views-growth">+0% so với tuần trước</p>
         </article>
 
         <article class="stat-card">
           <p class="stat-title">Yêu cầu liên hệ</p>
-          <div class="stat-value" id="stat-leads">0</div>
+          <p class="stat-value" id="stat-leads">0</p>
           <p class="stat-sub" id="stat-leads-pending">0 yêu cầu chưa tiếp nhận</p>
         </article>
 
         <article class="stat-card">
           <p class="stat-title">Lịch hẹn tuần tới</p>
-          <div class="stat-value" id="stat-appointments">0</div>
+          <p class="stat-value" id="stat-appointments">0</p>
           <p class="stat-sub" id="stat-next-appointment">Chưa có lịch hẹn</p>
         </article>
       </section>
 
       <!-- Banner thông báo kiểm duyệt (ẩn khi chưa có bài cần sửa) -->
       <section class="agent-alert" id="agent-alert" hidden>
-        <div class="alert-icon" aria-hidden="true">
+        <span class="alert-icon" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
             <line x1="12" y1="9" x2="12" y2="13" />
             <line x1="12" y1="17" x2="12.01" y2="17" />
           </svg>
-        </div>
-        <div>
-          <div class="alert-title" id="alert-title">Palm Residence cần bổ sung thông tin</div>
+        </span>
+        <section class="agent-alert-body">
+          <h3 class="alert-title" id="alert-title">Palm Residence cần bổ sung thông tin</h3>
           <p class="alert-desc" id="alert-desc">
             HF-104: kiểm duyệt viên yêu cầu ảnh chứng minh quyền cho thuê. Hạn cập nhật 06/10/2026. Chỉnh sửa rồi gửi duyệt lại.
           </p>
-        </div>
+        </section>
       </section>
 
       <!-- Hộp Tìm kiếm & Lọc -->
       <section class="agent-filter-box" aria-label="Tìm kiếm & bộ lọc">
-        <div class="filter-search-group">
+        <search class="filter-search-group">
           <label for="post-search" class="filter-search-label">Tìm bài đăng</label>
           <input
             type="search"
@@ -87,8 +90,8 @@
             placeholder="Tên nhà, mã HF..."
             autocomplete="off"
           />
-        </div>
-        <div class="filter-selects-group">
+        </search>
+        <fieldset class="filter-selects-group" aria-label="Bộ lọc bài đăng">
           <select id="filter-area" class="filter-select" aria-label="Chọn khu vực">
             <option value="">Khu vực: Tất cả ▾</option>
             <option value="Thảo Điền">Thảo Điền</option>
@@ -105,11 +108,11 @@
             <option value="rejected">Từ chối</option>
             <option value="archived">Đã lưu trữ</option>
           </select>
-        </div>
+        </fieldset>
       </section>
 
       <!-- Tabs trạng thái -->
-      <nav class="agent-tabs" role="tablist" aria-label="Trạng thái">
+      <section class="agent-tabs" role="tablist" aria-label="Trạng thái">
         <button type="button" class="tab-btn is-active" data-status="all" role="tab" aria-selected="true">
           Tất cả (<span id="count-all">0</span>)
         </button>
@@ -131,11 +134,11 @@
         <button type="button" class="tab-btn" data-status="archived" role="tab" aria-selected="false">
           Đã lưu trữ
         </button>
-      </nav>
+      </section>
 
       <!-- Bảng danh sách bài đăng (khung sẵn sàng đổ dữ liệu) -->
       <section class="agent-card" aria-label="Bảng bài đăng">
-        <div class="table-wrapper">
+        <section class="table-wrapper">
           <table class="agent-table">
             <thead>
               <tr>
@@ -152,7 +155,7 @@
               </tr>
             </tbody>
           </table>
-        </div>
+        </section>
         <footer class="table-footer">
           <span id="table-info">Hiển thị 0 / 0 bài · Cập nhật 03/10/2026</span>
           <button type="button" class="btn-export" id="btn-export">Xuất danh sách</button>
@@ -162,8 +165,8 @@
       <!-- Khách liên hệ gần đây (mặc định rỗng) -->
       <section class="recent-leads" aria-label="Khách liên hệ gần đây">
         <h2>Khách liên hệ gần đây</h2>
-        <div class="agent-card">
-          <div class="table-wrapper">
+        <section class="agent-card" aria-label="Bảng khách liên hệ">
+          <section class="table-wrapper">
             <table class="agent-table">
               <thead>
                 <tr>
@@ -178,8 +181,8 @@
                 </tr>
               </tbody>
             </table>
-          </div>
-        </div>
+          </section>
+        </section>
       </section>
 
       <!-- Chân trang -->

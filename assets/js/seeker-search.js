@@ -14,7 +14,7 @@ function renderApprovedAgentPosts() {
     ...posts.map((post) => {
       const card = document.createElement("article");
       const image = document.createElement("img");
-      const details = document.createElement("div");
+      const details = document.createElement("section");
       const title = document.createElement("h3");
       const location = document.createElement("p");
       const price = document.createElement("strong");

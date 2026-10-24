@@ -8,10 +8,74 @@ const agentPostStatuses = new Set([
   "archived",
 ]);
 
+const demoBrokers = {
+  "nguyen-lan-huong": ["Nguyễn Lan Hương", "0901 234 567"],
+  "tran-minh-quan": ["Trần Minh Quân", "0902 876 543"],
+  "le-thao-vy": ["Lê Thảo Vy", "0903 456 128"],
+  "do-hoai-nam": ["Đỗ Hoài Nam", "0904 762 311"],
+  "trinh-my-dung": ["Trịnh Mỹ Dung", "0905 318 774"],
+};
+
+const demoAgentPosts = [
+  ["River Park căn góc, ban công hướng sông", "Quận 2, TP.HCM", "19 triệu / tháng", 80, 2, 2, 230, 18, 4, "approved", "nguyen-lan-huong", 98, "Căn góc hai mặt thoáng, ban công nhìn sông; khu yên tĩnh phù hợp làm việc tại nhà; 8 phút tới trường quốc tế.", "photo-1600210492486-724fe5c67fb0 photo-1600585154340-be6161a56a0c photo-1600121848594-d8644e57abab"],
+  ["Lumi Studio gần metro, ánh sáng tự nhiên", "Quận 2, TP.HCM", "11 triệu / tháng", 38, 1, 1, 165, 9, 2, "approved", "tran-minh-quan", 92, "Cách metro 400 m, tổng chi phí đi lại thấp; cửa sổ lớn lấy sáng tự nhiên; nội thất cơ bản vào ở ngay.", "photo-1522708323590-d24dbb6b0267 photo-1584622650111-993a426fbf0a photo-1560185007-cde436f6a4d0"],
+  ["Garden House 2 phòng ngủ có sân vườn", "TP. Thủ Đức", "17 triệu / tháng", 95, 2, 2, 240, 12, 3, "approved", "le-thao-vy", 86, "Sân vườn riêng, nuôi được thú cưng; pháp lý sổ hồng rõ ràng; tiện cho gia đình nhiều thế hệ.", "photo-1560185007-cde436f6a4d0 photo-1484154218962-a197022b5858 photo-1600047509807-ba8f99d2cdde"],
+  ["Sunrise 1PN full nội thất, vào ở ngay", "Bình Thạnh, TP.HCM", "12 triệu / tháng", 45, 1, 1, 180, 21, 5, "approved", "do-hoai-nam", 90, "Full nội thất, hợp đồng ngắn hạn linh hoạt; toà nhà có gym và siêu thị; phản hồi nhanh trong ngày.", "photo-1600121848594-d8644e57abab photo-1512917774080-9991f1c4c750 photo-1600210492486-724fe5c67fb0"],
+  ["Masteris 3PN thoáng, gần trường học", "Quận 2, TP.HCM", "26 triệu / tháng", 120, 3, 2, 310, 15, 6, "approved", "nguyen-lan-huong", 95, "Ba phòng ngủ, hai vệ sinh, đủ chỗ cho gia đình; đối tượng phù hợp nhu cầu gần trường học; nội thất đầy đủ.", "photo-1600585154340-be6161a56a0c photo-1600596542815-ffad4c1539a9 photo-1600607687939-ce8a6c25118c"],
+  ["Eco Green 2PN yên tĩnh, góc làm việc WFH", "Quận 2, TP.HCM", "15 triệu / tháng", 72, 2, 1, 195, 7, 1, "approved", "trinh-my-dung", 88, "Góc làm việc riêng, tầng cao ít tiếng ồn; nhiều cây xanh và công viên nội khu; căn hộ dịch vụ có vệ sinh.", "photo-1600566753086-00f18fb6b3ea photo-1600121848594-d8644e57abab photo-1484154218962-a197022b5858"],
+  ["Thảo Điền villa 4PN có hồ bơi", "TP. Thủ Đức", "45 triệu / tháng", 200, 4, 3, 140, 4, 2, "pending", "trinh-my-dung", 80, "Villa hồ bơi riêng, phù hợp gia đình đông người; khu an ninh 24/7; cần kiểm tra pháp lý trước khi công khai.", "photo-1600607687939-ce8a6c25118c photo-1600047509807-ba8f99d2cdde photo-1522708323590-d24dbb6b0267"],
+].map(
+  (
+    [title, location, price, size, bedrooms, bathrooms, views, saved, leads, status, broker, fit, reasons, photos],
+    index,
+  ) => {
+    const images = photos.split(" ").map(
+      (photo) =>
+        `https://images.unsplash.com/${photo}?auto=format&fit=crop&w=900&q=80`,
+    );
+    const [brokerName, contact] = demoBrokers[broker];
+    return {
+      id: `HF-${101 + index}`,
+      code: `HF-${101 + index}`,
+      title,
+      location,
+      area: location.split(",")[0].trim(),
+      price,
+      transaction: "rent",
+      size: `${size} m²`,
+      bedrooms,
+      bathrooms,
+      description: `${title} • ${size} m², ${bedrooms} phòng ngủ, ${bathrooms} vệ sinh. ${reasons.split("; ")[0]} Khu yên tĩnh, an ninh 24/7.`,
+      furnishing: "Đầy đủ nội thất",
+      legal: "Sổ hồng riêng",
+      amenities: "Gần metro, siêu thị, công viên, trường học quốc tế.",
+      contract: "Hợp đồng 12 tháng",
+      availableDate: "2026-11-01",
+      image: images[0],
+      images,
+      broker,
+      brokerName,
+      brokerMeta: `${brokerName} • ${contact}`,
+      contact,
+      fitScore: `${fit}%`,
+      aiReasons: reasons.split("; "),
+      status,
+      views,
+      saved,
+      leads,
+      createdAt: new Date(Date.now() - (index + 1) * 864e5).toISOString(),
+    };
+  },
+);
+
+if (localStorage.getItem(agentPostsStorageKey) === null) {
+  localStorage.setItem(agentPostsStorageKey, JSON.stringify(demoAgentPosts));
+}
+
 function getAgentPosts() {
   try {
     const raw = localStorage.getItem(agentPostsStorageKey);
-    if (!raw) return []; // Mặc định rỗng khi chưa có bài đăng nào
+    if (!raw) return [];
     const posts = JSON.parse(raw);
     return Array.isArray(posts)
       ? posts.filter((post) => post && typeof post.id === "string")
@@ -26,8 +90,12 @@ function saveAgentPost(post) {
   try {
     const current = getAgentPosts();
     if (!post.code) post.code = `HF-${100 + current.length + 1}`;
-    if (!post.area) post.area = post.location ? post.location.split(",")[0].trim() : "TP.HCM";
-    localStorage.setItem(agentPostsStorageKey, JSON.stringify([post, ...current]));
+    if (!post.area)
+      post.area = post.location ? post.location.split(",")[0].trim() : "TP.HCM";
+    localStorage.setItem(
+      agentPostsStorageKey,
+      JSON.stringify([post, ...current]),
+    );
     window.dispatchEvent(new CustomEvent("homefit:agent-posts-change"));
     return true;
   } catch {
@@ -121,7 +189,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (brokerNameEl) brokerNameEl.textContent = userName;
-    if (categoryNameEl) categoryNameEl.textContent = userName ? userName.toUpperCase() : "";
+    if (categoryNameEl)
+      categoryNameEl.textContent = userName ? userName.toUpperCase() : "";
     if (metaSepEl) metaSepEl.style.display = userName ? "inline" : "none";
   }
 
@@ -142,7 +211,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateOverview(posts) {
     updateUserInfo();
 
-    const counts = { all: posts.length, approved: 0, pending: 0, revision: 0, draft: 0 };
+    const counts = {
+      all: posts.length,
+      approved: 0,
+      pending: 0,
+      revision: 0,
+      draft: 0,
+    };
     posts.forEach((p) => {
       if (counts[p.status] !== undefined) counts[p.status]++;
     });
@@ -157,11 +232,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (statTotal) statTotal.textContent = "0";
       if (statApproved) statApproved.textContent = "0 đang công khai";
       if (statViews) statViews.textContent = "0";
-      if (statViewsGrowth) statViewsGrowth.textContent = "+0% so với tuần trước";
+      if (statViewsGrowth)
+        statViewsGrowth.textContent = "+0% so với tuần trước";
       if (statLeads) statLeads.textContent = "0";
-      if (statLeadsPending) statLeadsPending.textContent = "0 yêu cầu chưa tiếp nhận";
+      if (statLeadsPending)
+        statLeadsPending.textContent = "0 yêu cầu chưa tiếp nhận";
       if (statAppointments) statAppointments.textContent = "0";
-      if (statNextAppointment) statNextAppointment.textContent = "Chưa có lịch hẹn";
+      if (statNextAppointment)
+        statNextAppointment.textContent = "Chưa có lịch hẹn";
       if (alertSection) alertSection.hidden = true;
       if (leadsTbody) {
         leadsTbody.innerHTML = `
@@ -173,19 +251,24 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       // Khi đã có dữ liệu bài đăng được tạo
       if (statTotal) statTotal.textContent = String(counts.all);
-      if (statApproved) statApproved.textContent = `${counts.approved} đang công khai`;
+      if (statApproved)
+        statApproved.textContent = `${counts.approved} đang công khai`;
       if (statViews) statViews.textContent = String(counts.approved * 150);
-      if (statViewsGrowth) statViewsGrowth.textContent = "+12% so với tuần trước";
+      if (statViewsGrowth)
+        statViewsGrowth.textContent = "+12% so với tuần trước";
       if (statLeads) statLeads.textContent = String(counts.approved * 3);
-      if (statLeadsPending) statLeadsPending.textContent = "0 yêu cầu chưa tiếp nhận";
+      if (statLeadsPending)
+        statLeadsPending.textContent = "0 yêu cầu chưa tiếp nhận";
       if (statAppointments) statAppointments.textContent = "0";
-      if (statNextAppointment) statNextAppointment.textContent = "Chưa có lịch hẹn";
+      if (statNextAppointment)
+        statNextAppointment.textContent = "Chưa có lịch hẹn";
 
       const revisionPost = posts.find((p) => p.status === "revision");
       if (alertSection) {
         if (revisionPost) {
           alertSection.hidden = false;
-          if (alertTitle) alertTitle.textContent = `${revisionPost.title} cần bổ sung thông tin`;
+          if (alertTitle)
+            alertTitle.textContent = `${revisionPost.title} cần bổ sung thông tin`;
           if (alertDesc) {
             alertDesc.textContent =
               revisionPost.moderationNote ||
@@ -211,7 +294,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       if (searchKw) {
         const kw = searchKw.toLowerCase();
-        const str = `${post.code || ""} ${post.title || ""} ${post.location || ""}`.toLowerCase();
+        const str =
+          `${post.code || ""} ${post.title || ""} ${post.location || ""}`.toLowerCase();
         if (!str.includes(kw)) return false;
       }
       return true;
@@ -274,7 +358,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return `
           <tr data-post-id="${post.id}">
             <td>
-              <div class="post-name">${code} • ${post.title}</div>
+              <p class="post-name">${code} • ${post.title}</p>
               <p class="post-area">${area}</p>
             </td>
             <td>${post.price || "—"}</td>
@@ -296,9 +380,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const post = getAgentPosts().find((p) => p.id === postId);
 
     if (action === "reason") {
-      alert(post?.moderationNote || "Vui lòng cập nhật hình ảnh và thông tin theo yêu cầu kiểm duyệt.");
+      alert(
+        post?.moderationNote ||
+          "Vui lòng cập nhật hình ảnh và thông tin theo yêu cầu kiểm duyệt.",
+      );
     } else if (action === "view") {
-      alert(`Bài đăng ${post?.code || post?.id}: ${post?.title}\nGiá: ${post?.price}\nKhu vực: ${post?.location || post?.area}`);
+      alert(
+        `Bài đăng ${post?.code || post?.id}: ${post?.title}\nGiá: ${post?.price}\nKhu vực: ${post?.location || post?.area}`,
+      );
     } else if (action === "draftify") {
       if (confirm(`Rút bài đăng "${post?.title}" về trạng thái Nháp?`)) {
         updateAgentPostStatus(postId, "draft");
@@ -342,10 +431,20 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     const headers = ["Mã bài", "Tiêu đề", "Khu vực", "Giá", "Trạng thái"];
-    const rows = posts.map((p) => [p.code || p.id, p.title, p.area || p.location, p.price, p.status]);
-    const csv = "\uFEFF" + [headers.join(","), ...rows.map((r) => r.join(","))].join("\r\n");
+    const rows = posts.map((p) => [
+      p.code || p.id,
+      p.title,
+      p.area || p.location,
+      p.price,
+      p.status,
+    ]);
+    const csv =
+      "\uFEFF" +
+      [headers.join(","), ...rows.map((r) => r.join(","))].join("\r\n");
     const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8;" }));
+    a.href = URL.createObjectURL(
+      new Blob([csv], { type: "text/csv;charset=utf-8;" }),
+    );
     a.download = `HomeFit_Posts_${Date.now()}.csv`;
     a.click();
   });

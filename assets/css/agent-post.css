@@ -127,6 +127,10 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 9px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 .agent-post-field {
@@ -234,6 +238,22 @@
   aspect-ratio: 1.7;
   border-radius: 5px;
   object-fit: cover;
+}
+
+.agent-post-preview__imgs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+}
+
+.agent-post-preview__imgs:empty {
+  display: none;
+}
+
+.agent-post-preview__imgs img {
+  max-height: 88px;
+  aspect-ratio: 1.3;
 }
 
 .agent-post-preview__type,

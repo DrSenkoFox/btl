@@ -179,6 +179,7 @@ function getRequests() {
 
 function saveRequests(arr) {
   localStorage.setItem(reqStorageKey, JSON.stringify(arr));
+  window.dispatchEvent(new CustomEvent("homefit:agent-requests-change"));
   renderRequests();
 }
 
@@ -385,18 +386,18 @@ function scheduleForm(req) {
   const field = (label, input) =>
     `<label class="appt-field"><span>${label}</span>${input}</label>`;
   return `
-    <div class="appt-form">
+    <fieldset class="appt-form">
       <p class="detail-box-label">Tạo lịch hẹn ${nextApptCode()}</p>
       ${field("Ngày xem nhà", '<input type="date" id="appt-date" />')}
       ${field("Giờ bắt đầu", '<input type="time" id="appt-time" value="09:00" />')}
       ${field("Lý do chọn lịch", '<textarea id="appt-reason" placeholder="Vì sao đề xuất căn và khung giờ này..."></textarea>')}
       ${field("Người phụ trách", `<input type="text" id="appt-broker" value="${esc(req.brokerName || defaultBrokerName)}" />`)}
       ${field("Giải thích chọn người phụ trách", '<textarea id="appt-broker-reason" placeholder="Người này hiểu khu vực và đã làm việc với chủ nhà..."></textarea>')}
-      <div class="detail-actions">
+      <menu class="detail-actions">
         <button type="button" class="btn-accept" data-action="create-schedule" data-id="${req.id}">Hoàn tất</button>
         <button type="button" class="btn-reject" data-action="close-schedule">Hủy bỏ</button>
-      </div>
-    </div>`;
+      </menu>
+    </fieldset>`;
 }
 
 function renderHighlight(reqs) {
@@ -421,9 +422,12 @@ function renderHighlight(reqs) {
 
 document.addEventListener("DOMContentLoaded", () => {
   if (!document.getElementById("req-tbody")) return;
-  if (localStorage.getItem(reqStorageKey) === null) {
-    localStorage.setItem(reqStorageKey, JSON.stringify(demoRequests));
-  }
+  // Nạp bản demo mà không ghi đè yêu cầu thật người dùng đã gửi
+  const storedReqs = getRequests();
+  const missingDemo = demoRequests.filter(
+    (demo) => !storedReqs.some((r) => r.id === demo.id),
+  );
+  if (missingDemo.length) saveRequests([...storedReqs, ...missingDemo]);
   ensureAppointmentDemo();
 
   const brokerName =

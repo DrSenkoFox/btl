@@ -122,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     for (let i = 0; i < cells; i += 1) {
       const day = shiftDays(start, i);
       if (day.getMonth() !== anchor.getMonth()) {
-        html += `<div class="appt-month-cell is-out"></div>`;
+        html += `<section class="appt-month-cell is-out"></section>`;
         continue;
       }
       const chips = onDay(list, day)
@@ -131,7 +131,7 @@ document.addEventListener("DOMContentLoaded", () => {
             `<p class="appt-month-chip appt-month-chip--${a.status}">${apptTime(a.start)} ${escHtml(a.clientName)}</p>`,
         )
         .join("");
-      html += `<div class="appt-month-cell"><p class="appt-month-day">${pad2(day.getDate())}</p>${chips}</div>`;
+      html += `<section class="appt-month-cell"><p class="appt-month-day">${pad2(day.getDate())}</p>${chips}</section>`;
     }
     monthBox.innerHTML = html;
   }
@@ -203,10 +203,10 @@ document.addEventListener("DOMContentLoaded", () => {
       <button type="button" class="btn-save" data-act="${cancelling ? "confirm-cancel" : "save"}">
         ${cancelling ? "Xác nhận hủy" : "Lưu thay đổi"}
       </button>
-      <div class="detail-actions">
+      <menu class="detail-actions">
         <button type="button" class="btn-reject" data-act="complete">Hoàn tất</button>
         <button type="button" class="btn-cancel-schedule" data-act="cancel-open">Hủy lịch</button>
-      </div>
+      </menu>
       <p class="appt-panel-hint">Lưu thay đổi sẽ gửi lại thông báo để khách xác nhận.</p>`;
   }
 

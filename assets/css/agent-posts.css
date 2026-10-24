@@ -188,7 +188,8 @@ body {
 .alert-title {
   font-weight: 700;
   color: var(--amber-title);
-  margin-bottom: 2px;
+  font-size: 12.5px;
+  margin: 0 0 2px;
 }
 
 .alert-desc {
@@ -211,6 +212,7 @@ body {
 }
 
 .filter-search-group {
+  display: block;
   flex: 1;
   max-width: 480px;
 }
@@ -239,6 +241,10 @@ body {
 }
 
 .filter-selects-group {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
   display: flex;
   align-items: center;
   gap: 14px;

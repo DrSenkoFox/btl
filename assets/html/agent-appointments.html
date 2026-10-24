@@ -8,15 +8,18 @@
     <link rel="stylesheet" href="../css/agent-posts.css" />
     <link rel="stylesheet" href="../css/agent-requests.css" />
     <link rel="stylesheet" href="../css/agent-appointments.css" />
+    <link rel="stylesheet" href="../css/agent-nav.css" />
     <script src="../js/common.js" defer></script>
+    <script src="../js/agent-nav.js" defer></script>
     <script src="../js/appointments.js" defer></script>
     <script src="../js/agent-appointments.js" defer></script>
   </head>
   <body>
+    <aside class="agent-nav" id="agent-nav" aria-label="Điều hướng môi giới"></aside>
     <main class="agent-appointments-page">
       <!-- Khối 1: đầu trang + lịch sắp tới -->
       <header class="agent-header">
-        <div class="agent-header-main">
+        <hgroup class="agent-header-main">
           <p class="agent-header-meta">
             <span class="prefix">KHÔNG GIAN MÔI GIỚI</span>
             <span class="sep">/</span>
@@ -27,28 +30,28 @@
           <p class="agent-eyebrow">LỊCH CỦA <span id="appt-broker-name"></span></p>
           <h1 class="agent-title">Mỗi cuộc hẹn, một bước gần hơn</h1>
           <p class="agent-desc" id="appt-desc"></p>
-        </div>
-        <div>
+        </hgroup>
+        <section class="agent-header-actions" aria-label="Hành động chính">
           <a href="agent-requests.html" class="btn-primary">Xem yêu cầu</a>
-        </div>
+        </section>
       </header>
 
       <section class="appt-next" id="appt-next" hidden>
         <span class="appt-next-icon" aria-hidden="true">◷</span>
-        <div>
+        <section class="appt-next-body" aria-label="Cuộc hẹn kế tiếp">
           <p class="appt-next-title" id="appt-next-title"></p>
           <p class="appt-next-desc" id="appt-next-desc"></p>
-        </div>
+        </section>
       </section>
 
       <!-- Khối 2: xem lịch theo tuần / tháng -->
       <section class="appt-card appt-calendar">
-        <div class="appt-cal-bar">
-          <div class="appt-view-toggle" role="tablist" aria-label="Chế độ xem lịch">
+        <header class="appt-cal-bar">
+          <section class="appt-view-toggle" role="tablist" aria-label="Chế độ xem lịch">
             <button type="button" class="view-btn is-active" data-view="week" role="tab">Tuần</button>
             <button type="button" class="view-btn" data-view="month" role="tab">Tháng</button>
-          </div>
-          <div class="appt-range-nav">
+          </section>
+          <menu class="appt-range-nav">
             <button type="button" class="appt-nav-btn" data-shift="-1">
               ← <span id="nav-prev-text">Tuần trước</span>
             </button>
@@ -56,11 +59,11 @@
             <button type="button" class="appt-nav-btn" data-shift="1">
               <span id="nav-next-text">Tuần sau</span> →
             </button>
-          </div>
-        </div>
+          </menu>
+        </header>
 
-        <div class="appt-week" id="appt-week"></div>
-        <div class="appt-month" id="appt-month" hidden></div>
+        <section class="appt-week" id="appt-week" aria-label="Lịch theo tuần"></section>
+        <section class="appt-month" id="appt-month" aria-label="Lịch theo tháng" hidden></section>
         <p class="appt-cal-foot" id="appt-cal-foot">
           Thứ 7 / Chủ nhật: chưa có lịch. Khung giờ xem nhà 08:00–18:00.
         </p>
@@ -68,9 +71,9 @@
 
       <!-- Khối 3: danh sách lịch hẹn + bảng chi tiết -->
       <section class="appt-layout">
-        <div class="appt-card appt-list-card">
+        <article class="appt-card appt-list-card">
           <h2>Danh sách lịch hẹn</h2>
-          <div class="req-table-scroll">
+          <section class="req-table-scroll" aria-label="Bảng lịch hẹn">
             <table class="req-table appt-table">
               <thead>
                 <tr>
@@ -82,10 +85,10 @@
               </thead>
               <tbody id="appt-tbody"></tbody>
             </table>
-          </div>
-        </div>
+          </section>
+        </article>
 
-        <div class="appt-card appt-panel" id="appt-panel"></div>
+        <article class="appt-card appt-panel" id="appt-panel"></article>
       </section>
 
       <footer class="agent-footer">
