@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tạo brief tìm nhà | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/seeker-brief-form.css" />
+    <script src="../js/common.js" defer></script>
+    <script src="../js/seeker-brief-form.js" defer></script>
+  </head>
+  <body>
+    <nav id="site-navigation" aria-label="Điều hướng chính"></nav>
+    <header class="page-header">
+      <a class="brief-back" id="brief-back" href="agent-requests.html" hidden>
+        ← Quay lại yêu cầu
+      </a>
+      <p class="page-header__eyebrow">
+        <span>BRIEF <span id="brief-number"></span></span>
+        <span>/</span>
+        <span>GIA ĐÌNH <span id="family-name"></span></span>
+      </p>
+      <h1 class="page-header__title">Nói về ngôi nhà bạn cần</h1>
+      <p class="page-header__description">
+        Chia sẻ nhu cầu để nhận gợi ý phù hợp.
+      </p>
+      <section class="brief-status" id="brief-status" hidden>
+        <p class="brief-status__title">Brief đã gửi</p>
+        <p class="brief-status__description">
+          <span id="recipient-name"></span>
+          <time id="sent-at"></time>
+        </p>
+      </section>
+    </header>
+    <main class="brief-layout">
+      <form class="brief-form" id="brief-form">
+        <section class="form-section">
+          <h2 id="search-heading">01 / Thông tin tìm nhà</h2>
+          <fieldset class="transaction-options">
+            <label>
+              <input
+                type="radio"
+                name="transaction-type"
+                value="rent"
+                required
+              />
+              <span>Thuê nhà</span>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="transaction-type"
+                value="buy"
+                required
+              />
+              <span>Mua nhà</span>
+            </label>
+          </fieldset>
+          <fieldset class="form-fields">
+            <p class="form-field">
+              <label class="field-label" for="brief-title"
+                >Tên nhu cầu <span>*</span></label
+              >
+              <input
+                id="brief-title"
+                name="title"
+                type="text"
+                required
+                placeholder="Ví dụ: Gia đình Minh Anh - Nhà gần trường"
+              />
+            </p>
+            <p class="form-field">
+              <label class="field-label" for="budget-min">
+                Ngân sách tối thiểu <span>*</span>
+              </label>
+              <input
+                id="budget-min"
+                name="budget-min"
+                type="number"
+                min="0"
+                required
+              />
+            </p>
+            <p class="form-field">
+              <label class="field-label" for="budget-max"
+                >Ngân sách tối đa <span>*</span></label
+              >
+              <input
+                id="budget-max"
+                name="budget-max"
+                type="number"
+                min="0"
+                required
+              />
+            </p>
+            <p class="budget-guidance" id="budget-guidance">
+              Ngân sách tối đa phải từ mức tối thiểu trở lên. Bao gồm phí quản
+              lý khi so sánh.
+            </p>
+            <p class="form-field">
+              <label class="field-label" for="preferred-area"
+                >Khu vực mong muốn <span>*</span></label
+              >
+              <input
+                id="preferred-area"
+                name="preferred-area"
+                type="text"
+                required
+              />
+            </p>
+            <p class="form-field">
+              <label class="field-label" for="move-in-date"
+                >Thời điểm chuyển vào</label
+              >
+              <input id="move-in-date" name="move-in-date" type="date" />
+            </p>
+            <p class="form-field">
+              <label class="field-label" for="household-size"
+                >Số thành viên <span>*</span></label
+              >
+              <input
+                id="household-size"
+                name="household-size"
+                type="number"
+                min="1"
+                step="1"
+                required
+              />
+            </p>
+            <p class="form-field">
+              <label class="field-label" for="size-and-bedrooms"
+                >Diện tích / phòng ngủ</label
+              >
+              <input
+                id="size-and-bedrooms"
+                name="size-and-bedrooms"
+                type="text"
+                placeholder="70-100 m² / 2+ phòng ngủ"
+              />
+            </p>
+          </fieldset>
+        </section>
+
+        <section class="form-section">
+          <h2 id="lifestyle-heading">02 / Cuộc sống của bạn</h2>
+          <section class="lifestyle-fields">
+            <p class="form-field">
+              <label class="field-label lifestyle-label" for="lifestyle">
+                Mô tả nhu cầu sống <span>*</span>
+              </label>
+              <textarea
+                id="lifestyle"
+                name="lifestyle"
+                rows="4"
+                minlength="30"
+                required
+              ></textarea>
+            </p>
+            <p class="lifestyle-guidance" id="lifestyle-guidance">
+              Tối thiểu 30 ký tự. Không nhập giấy tờ tùy thân hoặc thông tin
+              nhạy cảm.
+            </p>
+            <ul
+              class="need-tags"
+              id="need-tags"
+              aria-label="Các tiêu chí được phân tích từ mô tả"
+              hidden
+            ></ul>
+            <section class="generated-criteria">
+              <section class="generated-criteria__group">
+                <label class="field-label" for="must-haves">
+                  Điều kiện bắt buộc
+                </label>
+                <textarea
+                  id="must-haves"
+                  name="must-haves"
+                  rows="2"
+                  placeholder="Ví dụ: 2 phòng ngủ, thang máy, bảo vệ 24/7"
+                ></textarea>
+              </section>
+              <section
+                class="generated-criteria__group weighted-priorities"
+                id="weighted-priorities-group"
+                hidden
+              >
+                <h3>Ưu tiên có trọng số</h3>
+                <ul
+                  class="weighted-priorities__results"
+                  id="weighted-priorities-results"
+                ></ul>
+              </section>
+            </section>
+            <input
+              id="weighted-priorities"
+              name="weighted-priorities"
+              type="hidden"
+            />
+            <button
+              class="lifestyle-analyze-button"
+              id="analyze-lifestyle"
+              type="button"
+              disabled
+            >
+              <span>✧</span>
+              Phân tích với Lifestyle Matcher
+            </button>
+          </section>
+        </section>
+
+        <section class="form-section">
+          <h2 id="agent-heading">03 / Chọn môi giới &amp; gửi</h2>
+          <section class="agent-not-selected" id="agent-not-selected">
+            <p>Chưa chọn môi giới</p>
+            <a
+              class="agent-selection-link"
+              href="seeker-agent-selection.html?from=brief"
+            >
+              Chọn môi giới
+            </a>
+          </section>
+          <section class="selected-agent" hidden>
+            <span
+              class="selected-agent__avatar"
+              id="selected-agent-initials"
+            ></span>
+            <section class="selected-agent__details">
+              <p class="selected-agent__name">
+                <span id="selected-agent-name"></span>
+                <span id="selected-agent-verified" hidden>• Đã xác minh</span>
+              </p>
+              <p class="selected-agent__meta" id="selected-agent-meta"></p>
+            </section>
+            <a
+              class="agent-selection-link"
+              href="seeker-agent-selection.html?from=brief"
+            >
+              Đổi môi giới
+            </a>
+          </section>
+          <label class="brief-consent" for="agent-consent" hidden>
+            <input
+              id="agent-consent"
+              name="agent-consent"
+              type="checkbox"
+              required
+              disabled
+            />
+            <span>
+              Tôi đồng ý chia sẻ brief và thông tin liên hệ với môi giới đã
+              chọn.
+            </span>
+          </label>
+          <footer class="brief-actions">
+            <button id="submit-brief" type="submit" disabled>Gửi brief</button>
+            <button id="save-brief-draft" type="button">Lưu nháp</button>
+          </footer>
+          <p class="brief-action-status" id="brief-action-status" hidden></p>
+          <section class="brief-management">
+            <footer class="brief-management__actions">
+              <button id="archive-brief" type="button" disabled>
+                Lưu trữ brief
+              </button>
+              <button
+                class="brief-delete-button"
+                id="delete-brief"
+                type="button"
+                disabled
+              >
+                Xóa brief
+              </button>
+            </footer>
+            <p>
+              Xóa cần xác nhận. Brief đã gửi sẽ giữ lịch sử xử lý; có thể lưu
+              trữ thay vì xóa.
+            </p>
+          </section>
+        </section>
+      </form>
+
+      <aside class="brief-sidebar">
+        <section class="sidebar-section">
+          <header class="matcher-heading-row">
+            <h2 id="matcher-heading"><span>✧</span> AI Lifestyle Matcher</h2>
+            <span class="matcher-support"><span></span> AI hỗ trợ</span>
+          </header>
+          <p class="matcher-status" id="matcher-status">
+            Nhập nhu cầu sinh hoạt để bắt đầu phân tích.
+          </p>
+          <section class="matcher-result" id="matcher-result" hidden>
+            <h3 id="matcher-summary"></h3>
+            <p class="matcher-empty" id="matcher-empty" hidden></p>
+            <h4>Vì sao có kết quả này?</h4>
+            <ul class="matcher-reasons" id="matcher-reasons"></ul>
+            <p class="matcher-disclaimer">
+              Dựa trên dữ liệu bạn cung cấp. Gợi ý không thay thế việc kiểm tra
+              thực tế.
+            </p>
+            <footer class="matcher-actions">
+              <button
+                class="matcher-action--primary"
+                type="button"
+                data-matcher-action="accept"
+              >
+                Chấp nhận
+              </button>
+              <button type="button" data-matcher-action="edit">Sửa</button>
+              <button type="button" data-matcher-action="reject">
+                Từ chối
+              </button>
+              <button type="button" data-matcher-action="retry">Tạo lại</button>
+              <button type="button" data-matcher-action="save">
+                Lưu kết quả
+              </button>
+            </footer>
+          </section>
+        </section>
+        <section class="sidebar-section">
+          <h2 id="matches-heading">Mức phù hợp gợi ý</h2>
+          <ul id="property-matches"></ul>
+        </section>
+        <section class="matcher-warning" hidden>
+          <span class="matcher-warning__icon">⚠︎</span>
+          <section>
+            <p class="matcher-warning__title">
+              Thiếu dữ liệu, cần bổ sung thủ công
+            </p>
+            <p>
+              AI không tự thêm điều kiện chưa đề cập. Bạn có thể sửa tiêu chí
+              hoặc dùng form thủ công.
+            </p>
+          </section>
+        </section>
+        <section class="sidebar-section">
+          <h2 id="history-heading">Lịch sử brief</h2>
+          <ol id="brief-history"></ol>
+        </section>
+      </aside>
+    </main>
+  </body>
+</html>
