@@ -117,7 +117,7 @@ https://onedrive.live.com/:w:/g/personal/80e3254865fce49f/IQAoU6TwhOFaSKJ2k7aJPt
 - **Liên kết thiết kế:** [https://www.figma.com/design/Cj1buthUhvqMWrCSWhMjR6/Untitled?node-id=0-1&t=ds9PjqhDfzBV073Y-1]
 
 ## Minh chứng OBS
-- **Liên kết thư mục Video OBS:** [Chèn link Google Drive/YouTube chứa toàn bộ video]
+- **Liên kết thư mục Video OBS:** https://www.youtube.com/playlist?list=PLd6lUOwQqQXk
 
 ## Khai báo sử dụng AI
 Chi tiết về việc sử dụng công cụ AI trong dự án vui lòng xem tại tệp: `docs/ai-usage-report.md`.
