@@ -213,4 +213,4 @@ document
       "Đã ghi nhận yêu cầu. Môi giới sẽ liên hệ xác nhận lịch xem.";
   });
 
-renderProperty(getSelectedProperty());
+window.HomeFitAPI.ready.then(() => renderProperty(getSelectedProperty()));
