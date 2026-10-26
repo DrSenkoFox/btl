@@ -43,56 +43,53 @@ Bộ lọc giá/diện tích truyền thống trong tìm kiếm nhà ở không 
   - **Luồng UX:** Lựa chọn các căn nhà $\rightarrow$ Quá trình phân tích $\rightarrow$ Đưa ra bảng xếp hạng/so sánh $\rightarrow$ Hiển thị lý do đề xuất $\rightarrow$ Tùy chọn điều chỉnh $\rightarrow$ Lưu kết quả so sánh.
 
 ## Công nghệ sử dụng
-- **Frontend:** HTML5, CSS3/Bootstrap, JavaScript (DOM, Events, Form Validation)
-- **Quản lý dữ liệu:** {
+- **Frontend:** HTML5, CSS3, JavaScript (DOM, Events, Form Validation)
+- **Quản lý dữ liệu:** JSON giả lập `assets/data/data.json` nạp qua `fetch()` trong `assets/js/api.js`, lưu LocalStorage theo từng khoá vai trò. Đăng nhập tại `assets/html/login.html`. Mẫu tài khoản (mật khẩu `123456`): {
   "users": [
     {
       "id": "U-001",
-      "name": "Đức Khải (bạn)",
+      "name": "Đức Khải",
       "email": "duckhai@example.com",
-      "phone": "0901112233",
+      "phone": "0901 112 233",
       "role": "admin",
-      "perms": ["review", "ban", "taxonomy"]
-    },
-    {
-      "id": "U-012",
-      "name": "Nguyễn Lan Hương",
-      "email": "lanhuong@example.com",
-      "phone": "0912345678",
-      "role": "admin",
-      "perms": ["review", "ban", "taxonomy"]
+      "perms": ["review", "ban", "taxonomy"],
+      "status": "active"
     },
     {
       "id": "U-008",
       "name": "Quốc Tuấn",
       "email": "quoctuan@example.com",
-      "phone": "0908889999",
+      "phone": "0908 889 999",
       "role": "moderator",
-      "perms": ["review", "ban"]
+      "perms": ["review", "ban"],
+      "status": "active"
     },
     {
-      "id": "U-031",
-      "name": "Minh Quân",
-      "email": "minhquan@example.com",
-      "phone": "0903334444",
-      "role": "moderator",
-      "perms": ["review"]
+      "id": "U-012",
+      "name": "Nguyễn Lan Hương",
+      "email": "lanhuong@example.com",
+      "phone": "0912 345 678",
+      "role": "agent",
+      "perms": ["review"],
+      "status": "active"
     },
     {
       "id": "U-015",
       "name": "Trần Quốc Bảo",
       "email": "quocbao@example.com",
-      "phone": "0905556677",
+      "phone": "0905 556 677",
       "role": "agent",
-      "perms": []
+      "perms": [],
+      "status": "active"
     },
     {
       "id": "U-024",
       "name": "Gia đình Minh Anh",
       "email": "minhanh@example.com",
-      "phone": "0900024002",
+      "phone": "0900 024 002",
       "role": "seeker",
-      "perms": []
+      "perms": [],
+      "status": "active"
     }
   ]
 }
