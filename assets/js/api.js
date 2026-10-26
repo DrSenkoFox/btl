@@ -11,6 +11,25 @@ window.HomeFitAPI = (() => {
   };
 
   const seed = { posts: [], users: [], reports: [] };
+  const photoBase = "https://images.unsplash.com/";
+  const photoQuery = "?auto=format&fit=crop&w=900&q=80";
+
+  function seedPosts() {
+    return seed.posts.map((post) => {
+      const [brokerName, contact] = seed.brokers?.[post.broker] || [];
+      const images = (post.photos || []).map((photo) => `${photoBase}${photo}${photoQuery}`);
+      return {
+        ...seed.postDefaults,
+        ...post,
+        brokerName,
+        contact,
+        brokerMeta: `${brokerName} • ${contact}`,
+        nearby: seed.nearby?.[post.area] || [],
+        image: images[0] || "",
+        images,
+      };
+    });
+  }
 
   function read(key, fallback) {
     try {
@@ -35,12 +54,28 @@ window.HomeFitAPI = (() => {
     } finally {
       const seeds = [
         [KEYS.USERS, seed.users],
-        [KEYS.POSTS, seed.posts],
         [KEYS.REPORTS, seed.reports],
       ];
       seeds.forEach(([key, value]) => {
         if (value.length && !localStorage.getItem(key)) write(key, value);
       });
+      if (seed.posts.length) {
+        const stored = read(KEYS.POSTS, []);
+        const posts = seedPosts();
+        write(
+          KEYS.POSTS,
+          posts
+            .map(
+              (post) =>
+                stored.find((item) => item.id === post.id && item.images?.length) ||
+                post,
+            )
+            .concat(
+              stored.filter((item) => !posts.some((post) => post.id === item.id)),
+            ),
+        );
+        window.dispatchEvent(new CustomEvent("homefit:agent-posts-change"));
+      }
     }
   }
 
@@ -49,7 +84,7 @@ window.HomeFitAPI = (() => {
   return Object.freeze({
     KEYS,
     ready,
-    getPosts: () => read(KEYS.POSTS, seed.posts),
+    getPosts: () => read(KEYS.POSTS, seedPosts()),
     savePosts: (list) => write(KEYS.POSTS, list),
     getUsers: () => read(KEYS.USERS, seed.users),
     saveUsers: (list) => write(KEYS.USERS, list),
