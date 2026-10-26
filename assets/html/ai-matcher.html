@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Lifestyle Matcher | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/ai.css" />
+    <link rel="stylesheet" href="../css/ai-matcher.css" />
+    <script src="../js/api.js" defer></script>
+    <script src="../js/ai-matcher.js" defer></script>
+  </head>
+  <body>
+    <header class="ai-bar">
+      <a class="brand" href="seeker-search.html">
+        <img src="../images/homefit-ai-logo.svg" alt="HomeFit AI" />
+        <span>HomeFit AI</span>
+      </a>
+      <a class="ai-bar__back" href="seeker-brief-form.html">
+        <span aria-hidden="true">←</span> Về trang tạo brief
+      </a>
+    </header>
+    <main class="site-page ai-page">
+      <section class="ai-card ai-card--input" aria-labelledby="matcher-input-heading">
+        <p class="ai-eyebrow">AI-1 · Lifestyle Matcher</p>
+        <h1 id="matcher-input-heading">
+          Phân tích nhu cầu sống thành tiêu chí
+        </h1>
+        <h2>Dữ liệu nhận từ trang tạo brief</h2>
+        <p class="ai-source" id="matcher-source"></p>
+        <p class="ai-empty" id="matcher-missing" hidden>
+          Chưa có brief trong phiên này. Hãy mở trang tạo brief, điền mô tả nhu
+          cầu rồi quay lại phân tích.
+        </p>
+        <button class="ai-run" id="matcher-run" type="button">
+          <span aria-hidden="true">✧</span> Bắt đầu phân tích
+        </button>
+      </section>
+      <p class="ai-status" id="matcher-status" role="status" aria-live="polite">
+        Sẵn sàng phân tích. AI chỉ chuyển mô tả của bạn thành tiêu chí, không
+        thêm dữ liệu mới.
+      </p>
+      <section class="ai-card ai-output" id="matcher-output" hidden aria-labelledby="matcher-output-heading">
+        <h2 id="matcher-output-heading">Kết quả phân tích</h2>
+        <p class="ai-score" id="matcher-confidence"></p>
+        <ul class="matcher-criteria" id="matcher-criteria"></ul>
+        <h3>Vì sao có kết quả này?</h3>
+        <ul class="ai-reasons" id="matcher-reasons"></ul>
+        <p class="ai-disclaimer">
+          Kết quả dựa trên mô tả và điều kiện bắt buộc bạn nhập. Bạn có thể sửa
+          trên trang tạo brief rồi phân tích lại.
+        </p>
+      </section>
+      <footer class="ai-actions" id="matcher-actions" hidden>
+        <button
+          class="ai-actions__primary"
+          type="button"
+          data-action="accept"
+        >
+          Chấp nhận và lưu vào brief
+        </button>
+        <a href="seeker-brief-form.html">Sửa mô tả</a>
+        <button type="button" data-action="reject">Từ chối</button>
+        <button type="button" data-action="retry">Tạo lại</button>
+      </footer>
+      <p class="ai-note" id="matcher-note" hidden role="status" aria-live="polite"></p>
+    </main>
+  </body>
+</html>
