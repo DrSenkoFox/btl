@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý bài đăng | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/agent-chrome.css" />
+    <link rel="stylesheet" href="../css/agent-posts.css" />
+    <link rel="stylesheet" href="../css/agent-nav.css" />
+    <script src="../js/common.js" defer></script>
+    <script src="../js/agent-nav.js" defer></script>
+    <script src="../js/agent-posts.js" defer></script>
+  </head>
+  <body>
+    <aside class="agent-nav" id="agent-nav" aria-label="Điều hướng môi giới"></aside>
+    <main class="agent-posts-page">
+      <header class="agent-header">
+        <hgroup class="agent-header-main">
+          <p class="agent-header-meta">
+            <span class="prefix">KHÔNG GIAN MÔI GIỚI</span>
+            <span class="sep" id="agent-meta-sep" style="display: none;">/</span>
+            <span id="agent-broker-name"></span>
+            <span class="dot">•</span>
+            <span id="agent-broker-notif">Thông báo (0)</span>
+          </p>
+          <p class="agent-eyebrow" id="agent-eyebrow">DANH MỤC CỦA <span id="agent-category-name"></span></p>
+          <h1 class="agent-title">Quản lý bài đăng</h1>
+          <p class="agent-desc">
+            Theo dõi từ bản nháp đến công khai. Chỉ bài được duyệt mới xuất hiện với người tìm nhà.
+          </p>
+        </hgroup>
+        <section class="agent-header-actions" aria-label="Hành động chính">
+          <a href="agent-post.html" class="btn-primary">+ Tạo bài đăng</a>
+        </section>
+      </header>
+
+      <section class="agent-stats-grid" aria-label="Thống kê">
+        <article class="stat-card">
+          <p class="stat-title">Bài đăng của tôi</p>
+          <p class="stat-value" id="stat-total">0</p>
+          <p class="stat-sub" id="stat-approved">0 đang công khai</p>
+        </article>
+
+        <article class="stat-card">
+          <p class="stat-title">Lượt xem • 7 ngày</p>
+          <p class="stat-value" id="stat-views">0</p>
+          <p class="stat-sub" id="stat-views-growth">+0% so với tuần trước</p>
+        </article>
+
+        <article class="stat-card">
+          <p class="stat-title">Yêu cầu liên hệ</p>
+          <p class="stat-value" id="stat-leads">0</p>
+          <p class="stat-sub" id="stat-leads-pending">0 yêu cầu chưa tiếp nhận</p>
+        </article>
+
+        <article class="stat-card">
+          <p class="stat-title">Lịch hẹn tuần tới</p>
+          <p class="stat-value" id="stat-appointments">0</p>
+          <p class="stat-sub" id="stat-next-appointment">Chưa có lịch hẹn</p>
+        </article>
+      </section>
+
+      <section class="agent-alert" id="agent-alert" hidden>
+        <span class="alert-icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+        </span>
+        <section class="agent-alert-body">
+          <h3 class="alert-title" id="alert-title">Palm Residence cần bổ sung thông tin</h3>
+          <p class="alert-desc" id="alert-desc">
+            HF-104: kiểm duyệt viên yêu cầu ảnh chứng minh quyền cho thuê. Hạn cập nhật 06/10/2026. Chỉnh sửa rồi gửi duyệt lại.
+          </p>
+        </section>
+      </section>
+
+      <section class="agent-filter-box" aria-label="Tìm kiếm & bộ lọc">
+        <search class="filter-search-group">
+          <label for="post-search" class="filter-search-label">Tìm bài đăng</label>
+          <input
+            type="search"
+            id="post-search"
+            class="filter-search-input"
+            placeholder="Tên nhà, mã HF..."
+            autocomplete="off"
+          />
+        </search>
+        <fieldset class="filter-selects-group" aria-label="Bộ lọc bài đăng">
+          <select id="filter-area" class="filter-select" aria-label="Chọn khu vực">
+            <option value="">Khu vực: Tất cả ▾</option>
+            <option value="Thảo Điền">Thảo Điền</option>
+            <option value="An Phú">An Phú</option>
+            <option value="Bình Thạnh">Bình Thạnh</option>
+            <option value="Thủ Đức">Thủ Đức</option>
+          </select>
+          <select id="filter-status" class="filter-select" aria-label="Chọn trạng thái">
+            <option value="">Trạng thái ▾</option>
+            <option value="approved">Công khai</option>
+            <option value="pending">Chờ duyệt</option>
+            <option value="revision">Yêu cầu sửa</option>
+            <option value="draft">Nháp</option>
+            <option value="rejected">Từ chối</option>
+            <option value="archived">Đã lưu trữ</option>
+          </select>
+        </fieldset>
+      </section>
+
+      <section class="agent-tabs" role="tablist" aria-label="Trạng thái">
+        <button type="button" class="tab-btn is-active" data-status="all" role="tab" aria-selected="true">
+          Tất cả (<span id="count-all">0</span>)
+        </button>
+        <button type="button" class="tab-btn" data-status="approved" role="tab" aria-selected="false">
+          Công khai (<span id="count-approved">0</span>)
+        </button>
+        <button type="button" class="tab-btn" data-status="pending" role="tab" aria-selected="false">
+          Chờ duyệt (<span id="count-pending">0</span>)
+        </button>
+        <button type="button" class="tab-btn" data-status="revision" role="tab" aria-selected="false">
+          Yêu cầu sửa (<span id="count-revision">0</span>)
+        </button>
+        <button type="button" class="tab-btn" data-status="draft" role="tab" aria-selected="false">
+          Nháp (<span id="count-draft">0</span>)
+        </button>
+        <button type="button" class="tab-btn" data-status="rejected" role="tab" aria-selected="false">
+          Từ chối
+        </button>
+        <button type="button" class="tab-btn" data-status="archived" role="tab" aria-selected="false">
+          Đã lưu trữ
+        </button>
+      </section>
+
+      <section class="agent-card" aria-label="Bảng bài đăng">
+        <section class="table-wrapper">
+          <table class="agent-table">
+            <thead>
+              <tr>
+                <th style="width: 34%;">Bài đăng / khu vực</th>
+                <th style="width: 16%;">Giá thuê</th>
+                <th style="width: 16%;">Trạng thái</th>
+                <th style="width: 16%;">Xem / Lưu / Lead</th>
+                <th style="width: 18%;">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody id="agent-posts-tbody">
+              <tr class="table-empty-row">
+                <td colspan="5">Chưa có bài đăng nào. Bắt đầu bằng cách nhấn "+ Tạo bài đăng".</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+        <footer class="table-footer">
+          <span id="table-info">Hiển thị 0 / 0 bài · Cập nhật 03/10/2026</span>
+          <button type="button" class="btn-export" id="btn-export">Xuất danh sách</button>
+        </footer>
+      </section>
+
+      <section class="recent-leads" aria-label="Khách liên hệ gần đây">
+        <h2>Khách liên hệ gần đây</h2>
+        <section class="agent-card" aria-label="Bảng khách liên hệ">
+          <section class="table-wrapper">
+            <table class="agent-table">
+              <thead>
+                <tr>
+                  <th style="width: 36%;">Khách</th>
+                  <th style="width: 38%;">Nguồn</th>
+                  <th style="width: 26%;">Trạng thái</th>
+                </tr>
+              </thead>
+              <tbody id="agent-leads-tbody">
+                <tr class="table-empty-row">
+                  <td colspan="3">Chưa có yêu cầu liên hệ từ khách hàng.</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+      </section>
+
+      <footer class="agent-footer">
+        <p>HomeFit AI • Tìm nhà theo cách bạn sống &nbsp;/&nbsp; Dữ liệu minh họa - 03/10/2026</p>
+      </footer>
+    </main>
+  </body>
+</html>
