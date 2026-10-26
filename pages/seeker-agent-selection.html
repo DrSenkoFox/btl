@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Môi giới | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="../js/api.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/modules/seeker.js" defer></script>
+  </head>
+  <body>
+    <!-- [ROLE: SHARED] Header điều hướng -->
+    <nav id="site-navigation" aria-label="Điều hướng chính"></nav>
+
+    <!-- [ROLE: SEEKER] Trang Chọn môi giới đồng hành (Giống hệt Ảnh 2) -->
+    <main class="agent-selection-page">
+      <header class="agent-selection-header">
+        <p class="page-eyebrow">KẾT NỐI VỚI NGƯỜI HIỂU BẠN</p>
+        <h1 class="page-title">Một người đồng hành, đúng nhu cầu</h1>
+        <p class="page-subtitle">
+          Tìm môi giới theo khu vực và chuyên môn. Bạn lựa chọn người nhận brief, không chia sẻ tự động.
+        </p>
+      </header>
+
+      <!-- Khung bộ lọc môi giới -->
+      <form class="agent-filter-panel" id="agent-filter-form">
+        <div class="agent-filter-fields">
+          <label for="agent-search">
+            <span>Tên hoặc chuyên môn</span>
+            <input id="agent-search" type="search" placeholder="Gia đình, WFH..." />
+          </label>
+          <label for="agent-area">
+            <span>Khu vực</span>
+            <select id="agent-area">
+              <option value="all">TP.HCM</option>
+              <option value="thao-dien">Thảo Điền • An Phú</option>
+              <option value="binh-thanh">Bình Thạnh • Phú Nhuận</option>
+              <option value="thu-duc">Thủ Đức • Quận 7</option>
+            </select>
+          </label>
+          <label for="agent-specialty">
+            <span>Chuyên môn</span>
+            <select id="agent-specialty">
+              <option value="all">Tất cả</option>
+              <option value="family">Gia đình</option>
+              <option value="wfh">WFH</option>
+              <option value="rental">Thuê căn hộ</option>
+              <option value="metro">Gần metro</option>
+              <option value="buying">Mua nhà</option>
+              <option value="legal">Pháp lý</option>
+            </select>
+          </label>
+          <button class="agent-filter-submit" type="submit">Tìm môi giới</button>
+        </div>
+
+        <div class="agent-filter-options">
+          <label class="agent-verified-filter" for="verified-only">
+            <input id="verified-only" type="checkbox" />
+            <span>Chỉ hiển thị đã xác minh</span>
+          </label>
+          <button class="agent-filter-chip" type="button" data-quick-filter="fit" aria-pressed="false">
+            Phù hợp B-024
+          </button>
+          <button class="agent-filter-chip agent-filter-chip--muted" type="button" data-quick-filter="fast" aria-pressed="false">
+            Phản hồi nhanh
+          </button>
+        </div>
+      </form>
+
+      <!-- Tiêu đề kết quả & Sắp xếp -->
+      <section class="agent-results">
+        <header class="agent-results__heading">
+          <h2><span id="agent-result-count">5</span> môi giới phù hợp</h2>
+          <label for="agent-sort" class="agent-sort-label">
+            <span>Sắp xếp:</span>
+            <select id="agent-sort">
+              <option value="fit">Phù hợp brief</option>
+              <option value="deals">Bài đăng công khai</option>
+            </select>
+          </label>
+        </header>
+
+        <!-- Lưới 5 thẻ môi giới (Render từ js/modules/seeker.js) -->
+        <section class="agent-list" id="agent-list" aria-label="Danh sách môi giới"></section>
+      </section>
+
+      <!-- Hộp cam kết quyền riêng tư dưới cùng -->
+      <section class="agent-privacy-callout">
+        <div>
+          <h2>Môi giới nhận đúng brief, bạn giữ quyền lựa chọn.</h2>
+          <p>
+            Chỉ gửi thông tin ngân sách, khu vực, nhu cầu sống và các liên hệ bạn đã đồng ý chia sẻ.
+          </p>
+        </div>
+        <a href="seeker-home-brief.html">Xem &amp; sửa brief của tôi</a>
+      </section>
+    </main>
+  </body>
+</html>

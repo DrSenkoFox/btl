@@ -1,0 +1,62 @@
+<!-- ==================== pages/agent-post-create.html ==================== -->
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tạo bài đăng mới | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="../js/api.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/modules/agent.js" defer></script>
+  </head>
+  <body>
+    <aside class="agent-nav" id="agent-nav"></aside>
+    <main class="agent-post-page">
+      <a href="agent-listing-management.html" class="agent-post-back-btn" style="text-decoration:none;display:inline-block;">← Quay lại quản lý bài đăng</a>
+      <header class="agent-header">
+        <hgroup>
+          <p class="agent-eyebrow">BÀI ĐĂNG MỚI • TƯƠNG TÁC KIỂM DUYỆT</p>
+          <h1 class="agent-title">Thông tin rõ ràng, niềm tin vững vàng</h1>
+        </hgroup>
+      </header>
+      <section class="agent-post-layout">
+        <form id="agent-post-form">
+          <section class="agent-post-section">
+            <h2>01 / Thông tin căn nhà</h2>
+            <fieldset class="agent-post-fields">
+              <label class="agent-post-field agent-post-field--wide">Tiêu đề bài đăng *<input name="title" required placeholder="The Metropole 2PN ban công hướng sông" /></label>
+              <label class="agent-post-field">Giá thuê *<input name="price" required placeholder="21 triệu / tháng" /></label>
+              <label class="agent-post-field">Diện tích (m²) *<input name="size" required placeholder="84" /></label>
+              <label class="agent-post-field">Số phòng ngủ *<input name="bedrooms" type="number" value="2" required /></label>
+              <label class="agent-post-field">Số phòng tắm *<input name="bathrooms" type="number" value="2" required /></label>
+              <label class="agent-post-field agent-post-field--wide">Khu vực / Địa chỉ *<input name="location" required placeholder="Quận 2, TP.HCM" /></label>
+              <label class="agent-post-field agent-post-field--wide">Pháp lý *<input name="legal" value="Sổ hồng riêng • Đã xác thực" required /></label>
+              <label class="agent-post-field agent-post-field--wide">Link ảnh đại diện<input name="image" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80" /></label>
+            </fieldset>
+          </section>
+          <section class="agent-post-section">
+            <h2>02 / Tiện ích &amp; nhu cầu sống</h2>
+            <fieldset class="agent-post-fields agent-post-fields--single">
+              <label class="agent-post-field">Tiện ích &amp; Tiêu chí mềm *<input name="amenities" required placeholder="Yên tĩnh, gần trường học, góc làm việc WFH" /></label>
+              <label class="agent-post-field">Mô tả chi tiết *<textarea name="description" rows="4" required></textarea></label>
+            </fieldset>
+            <p class="agent-post-form-message" id="agent-post-message" hidden></p>
+          </section>
+        </form>
+        <aside class="agent-post-sidebar">
+          <section class="agent-post-aside agent-post-ai">
+            <h2>✧ AI-2: Listing Summary</h2>
+            <p style="font-size:12px;">Tự động tổng hợp đoạn mô tả chuẩn theo tiêu chí mềm.</p>
+            <button type="button" class="btn-primary" id="agent-post-ai-apply" style="width:100%;">Áp dụng gợi ý AI</button>
+          </section>
+          <section class="agent-post-aside">
+            <h2>Gửi kiểm duyệt</h2>
+            <button type="submit" form="agent-post-form" class="btn-primary" style="width:100%;">Gửi bài đăng chờ duyệt</button>
+          </section>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>

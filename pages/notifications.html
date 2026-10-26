@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trung tâm thông báo | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="../js/api.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/modules/account.js" defer></script>
+  </head>
+  <body>
+    <!-- [ROLE: SHARED] Header điều hướng -->
+    <nav id="site-navigation" aria-label="Điều hướng chính"></nav>
+
+    <!-- [ROLE: SHARED] Trang Trung tâm thông báo (Hình 2) -->
+    <main class="site-page">
+      <header>
+        <p class="page-eyebrow">TRUNG TÂM THÔNG BÁO</p>
+        <h1 class="page-title">Không bỏ lỡ bước tiếp theo</h1>
+        <p class="page-subtitle">
+          Ví dụ theo 4 vai trò. Trong tài khoản thực tế chỉ hiển thị thông báo phù hợp quyền đã cấp.
+        </p>
+      </header>
+
+      <!-- Thanh Tabs Tất cả / Chưa đọc (3) / Đã đọc + Đánh dấu tất cả đã đọc -->
+      <div class="notif-toolbar">
+        <div class="notif-tabs" role="tablist">
+          <button type="button" class="notif-tab is-active" data-notif-tab="all">Tất cả</button>
+          <button type="button" class="notif-tab" data-notif-tab="unread" id="tab-unread-label">Chưa đọc (3)</button>
+          <button type="button" class="notif-tab" data-notif-tab="read">Đã đọc</button>
+        </div>
+        <button type="button" class="notif-mark-all" id="btn-mark-all-read">Đánh dấu tất cả đã đọc</button>
+      </div>
+
+      <section class="notif-layout">
+        <!-- Cột trái: Danh sách 6 thẻ thông báo -->
+        <section class="notif-feed" id="notif-feed-list" aria-label="Danh sách thông báo"></section>
+
+        <!-- Cột phải: Bộ lọc thông báo & Chủ động nhận thông tin -->
+        <aside class="notif-sidebar">
+          <section class="side-panel">
+            <h2>Bộ lọc thông báo</h2>
+            <div class="box-field">
+              <label for="filter-notif-group">Nhóm sự kiện</label>
+              <select id="filter-notif-group">
+                <option value="all">Tất cả ▾</option>
+                <option value="brief">Brief &amp; Nhu cầu</option>
+                <option value="lead">Yêu cầu khách hàng (Lead)</option>
+                <option value="report">Kiểm duyệt &amp; Báo cáo</option>
+                <option value="schedule">Lịch hẹn xem nhà</option>
+              </select>
+            </div>
+
+            <div class="box-field">
+              <label for="filter-notif-role">Vai trò minh họa</label>
+              <select id="filter-notif-role">
+                <option value="all">Tất cả 4 vai trò ▾</option>
+                <option value="seeker">Người tìm nhà</option>
+                <option value="agent">Môi giới</option>
+                <option value="moderator">Kiểm duyệt viên</option>
+                <option value="admin">Quản trị viên</option>
+              </select>
+            </div>
+
+            <div class="box-field">
+              <label for="filter-notif-time">Khoảng thời gian</label>
+              <select id="filter-notif-time">
+                <option value="7d">7 ngày gần nhất ▾</option>
+                <option value="30d">30 ngày gần nhất</option>
+              </select>
+            </div>
+
+            <button type="button" class="btn-link-green" id="btn-apply-notif-filter">Áp dụng</button>
+          </section>
+
+          <section class="side-panel">
+            <h2>Chủ động nhận thông tin</h2>
+            <p>
+              Thông báo lịch hẹn, kiểm duyệt và bảo mật giúp bạn xử lý đúng thời điểm.
+            </p>
+            <p>
+              Đánh dấu đã đọc không làm thay đổi trạng thái brief, lịch hoặc báo cáo.
+            </p>
+            <a href="profile.html" class="btn-link-green">Cài đặt thông báo</a>
+          </section>
+
+          <div class="info-banner-blue">
+            <span>ⓘ</span>
+            <div>
+              Dữ liệu liên kết xuyên hành trình B-024 → L-024 → HF-101 → A-031. Lịch hẹn đã xác nhận là ví dụ của bước tiếp theo.
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <footer class="page-footer-note">
+        HomeFit AI • Tìm nhà theo cách bạn sống. &nbsp;/&nbsp; Dữ liệu minh họa - 03/10/2026
+      </footer>
+    </main>
+  </body>
+</html>

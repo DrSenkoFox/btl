@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch hẹn xem nhà | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="../js/api.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/modules/agent.js" defer></script>
+  </head>
+  <body>
+    <aside class="agent-nav" id="agent-nav" aria-label="Điều hướng môi giới"></aside>
+
+    <main class="agent-appointments-page">
+      <header class="agent-header">
+        <hgroup class="agent-header-main">
+          <p class="agent-header-meta">
+            <span class="prefix">KHÔNG GIAN MÔI GIỚI</span>
+            <span class="sep">/</span>
+            <span>LỊCH XEM NHÀ</span>
+          </p>
+          <p class="agent-eyebrow">QUẢN LÝ LỊCH HẸN</p>
+          <h1 class="agent-title">Mỗi cuộc hẹn, một bước gần hơn</h1>
+          <p class="agent-desc">
+            Đồng bộ thời gian thực với các yêu cầu xem nhà do khách đặt từ trang Chi tiết bất động sản.
+          </p>
+        </hgroup>
+        <section class="agent-header-actions">
+          <a href="agent-lead-management.html" class="btn-primary">Xem yêu cầu khách hàng</a>
+        </section>
+      </header>
+
+      <section class="requests-layout">
+        <!-- Cột trái: Danh sách lịch hẹn -->
+        <article class="appt-card appt-list-card">
+          <h2 style="margin:0 0 12px;font-size:16px;">Danh sách lịch hẹn tuần này</h2>
+          <section class="req-table-scroll">
+            <table class="req-table appt-table">
+              <thead>
+                <tr>
+                  <th>Mã / Khách hàng</th>
+                  <th>Căn nhà</th>
+                  <th>Thời gian</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="agent-appt-tbody"></tbody>
+            </table>
+          </section>
+        </article>
+
+        <!-- Cột phải: Tạo lịch hẹn mới trực tiếp -->
+        <article class="appt-card">
+          <h2 style="margin:0 0 12px;font-size:16px;">+ Tạo lịch hẹn xem nhà mới</h2>
+          <form id="agent-new-appt-form" class="agent-post-fields agent-post-fields--single">
+            <label class="agent-post-field">
+              Tên khách hàng *
+              <input name="clientName" required placeholder="Ví dụ: Gia đình Minh Anh" />
+            </label>
+            <label class="agent-post-field">
+              Mã căn nhà *
+              <input name="houseCode" required placeholder="Ví dụ: P-01" value="P-01" />
+            </label>
+            <label class="agent-post-field">
+              Tên căn nhà *
+              <input name="houseName" required placeholder="River Park căn góc" value="River Park căn góc, ban công hướng sông" />
+            </label>
+            <label class="agent-post-field">
+              Ngày &amp; Giờ hẹn *
+              <input name="time" required placeholder="30/10/2026 • 10:00" value="30/10/2026 • 10:00" />
+            </label>
+            <button type="submit" class="btn-primary" style="margin-top:6px;">Lưu lịch hẹn</button>
+          </form>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
