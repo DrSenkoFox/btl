@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Báo cáo bài đăng | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/seeker-report.css" />
+    <script src="../js/common.js" defer></script>
+    <script src="../js/property-reports.js" defer></script>
+    <script src="../js/seeker-report.js" defer></script>
+  </head>
+  <body>
+    <nav id="site-navigation" aria-label="Điều hướng chính"></nav>
+    <main class="site-page report-page">
+      <a class="report-page__back" id="report-back" href="seeker-detail.html">
+        <span aria-hidden="true">←</span> Quay lại chi tiết nhà
+      </a>
+      <section class="report-panel" aria-labelledby="report-heading">
+        <p class="report-panel__eyebrow">HOMEFIT AI · TIẾP NHẬN PHẢN HỒI</p>
+        <h1 id="report-heading">Báo cáo bài đăng</h1>
+        <p class="report-panel__property" id="report-property"></p>
+        <form id="property-report-form">
+          <label for="report-details">Nội dung báo cáo</label>
+          <textarea
+            id="report-details"
+            name="details"
+            rows="7"
+            minlength="10"
+            maxlength="2000"
+            placeholder="Mô tả thông tin chưa chính xác, ví dụ: giá thuê, hình ảnh hoặc nội dung bài đăng..."
+            required
+          ></textarea>
+          <p class="report-panel__note">
+            Báo cáo sẽ được chuyển đến hàng đợi kiểm duyệt của HomeFit.
+          </p>
+          <button type="submit">Gửi báo cáo</button>
+          <p id="report-status" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
