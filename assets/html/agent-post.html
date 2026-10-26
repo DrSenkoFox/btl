@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/agent-post.css" />
     <script src="../js/common.js" defer></script>
+    <script src="../js/api.js" defer></script>
     <script src="../js/agent-posts.js" defer></script>
     <script src="../js/agent-post.js" defer></script>
   </head>
@@ -231,35 +232,21 @@
           <section class="agent-post-aside agent-post-ai">
             <h2>AI gợi ý bố cục</h2>
             <p class="agent-post-ai__state" id="agent-post-ai-state" role="status">
-              Bản gợi ý • Chưa áp dụng
+              Chưa có kết quả AI.
             </p>
             <h3 id="agent-post-ai-title"></h3>
             <menu class="agent-post-ai__list" id="agent-post-ai-list"></menu>
-            <label class="agent-post-ai__rename" id="agent-post-ai-rename-field" hidden>
-              Đổi tên gợi ý
-              <input id="agent-post-ai-rename" maxlength="70" />
-            </label>
-            <p class="agent-post-ai__note" id="agent-post-ai-note">
-              Nguồn cấu trúc bạn vừa nhập. AI không thêm tiện ích hoặc luật mới.
+            <p class="agent-post-ai__note">
+              Nguồn cấu trúc lấy từ thông tin bạn nhập. AI không thêm tiện ích
+              hoặc luật mới.
             </p>
-            <button
+            <a
               class="agent-post-ai__apply"
-              id="agent-post-ai-apply"
-              type="button"
+              id="agent-post-ai-open"
+              href="ai-summary.html"
             >
-              Áp dụng vào bài đăng
-            </button>
-            <menu class="agent-post-ai__actions">
-              <li class="agent-post-ai__edit">
-                <button type="button" id="agent-post-ai-edit">Sửa</button>
-              </li>
-              <li>
-                <button type="button" id="agent-post-ai-reload">Tạo lại</button>
-              </li>
-              <li>
-                <button type="button" id="agent-post-ai-clear">Bỏ gợi ý</button>
-              </li>
-            </menu>
+              Mở trang AI phân tích
+            </a>
           </section>
 
           <section class="agent-post-aside agent-post-preview">
