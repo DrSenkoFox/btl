@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết bất động sản | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="../js/api.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/modules/seeker.js" defer></script>
+  </head>
+  <body>
+    <nav id="site-navigation" aria-label="Điều hướng chính"></nav>
+
+    <main class="site-page property-detail-page">
+      <nav class="property-breadcrumb" aria-label="Đường dẫn">
+        <a href="seeker-property-search.html">Tìm nhà</a>
+        <span>/</span>
+        <span id="property-breadcrumb-title">Chi tiết</span>
+      </nav>
+
+      <article class="property-detail" id="property-detail">
+        <!-- Đầu trang Chi tiết nhà: Tiêu đề bên trái + Nút Lưu nhà bên phải -->
+        <header class="property-detail__heading">
+          <hgroup>
+            <p class="page-eyebrow" id="property-code"></p>
+            <h1 id="property-title" style="margin:0 0 4px;font-size:24px;"></h1>
+            <p id="property-location" style="margin:0;color:#6e7c75;font-size:12px;"></p>
+          </hgroup>
+          <div class="property-detail__actions">
+            <button type="button" class="btn-save-property" id="btn-detail-save">
+              ♡ Lưu nhà
+            </button>
+            <a href="seeker-property-compare.html" class="btn-view-saved-link">
+              Xem nhà đã lưu →
+            </a>
+          </div>
+        </header>
+
+        <!-- Khung 3 ảnh bất động sản (Đã khóa chiều cao & chống overlap) -->
+        <section class="property-gallery" aria-label="Hình ảnh căn nhà">
+          <img id="property-image-main" class="property-gallery__main" alt="Ảnh chính căn hộ" />
+          <figure class="property-gallery__secondary">
+            <img id="property-image-second" alt="Ảnh góc phòng" />
+            <img id="property-image-third" alt="Ảnh không gian sống" />
+          </figure>
+        </section>
+
+        <!-- Bố cục 2 cột bên dưới ảnh -->
+        <section class="property-detail__layout">
+          <section class="property-detail__primary">
+            <section class="property-panel">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+                <h2 id="property-price" style="margin:0;font-size:20px;"></h2>
+                <span id="property-fit-score" style="color:#17684d;font-size:12px;font-weight:700;"></span>
+              </div>
+              <p id="property-quick-facts" style="margin:6px 0 10px;color:#6e7c75;font-size:12px;"></p>
+              <p id="property-description" style="margin:0 0 14px;font-size:13px;"></p>
+
+              <section class="property-facts">
+                <dl><dt>Thời hạn thuê</dt><dd id="property-contract"></dd></dl>
+                <dl><dt>Pháp lý</dt><dd id="property-legal"></dd></dl>
+                <dl><dt>Chi phí</dt><dd id="property-costs"></dd></dl>
+                <dl><dt>Nội thất</dt><dd id="property-furnishing"></dd></dl>
+                <dl><dt>Tiện ích</dt><dd id="property-amenities"></dd></dl>
+              </section>
+            </section>
+
+            <section class="property-panel property-ai-summary">
+              <h2 style="margin:0 0 8px;font-size:15px;">✧ AI: Living Summary</h2>
+              <ul id="property-ai-reasons" style="margin:0;padding-left:18px;display:grid;gap:6px;font-size:12.5px;"></ul>
+            </section>
+          </section>
+
+          <aside class="property-detail__sidebar">
+            <section class="property-panel property-contact">
+              <h2 style="margin:0 0 8px;font-size:16px;">Hẹn xem nhà này</h2>
+              <p id="property-broker" style="margin:0 0 4px;font-weight:700;color:#17684d;"></p>
+              <p id="property-contact-description" style="margin:0 0 10px;font-size:11.5px;color:#6e7c75;"></p>
+              <form id="property-viewing-form">
+                <label>Họ và tên<input name="clientName" required placeholder="Nguyễn Minh Anh" /></label>
+                <label>Ngày xem<input name="date" type="date" required /></label>
+                <label>
+                  Khung giờ
+                  <select name="time">
+                    <option value="09:00">09:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="16:00">16:00</option>
+                  </select>
+                </label>
+                <button type="submit">Yêu cầu xem nhà</button>
+                <p id="property-viewing-status" style="margin:6px 0 0;font-size:11.5px;color:#17684d;font-weight:600;"></p>
+              </form>
+            </section>
+
+            <section class="property-panel property-listing-info">
+              <h2 style="margin:0 0 8px;font-size:15px;">Thông tin chưa chính xác?</h2>
+              <form id="property-report-inline-form">
+                <textarea name="details" rows="3" required placeholder="Mô tả sai phạm về giá hoặc hình ảnh..."></textarea>
+                <button type="submit" class="btn-primary" style="margin-top:8px;">Gửi báo cáo kiểm duyệt</button>
+                <p id="property-report-inline-status" style="margin:6px 0 0;font-size:11.5px;color:#17684d;font-weight:600;"></p>
+              </form>
+            </section>
+          </aside>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

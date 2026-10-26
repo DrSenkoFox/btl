@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tài khoản & phân quyền | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="../js/api.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/modules/admin.js" defer></script>
+  </head>
+  <body>
+    <div class="ops-shell">
+      <aside class="ops-sidebar" aria-label="Điều hướng quản trị viên">
+        <a class="ops-brand" href="seeker-property-search.html">
+          <img src="../assets/images/homefit-ai-logo.svg" alt="HomeFit AI" />
+          <span>HomeFit AI</span>
+        </a>
+
+        <p class="ops-role-heading">QUẢN TRỊ VIÊN</p>
+        <ul class="ops-menu">
+          <li><a href="admin-platform-dashboard.html">Quản lý dữ liệu</a></li>
+          <li><a href="admin-category-management.html">Tùy chỉnh trang web</a></li>
+          <li><a href="admin-user-management.html" class="is-active">Tài khoản &amp; phân quyền</a></li>
+        </ul>
+
+        <div class="ops-sys-links">
+          <p class="ops-sys-links__label">LIÊN KẾT HỆ THỐNG</p>
+          <div class="ops-sys-switch">
+            <a href="admin-user-management.html" class="ops-sys-btn is-active">Admin</a>
+            <a href="moderator-listing-review.html" class="ops-sys-btn">Moderator</a>
+          </div>
+          <a href="seeker-property-search.html" class="ops-sys-index">
+            <span>Về trang Tìm nhà (index)</span>
+            <span>↗</span>
+          </a>
+        </div>
+
+        <footer class="ops-sidebar-foot">
+          <div class="ops-notif-line">Thông báo • 3</div>
+          <div class="ops-user-card">
+            <span class="ops-avatar">Đ</span>
+            <div class="ops-user-meta">
+              <p class="ops-user-name">Đức Khải</p>
+              <p class="ops-user-role">Quản trị viên</p>
+            </div>
+            <button type="button" class="ops-icon-btn" title="Cài đặt">⚙</button>
+            <button type="button" class="ops-icon-btn ops-icon-btn--logout" data-ops-logout title="Đăng xuất">↪</button>
+          </div>
+        </footer>
+      </aside>
+
+      <main class="ops-main">
+        <p class="ops-breadcrumb">MENU / QUẢN TRỊ VIÊN / TÀI KHOẢN &amp; PHÂN QUYỀN</p>
+        <p class="ops-eyebrow">QUẢN TRỊ TRUY CẬP</p>
+        <h1 class="ops-title">Tài khoản &amp; phân quyền</h1>
+
+        <section class="ops-workspace">
+          <article class="ops-card">
+            <h2 class="ops-card-title" id="admin-selected-heading">U-012 • Nguyễn Lan Hương</h2>
+            <div class="ops-status-pills">
+              <span>Đã xác minh</span>
+              <span id="admin-selected-role-pill">Quản trị viên</span>
+            </div>
+
+            <form id="admin-user-form">
+              <input type="hidden" id="admin-user-id" />
+              <div class="ops-grid-2">
+                <div class="ops-box-field">
+                  <label for="admin-user-name">Họ và tên *</label>
+                  <input id="admin-user-name" type="text" required />
+                </div>
+                <div class="ops-box-field">
+                  <label for="admin-user-email">Email *</label>
+                  <input id="admin-user-email" type="email" required />
+                </div>
+              </div>
+
+              <div class="ops-box-field">
+                <label for="admin-user-phone">Số điện thoại liên hệ</label>
+                <input id="admin-user-phone" type="tel" />
+              </div>
+
+              <div class="ops-box-field">
+                <label for="admin-user-role">Vai trò được cấp</label>
+                <select id="admin-user-role">
+                  <option value="admin">Quản trị viên (Admin)</option>
+                  <option value="moderator">Kiểm duyệt viên (Moderator)</option>
+                  <option value="agent">Môi giới (Agent)</option>
+                  <option value="seeker">Người tìm nhà (Seeker)</option>
+                </select>
+              </div>
+
+              <div class="ops-checks">
+                <label class="ops-check-item">
+                  <input type="checkbox" id="perm-review" checked />
+                  <span>Duyệt bài viết</span>
+                </label>
+                <label class="ops-check-item">
+                  <input type="checkbox" id="perm-ban" checked />
+                  <span>Cấm / Ban user</span>
+                </label>
+                <label class="ops-check-item">
+                  <input type="checkbox" id="perm-taxonomy" checked />
+                  <span>Quản trị taxonomy / cấp quyền</span>
+                </label>
+              </div>
+
+              <details class="ops-accordion">
+                <summary>Lịch sử thao tác nhân sự</summary>
+                <ul class="ops-accordion-list" id="admin-audit-log">
+                  <li>26/10/2026 • Đức Khải cập nhật phân quyền hệ thống</li>
+                  <li>18/10/2026 • Xác minh tài khoản nhân sự &amp; cấp quyền truy cập</li>
+                </ul>
+              </details>
+
+              <div class="ops-box-field">
+                <label for="admin-user-reason">Lý do thay đổi/thêm mới *</label>
+                <textarea id="admin-user-reason" required placeholder="Ghi rõ lý do..."></textarea>
+              </div>
+
+              <footer class="ops-footer-actions">
+                <div class="ops-btn-group">
+                  <button type="submit" class="ops-btn-primary">Lưu thông tin &amp; quyền</button>
+                  <button type="reset" class="ops-btn-ghost">Hủy</button>
+                </div>
+                <button type="button" class="ops-btn-danger" id="btn-admin-delete">Loại bỏ nhân sự</button>
+              </footer>
+            </form>
+          </article>
+
+          <aside class="ops-card">
+            <h3 class="ops-side-section-title">QUẢN TRỊ VIÊN (ADMIN)</h3>
+            <ul class="ops-roster-list" id="admin-list-admins"></ul>
+            <button type="button" class="ops-btn-dashed" data-add-role="admin">+ Thêm Quản trị viên</button>
+
+            <h3 class="ops-side-section-title">KIỂM DUYỆT VIÊN (MODERATOR)</h3>
+            <ul class="ops-roster-list" id="admin-list-mods"></ul>
+            <button type="button" class="ops-btn-dashed" data-add-role="moderator">+ Thêm Kiểm duyệt viên</button>
+          </aside>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
