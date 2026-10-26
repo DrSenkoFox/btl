@@ -6,9 +6,9 @@ Tài liệu cặp với `docs/screen-inventory.md`. Ánh xạ P1–P4 → vai tr
 
 | Vấn đề | Nội dung | Vai trò | Màn hình |
 |---|---|---|---|
-| P1 | Nhu cầu sống khó biểu diễn bằng bộ lọc giá/diện tích | Người tìm nhà | `seeker-brief-form.html`, `ai-matcher.html`, `seeker-search.html`, `seeker-detail.html` |
-| P2 | Môi giới nhận brief không có cấu trúc | Môi giới | `agent-requests.html`, `agent-post.html`, `ai-summary.html` |
-| P3 | Khó so sánh nhiều tin đăng | Người tìm nhà | `seeker-saved.html`, `ai-compare.html` |
+| P1 | Nhu cầu sống khó biểu diễn bằng bộ lọc giá/diện tích | Người tìm nhà | `seeker-brief-form.html`, `seeker-search.html`, `seeker-detail.html` |
+| P2 | Môi giới nhận brief không có cấu trúc | Môi giới | `agent-requests.html`, `agent-post.html` |
+| P3 | Khó so sánh nhiều tin đăng | Người tìm nhà | `seeker-saved.html` |
 | P4 | Tin đăng cần được kiểm duyệt chất lượng | Kiểm duyệt viên, Quản trị viên | `moderator-listing-review.html`, `moderator-report-center.html`, `moderator-data-quality.html`, `admin-platform-dashboard.html` (nhánh chung `Homefit Ai/pages/`) |
 
 ## 2. Sitemap theo vai trò
@@ -16,20 +16,17 @@ Tài liệu cặp với `docs/screen-inventory.md`. Ánh xạ P1–P4 → vai tr
 ```
 login.html (điểm vào hệ thống + định tuyến theo vai trò)
 ├── DÙNG CHUNG
-│   ├── login.html                     Đăng nhập / đăng ký / đặt lại mật khẩu
-│   ├── ai-matcher.html                AI-1 Lifestyle Matcher
-│   ├── ai-summary.html                AI-2 Listing Summary
-│   └── ai-compare.html                AI-3 Comparison Assistant
+│   └── login.html                     Đăng nhập / đăng ký / đặt lại mật khẩu
 ├── NGƯỜI TÌM NHÀ (SV1)
 │   ├── seeker-search.html             Tìm & lọc theo brief, điểm vào nghiệp vụ
 │   ├── seeker-detail.html             Chi tiết nhà + Living Summary
-│   ├── seeker-brief-form.html         Tạo brief + khối kết quả AI-1
-│   ├── seeker-saved.html              Nhà đã lưu + bảng so sánh của AI-3
+│   ├── seeker-brief-form.html         Tạo brief + AI Lifestyle Matcher
+│   ├── seeker-saved.html              Nhà đã lưu + AI Comparison
 │   ├── seeker-agent-selection.html    Chọn môi giới
 │   ├── seeker-agent-profile.html      Hồ sơ môi giới
 │   └── seeker-report.html             Báo cáo bài đăng
 ├── MÔI GIỚI (SV1)
-│   ├── agent-post.html                Tạo bài đăng + khối bố cục của AI-2
+│   ├── agent-post.html                Tạo bài đăng + AI gợi ý bố cục
 │   ├── agent-posts.html               Quản lý bài đăng, xuất CSV
 │   ├── agent-requests.html            Lead & yêu cầu từ brief
 │   └── agent-appointments.html        Lịch hẹn xem nhà
@@ -53,19 +50,16 @@ login.html (điểm vào hệ thống + định tuyến theo vai trò)
         moderator/admin → màn hình vận hành ở nhánh chung
 
 [Người tìm nhà]  seeker-search → lọc từ khóa + ≥2 tiêu chí + sắp xếp
-   → seeker-brief-form: nhập nhu cầu → mở ai-matcher.html (Input → Processing → Output
-        → % độ tin cậy & tiêu chí khớp → Chấp nhận/Sửa/Từ chối/Tạo lại → Lưu vào brief)
-        → quay lại brief thấy khối kết quả AI-1 và `weighted-priorities` đã ghi
+   → seeker-brief-form: nhập nhu cầu → AI-1 phân tích (Input → Processing → Output
+        → % độ tin cậy & tiêu chí khớp → Chấp nhận/Sửa/Từ chối/Tạo lại → Lưu brief)
    → seeker-detail: xem ảnh & AI Living Summary → bấm lưu căn → bấm đặt lịch xem nhà
-   → seeker-saved: mở ai-compare.html kèm danh sách mã căn → xác nhận → bảng tiêu chí
-        và xếp hạng hiện lại ở trang nhà đã lưu
+   → seeker-saved: AI-3 so sánh và xếp hạng các căn đã lưu
    → seeker-agent-selection → seeker-agent-profile: chọn môi giới, gửi lead
    → seeker-report: gửi báo cáo, report `pending` vào hàng đợi kiểm duyệt
 
 [Môi giới]  agent-requests: lead và brief của người tìm nhà hiện vào hàng đợi
    → phản hồi, đề xuất khung giờ → chốt lịch (hẹn `pending → confirmed`)
-   → agent-post: nhập tin rồi mở ai-summary.html?id=bản nháp → xác nhận → bố cục 4 khối
-        ghi vào mô tả tin, khối kết quả AI-2 hiện ở sidebar → tin `draft → pending`
+   → agent-post: tạo tin, AI-2 gợi ý bố cục + checklist trước khi gửi → tin `draft → pending`
    → agent-posts: sửa / ẩn-hiện / rút về nháp / xóa, xuất CSV
    → agent-appointments: xác nhận → hoàn tất hoặc hủy lịch
 
@@ -84,11 +78,8 @@ login.html (điểm vào hệ thống + định tuyến theo vai trò)
 | Thực thể | Khoá localStorage | Vòng đời trạng thái | Vai trò ghi | Vai trò đọc |
 |---|---|---|---|---|
 | Bài đăng | `homefit-agent-posts` | `draft → pending → approved / rejected / revision` | Môi giới, Kiểm duyệt viên | Người tìm nhà, Quản trị viên |
-| Brief nhu cầu | `homefit-brief-draft` | `draft → published` | Người tìm nhà, `ai-matcher.html` | Môi giới, AI Comparison |
+| Brief nhu cầu | `homefit-brief-draft` | `draft → published` | Người tìm nhà | Môi giới, AI Lifestyle Matcher |
 | Nhà đã lưu | `homefit-saved-homes` | `saved → removed` | Người tìm nhà | AI Comparison |
-| Kết quả AI-1 | `homefit-ai-matcher` | `chưa duyệt → đã chấp nhận / đã từ chối` | `ai-matcher.html` | `seeker-brief-form.html` |
-| Kết quả AI-2 | `homefit-ai-summary` | `chưa duyệt → đã chấp nhận / đã từ chối` | `ai-summary.html` | `agent-post.html` |
-| Kết quả AI-3 | `homefit-ai-compare` | `chưa duyệt → đã chấp nhận / đã từ chối` | `ai-compare.html` | `seeker-saved.html` |
 | Lead / yêu cầu | `homefit-agent-requests` | `new → consulting → scheduled → completed / rejected` | Người tìm nhà, Môi giới | Môi giới, Quản trị viên |
 | Lịch hẹn | `homefit-appointments` | `pending → confirmed → completed / cancelled` | Người tìm nhà, Môi giới | Môi giới, Quản trị viên |
 | Báo cáo | `homefit-property-reports` | `pending → resolved` | Người tìm nhà, Kiểm duyệt viên | Kiểm duyệt viên, Quản trị viên |
@@ -99,12 +90,10 @@ Dữ liệu mẫu của các thực thể trên nằm ở `assets/data/data.json
 
 ## 5. Ba tính năng AI theo đặc tả đề tài
 
-| Mã | Tính năng | Vai trò | Màn hình AI | Màn hình vai trò nhận kết quả | Luồng 6 bước |
-|---|---|---|---|---|---|
-| AI-1 | Lifestyle Matcher — chuyển nhu cầu sống thành tiêu chí có trọng số | Dùng chung | `ai-matcher.html` | `seeker-brief-form.html` | Input → Processing → Output → Giải thích % độ tin cậy & tiêu chí khớp → Chấp nhận/Sửa/Từ chối/Tạo lại → Lưu vào brief |
-| AI-2 | Listing Summary — tóm tắt và dựng bố cục tin đăng 4 khối | Dùng chung | `ai-summary.html` | `agent-post.html` | Input → Processing → Output → Giải thích theo đầu vào → Chấp nhận/Sửa/Từ chối/Tạo lại → Ghi mô tả tin đăng |
-| AI-3 | Comparison Assistant — xếp hạng nhà đã lưu theo brief | Dùng chung | `ai-compare.html` | `seeker-saved.html` | Input → Processing → Output → Giải thích % độ tin cậy & lý do xếp hạng → Chấp nhận/Sửa/Từ chối/Tạo lại → Lưu kết quả so sánh |
+| Mã | Tính năng | Vai trò | Màn hình | Luồng 6 bước |
+|---|---|---|---|---|
+| AI-1 | Lifestyle Matcher — chấm điểm phù hợp theo brief | Người tìm nhà | `seeker-brief-form.html`, `seeker-search.html` | Input → Processing → Output → Giải thích % độ tin cậy & tiêu chí khớp → Chấp nhận/Sửa/Từ chối/Tạo lại → Lưu vào brief |
+| AI-2 | Listing Summary — tóm tắt và gợi ý bố cục tin đăng | Môi giới | `agent-post.html` | Input → Processing → Output → Giải thích theo đầu vào → Lưu/Sửa/Từ chối → Cập nhật mô tả tin đăng |
+| AI-3 | Comparison Assistant — xếp hạng nhà đã lưu | Người tìm nhà | `seeker-saved.html` | Chọn căn → Phân tích → Bảng xếp hạng → Lý do đề xuất → Điều chỉnh tiêu chí → Lưu kết quả so sánh |
 
-Ba màn hình AI là màn hình dùng chung: nhận đối tượng cần phân tích qua tham số URL (`?id=` bài đăng, `?ids=` danh sách nhà) hoặc qua kho dữ liệu chung (`homefit-brief-draft`, `homefit-saved-homes`), chạy phân tích ở trang riêng, rồi ghi kết quả đã chấp nhận vào `localStorage` để trang vai trò hiển thị lại trong khối chỉ đọc. Trang vai trò không còn nút phân tích, chỉ còn khối kết quả và liên kết mở trang AI.
-
-Kịch bản AI không chắc chắn: khi brief thiếu dữ liệu hoặc độ tin cậy thấp, hệ thống hiển thị cảnh báo "chưa đủ dữ liệu để xác định tiêu chí" thay vì trả kết quả giả, kèm hướng dẫn bổ sung thông tin.
+Kịch bản AI không chắc chắn: khi brief thiếu dữ liệu hoặc độ tin cậy thấp, hệ thống hiển thị cảnh báo "chưa đủ dữ liệu để xác định tiêu chí" thay vì trả kết quả giả, kèm nút bổ sung thông tin.

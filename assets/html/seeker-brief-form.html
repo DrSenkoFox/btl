@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/seeker-brief-form.css" />
     <script src="../js/common.js" defer></script>
-    <script src="../js/api.js" defer></script>
     <script src="../js/seeker-brief-form.js" defer></script>
   </head>
   <body>
@@ -161,6 +160,12 @@
               Tối thiểu 30 ký tự. Không nhập giấy tờ tùy thân hoặc thông tin
               nhạy cảm.
             </p>
+            <ul
+              class="need-tags"
+              id="need-tags"
+              aria-label="Các tiêu chí được phân tích từ mô tả"
+              hidden
+            ></ul>
             <section class="generated-criteria">
               <section class="generated-criteria__group">
                 <label class="field-label" for="must-haves">
@@ -173,11 +178,32 @@
                   placeholder="Ví dụ: 2 phòng ngủ, thang máy, bảo vệ 24/7"
                 ></textarea>
               </section>
+              <section
+                class="generated-criteria__group weighted-priorities"
+                id="weighted-priorities-group"
+                hidden
+              >
+                <h3>Ưu tiên có trọng số</h3>
+                <ul
+                  class="weighted-priorities__results"
+                  id="weighted-priorities-results"
+                ></ul>
+              </section>
             </section>
-            <a class="lifestyle-analyze-button" href="ai-matcher.html">
+            <input
+              id="weighted-priorities"
+              name="weighted-priorities"
+              type="hidden"
+            />
+            <button
+              class="lifestyle-analyze-button"
+              id="analyze-lifestyle"
+              type="button"
+              disabled
+            >
               <span>✧</span>
-              Phân tích với AI Lifestyle Matcher
-            </a>
+              Phân tích với Lifestyle Matcher
+            </button>
           </section>
         </section>
 
@@ -255,21 +281,38 @@
         <section class="sidebar-section">
           <header class="matcher-heading-row">
             <h2 id="matcher-heading"><span>✧</span> AI Lifestyle Matcher</h2>
-            <span class="matcher-support"><span></span> Trang AI dùng chung</span>
+            <span class="matcher-support"><span></span> AI hỗ trợ</span>
           </header>
           <p class="matcher-status" id="matcher-status">
-            Chưa có kết quả AI. Mở trang AI để phân tích mô tả nhu cầu.
+            Nhập nhu cầu sinh hoạt để bắt đầu phân tích.
           </p>
           <section class="matcher-result" id="matcher-result" hidden>
             <h3 id="matcher-summary"></h3>
+            <p class="matcher-empty" id="matcher-empty" hidden></p>
             <h4>Vì sao có kết quả này?</h4>
             <ul class="matcher-reasons" id="matcher-reasons"></ul>
             <p class="matcher-disclaimer">
               Dựa trên dữ liệu bạn cung cấp. Gợi ý không thay thế việc kiểm tra
               thực tế.
             </p>
+            <footer class="matcher-actions">
+              <button
+                class="matcher-action--primary"
+                type="button"
+                data-matcher-action="accept"
+              >
+                Chấp nhận
+              </button>
+              <button type="button" data-matcher-action="edit">Sửa</button>
+              <button type="button" data-matcher-action="reject">
+                Từ chối
+              </button>
+              <button type="button" data-matcher-action="retry">Tạo lại</button>
+              <button type="button" data-matcher-action="save">
+                Lưu kết quả
+              </button>
+            </footer>
           </section>
-          <a class="matcher-open" href="ai-matcher.html">Mở trang AI phân tích</a>
         </section>
         <section class="sidebar-section">
           <h2 id="matches-heading">Mức phù hợp gợi ý</h2>

@@ -1,7 +1,19 @@
+const lifestyleInput = document.querySelector("#lifestyle");
+const needTags = document.querySelector("#need-tags");
 const matcherStatus = document.querySelector("#matcher-status");
+const analyzeButton = document.querySelector("#analyze-lifestyle");
 const matcherResult = document.querySelector("#matcher-result");
 const matcherSummary = document.querySelector("#matcher-summary");
+const matcherEmpty = document.querySelector("#matcher-empty");
 const matcherReasons = document.querySelector("#matcher-reasons");
+const weightedPrioritiesInput = document.querySelector("#weighted-priorities");
+const mustHavesInput = document.querySelector("#must-haves");
+const weightedPrioritiesGroup = document.querySelector(
+  "#weighted-priorities-group",
+);
+const weightedPrioritiesResults = document.querySelector(
+  "#weighted-priorities-results",
+);
 const budgetMin = document.querySelector("#budget-min");
 const budgetMax = document.querySelector("#budget-max");
 const briefForm = document.querySelector("#brief-form");
@@ -185,8 +197,11 @@ deleteBriefButton?.addEventListener("click", () => {
   localStorage.removeItem("homefit-brief-draft");
   sessionStorage.removeItem("homefit-brief-archived");
   sessionStorage.removeItem(briefLeadKey);
-  window.HomeFitAPI.saveAi("matcher", null);
-  renderMatcherResult();
+  needTags.replaceChildren();
+  clearGeneratedCriteria();
+  matcherResult.hidden = true;
+  matcherStatus.textContent = "Nhập nhu cầu sinh hoạt để bắt đầu phân tích.";
+  analyzeButton.disabled = true;
   briefExists = false;
   updateBriefActions();
   showBriefActionStatus("Brief đã được xóa.");
@@ -194,6 +209,63 @@ deleteBriefButton?.addEventListener("click", () => {
     window.HomeFitNavigation.events.briefDeleted,
   );
 });
+
+const lifestyleNeeds = [
+  {
+    label: "Ưu tiên không gian yên tĩnh",
+    tag: "Yên tĩnh",
+    keywords: ["yên tĩnh", "ít tiếng ồn", "không ồn", "riêng tư"],
+    guidance: "ưu tiên hướng nội khu, tránh trục đường lớn.",
+  },
+  {
+    label: "Ưu tiên ánh sáng tự nhiên",
+    tag: "Ánh sáng",
+    keywords: ["ánh sáng", "nhiều sáng", "cửa sổ", "ban công", "thoáng"],
+    guidance: "chọn nhà có cửa sổ hoặc ban công đón sáng.",
+  },
+  {
+    label: "Phù hợp gia đình có trẻ nhỏ",
+    tag: "Gia đình",
+    keywords: ["gia đình", "trẻ em", "con nhỏ", "em bé", "con "],
+    guidance: "ưu tiên không gian sinh hoạt thuận tiện cho cả gia đình.",
+  },
+  {
+    label: "Gần trường học",
+    tag: "Gần trường",
+    keywords: ["trường học", "gần trường", "đưa đón con", "đi bộ đến trường"],
+    guidance: "tìm khu vực có trường học trong khoảng cách tiện đưa đón.",
+  },
+  {
+    label: "Thân thiện với thú cưng",
+    tag: "Thú cưng",
+    keywords: ["thú cưng", "chó", "mèo", "nuôi thú"],
+    guidance: "kiểm tra quy định nuôi thú cưng và không gian đi dạo gần nhà.",
+  },
+  {
+    label: "Ưu tiên không gian xanh",
+    tag: "Không gian xanh",
+    keywords: ["cây xanh", "công viên", "nhiều cây"],
+    guidance: "ưu tiên nơi gần công viên hoặc có mảng xanh.",
+  },
+  {
+    label: "Không gian làm việc tại nhà",
+    tag: "WFH",
+    keywords: ["làm việc tại nhà", "wfh", "góc làm việc"],
+    guidance: "ưu tiên góc làm việc riêng, đủ yên tĩnh và ánh sáng.",
+  },
+  {
+    label: "Thuận tiện đi lại",
+    tag: "Đi lại",
+    keywords: ["đi làm", "gần công ty", "metro", "xe buýt", "giao thông"],
+    guidance: "cân nhắc kết nối giao thông tới nơi làm việc.",
+  },
+  {
+    label: "Gần tiện ích thiết yếu",
+    tag: "Tiện ích",
+    keywords: ["siêu thị", "chợ", "bệnh viện", "trung tâm thương mại"],
+    guidance: "ưu tiên tiện ích thiết yếu ở khoảng cách gần.",
+  },
+];
 
 function readAgentRequests() {
   try {
@@ -275,33 +347,191 @@ function applyBriefViewMode() {
     .forEach((el) => el.setAttribute("disabled", ""));
 }
 
-function createTextElement(tagName, text) {
-  const element = document.createElement(tagName);
-  element.textContent = text;
-  return element;
+function normalizeText(value) {
+  return value
+    .toLocaleLowerCase("vi")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d");
 }
 
-function renderMatcherResult() {
-  const criteria = window.HomeFitAPI.getAi("matcher")?.criteria || [];
+function getNeedPriority(description, need) {
+  const normalizedDescription = normalizeText(description);
+  const keyword = need.keywords
+    .map(normalizeText)
+    .find((item) => normalizedDescription.includes(item));
+  if (!keyword) return 2;
 
-  matcherResult.hidden = !criteria.length;
-  matcherStatus.textContent = criteria.length
-    ? `Đã áp dụng ${criteria.length} tiêu chí có trọng số từ trang AI.`
-    : "Chưa có kết quả AI. Mở trang AI để phân tích mô tả nhu cầu.";
-  if (!criteria.length) return;
+  const sentence =
+    normalizedDescription
+      .split(/[.!?;\n,]+/)
+      .find((item) => item.includes(keyword)) || normalizedDescription;
 
-  matcherSummary.textContent = `Brief đang dùng ${criteria.length} tiêu chí ưu tiên`;
-  matcherReasons.replaceChildren(
-    ...criteria.map((item) =>
-      createTextElement(
-        "li",
-        `${item.rank}. ${item.label} · ${item.weight}% → ${item.guidance}`,
-      ),
+  if (/khong bat buoc|neu co|co thi tot/.test(sentence)) return 1;
+  if (/bat buoc|phai co|khong the thieu|nhat dinh/.test(sentence)) return 5;
+  if (
+    /uu tien hang dau|uu tien nhat|quan trong nhat|rat quan trong/.test(
+      sentence,
+    )
+  )
+    return 4;
+  if (/\bcan (?:co|phai|khong gian|mot|them|goc|gan|duoc)\b/.test(sentence))
+    return 3;
+  if (/uu tien|quan trong|mong muon|muon/.test(sentence)) return 3;
+  return 2;
+}
+
+function renderGeneratedCriteria(description, matchedNeeds) {
+  const normalizedMustHaves = normalizeText(mustHavesInput.value);
+  const priorities = matchedNeeds.map((need) => {
+    const isMandatory = need.keywords.some((keyword) =>
+      normalizedMustHaves.includes(normalizeText(keyword)),
+    );
+
+    return {
+      need,
+      score: getNeedPriority(description, need) + (isMandatory ? 5 : 0),
+    };
+  });
+  const totalScore = priorities.reduce((total, item) => total + item.score, 0);
+  const weights = priorities.map(({ score }) =>
+    Math.floor((score / totalScore) * 100),
+  );
+  const remainingWeight =
+    100 - weights.reduce((total, weight) => total + weight, 0);
+  const roundingOrder = priorities
+    .map(({ score }, index) => ({
+      index,
+      remainder: ((score / totalScore) * 100) % 1,
+    }))
+    .sort((first, second) => second.remainder - first.remainder);
+
+  for (let index = 0; index < remainingWeight; index += 1) {
+    weights[roundingOrder[index].index] += 1;
+  }
+
+  weightedPrioritiesInput.value = priorities
+    .map(({ need }, index) => `${need.tag}: ${weights[index]}%`)
+    .join("\n");
+
+  needTags.replaceChildren(
+    ...priorities.map(({ need }) => {
+      const item = document.createElement("li");
+      item.className = "need-tag";
+      item.textContent = need.tag;
+      return item;
+    }),
+  );
+  needTags.hidden = false;
+  weightedPrioritiesResults.replaceChildren(
+    ...priorities.map(({ need }, index) => {
+      const item = document.createElement("li");
+      item.textContent = `${need.tag} ${weights[index]}%`;
+      return item;
+    }),
+  );
+  weightedPrioritiesGroup.hidden = false;
+  storeBriefDraft();
+}
+
+function clearGeneratedCriteria() {
+  weightedPrioritiesInput.value = "";
+  needTags.replaceChildren();
+  needTags.hidden = true;
+  weightedPrioritiesResults.replaceChildren();
+  weightedPrioritiesGroup.hidden = true;
+}
+
+function analyzeLifestyle() {
+  const description = lifestyleInput.value.trim();
+  const normalizedDescription = normalizeText(description);
+  const normalizedMustHaves = normalizeText(mustHavesInput.value);
+  const matchedNeeds = lifestyleNeeds.filter((need) =>
+    need.keywords.some(
+      (keyword) =>
+        normalizedDescription.includes(normalizeText(keyword)) ||
+        normalizedMustHaves.includes(normalizeText(keyword)),
     ),
   );
+
+  if (!description) {
+    clearGeneratedCriteria();
+    matcherStatus.textContent = "Hãy nhập mô tả nhu cầu trước khi phân tích.";
+    matcherResult.hidden = true;
+  } else if (matchedNeeds.length) {
+    renderGeneratedCriteria(description, matchedNeeds);
+    matcherStatus.textContent = "Đã tạo · Chờ bạn xác nhận";
+    matcherResult.dataset.state = "suggestions";
+    matcherEmpty.hidden = true;
+    matcherSummary.textContent = `Đã chuyển mô tả thành ${matchedNeeds.length} tiêu chí ưu tiên`;
+    matcherReasons.replaceChildren(
+      ...matchedNeeds.map((need) => {
+        const reason = document.createElement("li");
+        reason.textContent = `${need.label} → ${need.guidance}`;
+        return reason;
+      }),
+    );
+    matcherResult.hidden = false;
+  } else {
+    clearGeneratedCriteria();
+    matcherStatus.textContent = "Đã phân tích · Chưa có gợi ý";
+    matcherResult.dataset.state = "empty";
+    matcherSummary.textContent = "Chưa có gợi ý cho mô tả này";
+    matcherEmpty.textContent =
+      "Thông tin hiện tại chưa đủ để xác định tiêu chí phù hợp. Bạn có thể bổ sung chi tiết rồi phân tích lại.";
+    matcherEmpty.hidden = false;
+    matcherResult.hidden = false;
+  }
 }
 
-window.addEventListener("storage", renderMatcherResult);
-window.addEventListener("pageshow", renderMatcherResult);
-renderMatcherResult();
+lifestyleInput?.addEventListener("input", () => {
+  analyzeButton.disabled = lifestyleInput.value.trim().length < 30;
+  clearGeneratedCriteria();
+  if (!matcherResult.hidden) {
+    matcherResult.hidden = true;
+    matcherEmpty.hidden = true;
+    matcherStatus.textContent =
+      "Nội dung đã thay đổi. Hãy phân tích lại để cập nhật gợi ý.";
+  }
+});
+mustHavesInput?.addEventListener("input", () => {
+  clearGeneratedCriteria();
+  if (!matcherResult.hidden) {
+    matcherResult.hidden = true;
+    matcherEmpty.hidden = true;
+    matcherStatus.textContent =
+      "Nội dung đã thay đổi. Hãy phân tích lại để cập nhật gợi ý.";
+  }
+});
+analyzeButton?.addEventListener("click", analyzeLifestyle);
 
+document
+  .querySelector(".matcher-actions")
+  ?.addEventListener("click", (event) => {
+    const action = event.target.closest("[data-matcher-action]")?.dataset
+      .matcherAction;
+
+    if (action === "accept") {
+      matcherStatus.textContent = "Đã xác nhận gợi ý.";
+    } else if (action === "edit") {
+      lifestyleInput.focus();
+    } else if (action === "reject") {
+      matcherResult.hidden = true;
+      clearGeneratedCriteria();
+      matcherStatus.textContent =
+        "Bạn đã từ chối gợi ý. Hãy chỉnh mô tả để phân tích lại.";
+    } else if (action === "retry") {
+      analyzeLifestyle();
+    } else if (action === "save") {
+      sessionStorage.setItem(
+        "homefit-lifestyle-suggestion",
+        JSON.stringify({
+          description: lifestyleInput.value.trim(),
+          priorities: [...matcherReasons.children].map(
+            (item) => item.textContent,
+          ),
+        }),
+      );
+      matcherStatus.textContent = "Đã lưu kết quả trong phiên này.";
+    }
+  });

@@ -8,11 +8,6 @@ window.HomeFitAPI = (() => {
     REPORTS: "homefit-property-reports",
     USERS: "homefit-users-db",
     SESSION: "homefit-current-session",
-    AI: {
-      matcher: "homefit-ai-matcher",
-      summary: "homefit-ai-summary",
-      compare: "homefit-ai-compare",
-    },
   };
 
   const seed = { posts: [], users: [], reports: [] };
@@ -72,11 +67,6 @@ window.HomeFitAPI = (() => {
     setSession: (user) => {
       if (user) write(KEYS.SESSION, user);
       else localStorage.removeItem(KEYS.SESSION);
-    },
-    getAi: (name) => read(KEYS.AI[name], null),
-    saveAi: (name, result) => {
-      if (result) write(KEYS.AI[name], result);
-      else localStorage.removeItem(KEYS.AI[name]);
     },
   });
 })();

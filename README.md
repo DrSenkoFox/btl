@@ -32,16 +32,15 @@ Bộ lọc giá/diện tích truyền thống trong tìm kiếm nhà ở không 
 
 
 ## Tính năng AI
-Ba trải nghiệm AI mô phỏng là màn hình dùng chung trong `assets/html/`, nhận đối tượng cần phân tích qua tham số URL hoặc kho dữ liệu chung rồi ghi kết quả đã chấp nhận trở lại màn hình vai trò.
-- **AI-1: Lifestyle Matcher** — `assets/html/ai-matcher.html`
-  - **Mô tả:** Chuyển mô tả nhu cầu sống trong brief thành bộ tiêu chí có trọng số và % độ tin cậy.
-  - **Luồng UX:** Nhập mô tả $\rightarrow$ Trạng thái đang xử lý $\rightarrow$ Hiển thị kết quả $\rightarrow$ Giải thích lý do / tiêu chí khớp $\rightarrow$ Chấp nhận/Sửa/Từ chối/Tạo lại $\rightarrow$ Cập nhật vào brief (`seeker-brief-form.html`).
-- **AI-2: Listing Summary** — `assets/html/ai-summary.html`
-  - **Mô tả:** Dựng bố cục 4 khối và tóm tắt tin đăng cho Môi giới.
-  - **Luồng UX:** Nhận bài đăng `?id=` $\rightarrow$ Phân tích $\rightarrow$ Hiển thị bố cục $\rightarrow$ AI giải thích dựa trên đầu vào $\rightarrow$ Chấp nhận/Sửa/Từ chối/Tạo lại $\rightarrow$ Cập nhật mô tả tin đăng (`agent-post.html`).
-- **AI-3: Comparison Assistant** — `assets/html/ai-compare.html`
-  - **Mô tả:** Trợ lý xếp hạng và so sánh các căn nhà đã lưu theo tiêu chí của Người tìm nhà.
-  - **Luồng UX:** Nhận danh sách căn `?ids=` + brief $\rightarrow$ Phân tích $\rightarrow$ Bảng xếp hạng/điểm phù hợp $\rightarrow$ Lý do đề xuất $\rightarrow$ Chấp nhận/Sửa/Từ chối/Tạo lại $\rightarrow$ Lưu kết quả so sánh (`seeker-saved.html`).
+- **AI-1: Lifestyle Matcher**
+  - **Mô tả:** Chấm điểm mức độ phù hợp của bất động sản dựa theo housing brief (bản tóm tắt nhu cầu).
+  - **Luồng UX:** Người dùng nhập mô tả nhu cầu $\rightarrow$ Trạng thái đang xử lý $\rightarrow$ Hiển thị kết quả $\rightarrow$ Giải thích lý do / tiêu chí khớp $\rightarrow$ Cung cấp nút Chấp nhận/Sửa/Từ chối/Tạo lại $\rightarrow$ Cập nhật vào hệ thống.
+- **AI-2: Listing Summary**
+  - **Mô tả:** Tóm tắt ưu, nhược điểm của bất động sản cho Môi giới.
+  - **Luồng UX:** Môi giới nhập thông tin cơ bản $\rightarrow$ Trạng thái đang xử lý $\rightarrow$ Hiển thị tóm tắt $\rightarrow$ AI giải thích dựa trên đầu vào $\rightarrow$ Các tùy chọn kiểm soát (Lưu, Sửa, Từ chối) $\rightarrow$ Cập nhật mô tả tin đăng.
+- **AI-3: Comparison Assistant**
+  - **Mô tả:** Trợ lý xếp hạng và so sánh các căn nhà đã lưu dựa trên tiêu chí cá nhân của Người tìm nhà.
+  - **Luồng UX:** Lựa chọn các căn nhà $\rightarrow$ Quá trình phân tích $\rightarrow$ Đưa ra bảng xếp hạng/so sánh $\rightarrow$ Hiển thị lý do đề xuất $\rightarrow$ Tùy chọn điều chỉnh $\rightarrow$ Lưu kết quả so sánh.
 
 ## Công nghệ sử dụng
 - **Frontend:** HTML5, CSS3, JavaScript (DOM, Events, Form Validation)

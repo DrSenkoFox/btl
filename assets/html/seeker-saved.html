@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/seeker-saved.css" />
     <script src="../js/common.js" defer></script>
-    <script src="../js/api.js" defer></script>
     <script src="../js/saved-homes.js" defer></script>
     <script src="../js/seeker-saved.js" defer></script>
   </head>
@@ -37,12 +36,7 @@
       </section>
 
       <section class="saved-comparison" aria-labelledby="comparison-heading">
-        <header class="saved-comparison__head">
-          <h2 id="comparison-heading">So sánh từng tiêu chí</h2>
-          <a class="saved-comparison__open" id="compare-open" href="ai-compare.html"
-            >✧ So sánh với AI</a
-          >
-        </header>
+        <h2 id="comparison-heading">So sánh từng tiêu chí</h2>
         <p
           class="saved-comparison__empty"
           id="comparison-empty"
@@ -50,8 +44,8 @@
           aria-live="polite"
           hidden
         >
-          Chưa có kết quả AI cho các căn đã lưu. Mở “So sánh với AI” để đối
-          chiếu theo brief.
+          Chưa có brief nên HomeFit chưa có tiêu chí để so sánh. Tạo brief để
+          bắt đầu đánh giá các căn đã lưu.
         </p>
         <section
           class="saved-comparison__scroll"
@@ -65,7 +59,35 @@
                 <th scope="col">Tiêu chí</th>
               </tr>
             </thead>
-            <tbody id="comparison-rows"></tbody>
+            <tbody>
+              <tr data-criterion="price">
+                <th scope="row">Giá thuê / tháng</th>
+              </tr>
+              <tr data-criterion="area">
+                <th scope="row">Diện tích / phòng</th>
+              </tr>
+              <tr data-criterion="location">
+                <th scope="row">Vị trí</th>
+              </tr>
+              <tr data-criterion="amenities">
+                <th scope="row">Tiện ích</th>
+              </tr>
+              <tr data-criterion="quiet">
+                <th scope="row">Yên tĩnh</th>
+              </tr>
+              <tr data-criterion="school">
+                <th scope="row">Gần trường</th>
+              </tr>
+              <tr data-criterion="wfh">
+                <th scope="row">WFH</th>
+              </tr>
+              <tr data-criterion="legal">
+                <th scope="row">Pháp lý</th>
+              </tr>
+              <tr data-criterion="fit">
+                <th scope="row">Điểm phù hợp cá nhân</th>
+              </tr>
+            </tbody>
           </table>
         </section>
       </section>
@@ -87,7 +109,6 @@
           <p id="assistant-status" role="status" aria-live="polite">
             Lưu nhà để bắt đầu so sánh theo ưu tiên cá nhân.
           </p>
-          <ol class="saved-assistant__ranking" id="assistant-ranking" hidden></ol>
           <p class="saved-assistant__disclaimer">
             Thông tin so sánh dựa trên dữ liệu của tin đăng và brief bạn cung
             cấp.
