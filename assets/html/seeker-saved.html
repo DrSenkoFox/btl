@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nhà đã lưu | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/seeker-saved.css" />
+    <script src="../js/common.js" defer></script>
+    <script src="../js/saved-homes.js" defer></script>
+    <script src="../js/seeker-saved.js" defer></script>
+  </head>
+  <body>
+    <nav id="site-navigation" aria-label="Điều hướng chính"></nav>
+    <main class="site-page saved-page">
+      <header class="saved-page__heading">
+        <hgroup>
+          <p class="saved-page__eyebrow">NHÀ ĐÃ LƯU / SO SÁNH</p>
+          <h1>Căn nào hợp với cuộc sống của bạn?</h1>
+          <p id="saved-summary">
+            0 căn đã lưu · So sánh theo tiêu chí của bạn.
+          </p>
+        </hgroup>
+        <a class="saved-page__add" href="seeker-search.html">
+          <span aria-hidden="true">+</span>
+          <span>Thêm căn nhà</span>
+        </a>
+      </header>
+
+      <section class="saved-properties" aria-label="Danh sách nhà đã lưu">
+        <p class="saved-properties__empty" id="saved-empty-state" role="status">
+          Chưa có nhà nào được lưu. Hãy tìm nhà và lưu những tin bạn muốn so
+          sánh.
+        </p>
+        <ul class="saved-house-list" id="saved-house-list"></ul>
+      </section>
+
+      <section class="saved-comparison" aria-labelledby="comparison-heading">
+        <h2 id="comparison-heading">So sánh từng tiêu chí</h2>
+        <p
+          class="saved-comparison__empty"
+          id="comparison-empty"
+          role="status"
+          aria-live="polite"
+          hidden
+        >
+          Chưa có brief nên HomeFit chưa có tiêu chí để so sánh. Tạo brief để
+          bắt đầu đánh giá các căn đã lưu.
+        </p>
+        <section
+          class="saved-comparison__scroll"
+          role="region"
+          tabindex="0"
+          aria-label="Bảng so sánh nhà đã lưu"
+        >
+          <table class="saved-comparison__table">
+            <thead>
+              <tr id="comparison-columns">
+                <th scope="col">Tiêu chí</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-criterion="price">
+                <th scope="row">Giá thuê / tháng</th>
+              </tr>
+              <tr data-criterion="area">
+                <th scope="row">Diện tích / phòng</th>
+              </tr>
+              <tr data-criterion="location">
+                <th scope="row">Vị trí</th>
+              </tr>
+              <tr data-criterion="amenities">
+                <th scope="row">Tiện ích</th>
+              </tr>
+              <tr data-criterion="quiet">
+                <th scope="row">Yên tĩnh</th>
+              </tr>
+              <tr data-criterion="school">
+                <th scope="row">Gần trường</th>
+              </tr>
+              <tr data-criterion="wfh">
+                <th scope="row">WFH</th>
+              </tr>
+              <tr data-criterion="legal">
+                <th scope="row">Pháp lý</th>
+              </tr>
+              <tr data-criterion="fit">
+                <th scope="row">Điểm phù hợp cá nhân</th>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </section>
+
+      <section
+        class="saved-personal-layout"
+        aria-label="Ưu tiên và hỗ trợ so sánh"
+      >
+        <aside class="saved-priorities" aria-labelledby="priorities-heading">
+          <h2 id="priorities-heading">Ưu tiên cá nhân</h2>
+          <p class="saved-priorities__empty" id="priorities-empty">
+            Chưa có tiêu chí ưu tiên. Tạo brief để có căn cứ so sánh.
+          </p>
+          <ul id="saved-priorities-list" hidden></ul>
+          <a href="seeker-brief-form.html">Cập nhật brief</a>
+        </aside>
+        <section class="saved-assistant" aria-labelledby="assistant-heading">
+          <h2 id="assistant-heading">✧ AI Comparison Assistant</h2>
+          <p id="assistant-status" role="status" aria-live="polite">
+            Lưu nhà để bắt đầu so sánh theo ưu tiên cá nhân.
+          </p>
+          <p class="saved-assistant__disclaimer">
+            Thông tin so sánh dựa trên dữ liệu của tin đăng và brief bạn cung
+            cấp.
+          </p>
+        </section>
+      </section>
+    </main>
+  </body>
+</html>
