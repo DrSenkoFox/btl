@@ -1,0 +1,255 @@
+:root {
+  --page-bg: #f4f6f4;
+  --surface: #ffffff;
+  --ink: #1e2d27;
+  --muted: #6f7d76;
+  --border: #e6eae7;
+  --green: #17684d;
+  --green-hover: #10553e;
+  --green-text: #1d7b5c;
+  --amber-bg: #fff8eb;
+  --amber-border: #fae6ba;
+  --amber-text: #8c5b14;
+  --amber-title: #7c4f0f;
+  --radius: 9px;
+  font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Trebuchet MS", sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: var(--page-bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+.agent-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: #718179;
+  margin: 0 0 16px;
+  padding: 0;
+  line-height: 1.4;
+}
+
+.agent-header-meta .prefix {
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.agent-header-meta .sep,
+.agent-header-meta .dot {
+  color: #9cb0a7;
+}
+
+.agent-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.agent-header-main {
+  flex: 1;
+}
+
+.agent-eyebrow {
+  margin: 0 0 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  color: var(--green);
+  text-transform: uppercase;
+}
+
+.agent-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 750;
+  color: #172a22;
+  line-height: 1.25;
+}
+
+.agent-desc {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--green);
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.btn-primary:hover {
+  background-color: var(--green-hover);
+}
+
+.agent-tabs {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid #e3e7e4;
+  margin-bottom: 14px;
+  padding: 0 4px;
+  overflow-x: auto;
+}
+.tab-btn {
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 8px 2px 10px;
+  color: #697872;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: inherit;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tab-btn:hover {
+  color: var(--ink);
+}
+.tab-btn.is-active {
+  color: var(--green);
+  font-weight: 700;
+  border-bottom-color: var(--green);
+}
+.action-sep {
+  color: #9cb0a7;
+  margin: 0 4px;
+}
+.agent-footer {
+  text-align: center;
+  padding: 16px 0;
+  color: #8c9c95;
+  font-size: 11px;
+}
+@media (max-width: 840px) {
+  .agent-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn-primary {
+    align-self: flex-start;
+  }
+}
+.req-table-scroll {
+  overflow-x: auto;
+}
+
+.req-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.req-table thead tr {
+  background: #f7f8f7;
+  border-bottom: 1px solid #edf0ed;
+}
+.req-table th {
+  padding: 9px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #6f7f78;
+  text-align: left;
+  white-space: nowrap;
+}
+.req-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid #f1f3f0;
+  vertical-align: middle;
+  color: #33443c;
+}
+.req-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.req-table tbody tr {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.req-table tbody tr:hover {
+  background: #f7faf8;
+}
+
+.req-table tbody tr.is-selected {
+  background: #edf6f0;
+}
+
+.req-table .empty-row td {
+  text-align: center;
+  color: var(--muted);
+  padding: 28px 12px;
+  cursor: default;
+}
+.detail-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.btn-reject,
+.btn-cancel-schedule {
+  background: transparent;
+  border: 0;
+  padding: 9px 4px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+.btn-reject {
+  color: var(--green);
+}
+
+.btn-cancel-schedule {
+  color: #a8483b;
+}
+
+.btn-reject:hover,
+.btn-cancel-schedule:hover {
+  text-decoration: underline;
+}
+.appt-field {
+  display: block;
+  margin-bottom: 10px;
+}
+.appt-field > span {
+  display: block;
+  margin-bottom: 4px;
+  color: #55665f;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.appt-field input,
+.appt-field textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 12.5px;
+}
+.appt-field textarea {
+  min-height: 54px;
+  resize: vertical;
+}
