@@ -178,6 +178,29 @@
   font-size: 14px;
 }
 
+.saved-comparison__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.saved-comparison__open {
+  margin-bottom: 10px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: var(--green);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.saved-comparison__open:hover {
+  background: var(--green-dark);
+}
+
 .saved-comparison__empty {
   margin: 0 0 10px;
   color: var(--muted);
@@ -280,6 +303,19 @@
 
 .saved-assistant h2 {
   color: var(--green-dark);
+}
+
+.saved-assistant__ranking {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--green-dark);
+  font-size: 11px;
+}
+
+.saved-assistant__ranking[hidden] {
+  display: none;
 }
 
 .saved-assistant .saved-assistant__disclaimer {
