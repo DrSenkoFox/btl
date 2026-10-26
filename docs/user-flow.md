@@ -1,93 +1,90 @@
-# HomeFit AI — User Flow & Sitemap
+# HomeFit AI — Luồng người dùng (User Flow) & Sitemap
 
-Tài liệu mắt xích 4–5 trong chuỗi truy vết (Context → Problem → Role → **User Flow** → Screen Inventory → Mockup → Task → Branch → Commit → PR → OBS → Viva).
-Nguồn: `README.md` trên `origin/main` (P1–P4, O1–O7, AI-1..3, bảng 4 vai trò) đối chiếu với `assets/html/` trên `Dev` và `Homefit Ai/pages/` trên `origin/main`.
+Tài liệu cặp với `docs/screen-inventory.md`. Ánh xạ P1–P4 → vai trò → màn hình → luồng nghiệp vụ đầu–cuối.
 
 ## 1. Vấn đề → vai trò → màn hình
 
-| Vấn đề | Nội dung | Vai trò chịu trách nhiệm | Màn hình giải quyết |
+| Vấn đề | Nội dung | Vai trò | Màn hình |
 |---|---|---|---|
 | P1 | Nhu cầu sống khó biểu diễn bằng bộ lọc giá/diện tích | Người tìm nhà | `seeker-brief-form.html`, `seeker-search.html`, `seeker-detail.html` |
 | P2 | Môi giới nhận brief không có cấu trúc | Môi giới | `agent-requests.html`, `agent-post.html` |
 | P3 | Khó so sánh nhiều tin đăng | Người tìm nhà | `seeker-saved.html` |
-| P4 | Tin đăng cần kiểm duyệt chất lượng | Kiểm duyệt viên, Quản trị viên | `moderator-listing-review.html`, `moderator-report-center.html`, `moderator-data-quality.html` |
+| P4 | Tin đăng cần được kiểm duyệt chất lượng | Kiểm duyệt viên, Quản trị viên | `moderator-listing-review.html`, `moderator-report-center.html`, `moderator-data-quality.html` |
 
 ## 2. Sitemap theo vai trò
 
 ```
-index.html (chọn vai trò / Role Switcher)
-└── login.html (đăng nhập theo vai trò, lưu homefit-current-session)
-    ├── NGƯỜI TÌM NHÀ (seeker)
-    │   ├── seeker-search.html         Tìm & lọc theo brief
-    │   ├── seeker-detail.html         Chi tiết nhà + AI Living Summary
-    │   ├── seeker-brief-form.html     Tạo brief + AI Lifestyle Matcher
-    │   ├── seeker-saved.html          Nhà đã lưu + AI Comparison
-    │   ├── seeker-agent-selection.html Chọn môi giới
-    │   ├── seeker-agent-profile.html   Hồ sơ môi giới
-    │   └── seeker-report.html          Báo cáo bài đăng cho kiểm duyệt
-    ├── MÔI GIỚI (agent)
-    │   ├── agent-post.html            Tạo bài + AI gợi ý bố cục
-    │   ├── agent-posts.html           Quản lý bài đăng, xuất CSV
-    │   ├── agent-requests.html        Lead & yêu cầu từ brief của seeker
-    │   └── agent-appointments.html    Lịch hẹn xem nhà
-    ├── KIỂM DUYỆT VIÊN (moderator)  — nguồn: origin/main
-    │   ├── moderator-listing-review.html Duyệt tin pending → approved/rejected
-    │   ├── moderator-report-center.html  Xử lý báo cáo từ seeker
-    │   └── moderator-data-quality.html   Giám sát chất lượng dữ liệu
-    └── QUẢN TRỊ VIÊN (admin)  — nguồn: origin/main
-        ├── admin-platform-dashboard.html Thống kê toàn sàn
-        ├── admin-user-management.html    Tài khoản & phân quyền
-        └── admin-category-management.html Taxonomy (danh mục, khu vực)
+seeker-search.html (điểm vào sản phẩm + thanh chuyển vai trò)
+├── NGƯỜI TÌM NHÀ (SV1)
+│   ├── seeker-search.html           Tìm & lọc theo brief
+│   ├── seeker-detail.html           Chi tiết nhà + Living Summary
+│   ├── seeker-brief-form.html       Tạo brief + AI Lifestyle Matcher
+│   ├── seeker-saved.html            Nhà đã lưu + AI Comparison
+│   ├── seeker-agent-selection.html  Chọn môi giới
+│   ├── seeker-agent-profile.html    Hồ sơ môi giới
+│   └── seeker-report.html           Báo cáo bài đăng
+├── MÔI GIỚI (SV1)
+│   ├── agent-post.html              Tạo bài đăng + AI gợi ý bố cục
+│   ├── agent-posts.html             Quản lý bài đăng, xuất CSV
+│   ├── agent-requests.html          Lead & yêu cầu từ brief
+│   └── agent-appointments.html      Lịch hẹn xem nhà
+├── KIỂM DUYỆT VIÊN (SV2)
+│   ├── moderator-listing-review.html Duyệt tin chờ
+│   ├── moderator-report-center.html  Xử lý báo cáo
+│   └── moderator-data-quality.html   Giám sát chất lượng dữ liệu
+└── QUẢN TRỊ VIÊN (SV2)
+    ├── admin-platform-dashboard.html Thống kê nền tảng
+    ├── admin-user-management.html    Tài khoản & phân quyền
+    └── admin-category-management.html Taxonomy danh mục
 ```
 
-## 3. Luồng nghiệp vụ đầu–cuối (hành trình chính, có liên thông dữ liệu)
+## 3. Hành trình đầu–cuối xuyên bốn vai trò
 
 ```
-[Seeker]  index → login(seeker)
-   → seeker-brief-form: nhập nhu cầu → AI-1 Lifestyle Matcher
-        (Input → Processing → Output → Giải thích % → Chấp nhận/Sửa/Từ chối → Lưu homefit-brief-draft)
-   → seeker-search: lọc theo brief + từ khóa + sắp xếp → bấm "Lưu căn" (homefit-saved-homes)
-   → seeker-detail: AI Living Summary → đặt lịch xem nhà (homefit-appointments, status = pending)
-   → seeker-saved: AI-3 Comparison Assistant xếp hạng các căn đã lưu
-   → seeker-report: báo cáo tin sai lệch (homefit-property-reports, status = open)
+[Người tìm nhà]  seeker-search → lọc từ khóa + ≥2 tiêu chí + sắp xếp
+   → seeker-brief-form: nhập nhu cầu → AI-1 phân tích (Input → Processing → Output
+        → % độ tin cậy & tiêu chí khớp → Chấp nhận/Sửa/Từ chối/Tạo lại → Lưu brief)
+   → seeker-detail: xem ảnh & AI Living Summary → bấm lưu căn → bấm đặt lịch xem nhà
+   → seeker-saved: AI-3 so sánh và xếp hạng các căn đã lưu
+   → seeker-agent-selection → seeker-agent-profile: chọn môi giới, gửi lead
+   → seeker-report: báo tin đăng sai lệch cho kiểm duyệt viên
 
-[Agent]   index → login(agent) → cùng session
-   → agent-requests: lead/brief của seeker hiện sang đây (đọc homefit-brief-draft + homefit-agent-requests)
-        → phản hồi, chốt lịch (homefit-appointments: pending → confirmed)
-   → agent-post: tạo tin, AI-2 gợi ý bố cục + checklist trước khi gửi
-        → homefit-agent-posts với status = draft → pending
-   → agent-posts: sửa/ẩn/rút về nháp/xóa, xuất CSV
-   → agent-appointments: xác nhận → hoàn tất / hủy lịch (homefit-appointments: confirmed → completed|cancelled)
+[Môi giới]  agent-requests: lead và brief của người tìm nhà hiện vào hàng đợi
+   → phản hồi, đề xuất khung giờ → chốt lịch (hẹn `pending → confirmed`)
+   → agent-post: tạo tin, AI-2 gợi ý bố cục + checklist trước khi gửi → tin `draft → pending`
+   → agent-posts: sửa / ẩn-hiện / rút về nháp / xóa, xuất CSV
+   → agent-appointments: xác nhận → hoàn tất hoặc hủy lịch
 
-[Moderator]  index → login(moderator)
-   → moderator-listing-review: hàng đợi status = pending từ agent
-        → Duyệt (approved) → tin xuất hiện ở seeker-search | Từ chối (rejected) kèm lý do
-   → moderator-report-center: báo cáo status = open từ seeker → giữ nguyên / ẩn tin / từ chối báo cáo
-   → moderator-data-quality: danh sách tin thiếu ảnh, thiếu giá, độ tin cậy thấp
+[Kiểm duyệt viên]  moderator-listing-review: hàng đợi tin `pending` từ môi giới
+   → Duyệt (`approved`) để tin xuất hiện ở seeker-search, hoặc Từ chối (`rejected`) kèm lý do
+   → moderator-report-center: nhận report `open` → giữ nguyên / ẩn tin / `dismissed`
+   → moderator-data-quality: tin thiếu ảnh, thiếu giá → yêu cầu `needs-revision`
 
-[Admin]   index → login(admin)
-   → admin-platform-dashboard: tổng số user/tin/report, bộ lọc thời gian
-   → admin-user-management: khóa/mở tài khoản, gán perms (homefit-users-db)
-   → admin-category-management: thêm/sửa danh mục dự án, khu vực dùng cho bộ lọc
+[Quản trị viên]  admin-platform-dashboard: thống kê tin, lead, báo cáo theo bộ lọc
+   → admin-user-management: gán quyền, khóa/mở tài khoản
+   → admin-category-management: danh mục khu vực/loại hình nuôi bộ lọc của seeker-search
 ```
 
-Vòng đời trạng thái bản ghi dùng chung cho toàn hệ thống:
+## 4. Liên thông dữ liệu giữa các vai trò
 
-| Thực thể | Khoá localStorage | Trạng thái |
-|---|---|---|
-| Bài đăng | `homefit-agent-posts` | `draft → pending → approved / rejected` (+ ẩn/hiện) |
-| Lịch hẹn | `homefit-appointments` | `pending → confirmed → completed / cancelled` |
-| Lead / yêu cầu | `homefit-agent-requests` | `new → contacted → scheduled / closed` |
-| Báo cáo | `homefit-property-reports` | `open → reviewing → resolved / dismissed` |
-| Brief | `homefit-brief-draft` | `draft → published` |
-| Nhà đã lưu | `homefit-saved-homes` | `saved → removed` |
-| Tài khoản | `homefit-users-db` | `active → banned` |
-| Phiên đăng nhập | `homefit-current-session` | `role = seeker \| agent \| moderator \| admin` |
+| Thực thể | Khoá localStorage | Vòng đời trạng thái | Vai trò ghi | Vai trò đọc |
+|---|---|---|---|---|
+| Bài đăng | `homefit-agent-posts` | `draft → pending → approved / rejected → needs-revision` | Môi giới | Người tìm nhà, Kiểm duyệt viên, Quản trị viên |
+| Brief nhu cầu | `homefit-brief-draft` | `draft → published` | Người tìm nhà | Môi giới, AI Lifestyle Matcher |
+| Nhà đã lưu | `homefit-saved-homes` | `saved → removed` | Người tìm nhà | AI Comparison |
+| Lead / yêu cầu | `homefit-agent-requests` | `new → contacted → scheduled / closed` | Người tìm nhà | Môi giới |
+| Lịch hẹn | `homefit-appointments` | `pending → confirmed → completed / cancelled` | Người tìm nhà | Môi giới |
+| Báo cáo | `homefit-property-reports` | `open → reviewing → resolved / dismissed` | Người tìm nhà | Kiểm duyệt viên, Quản trị viên |
+| Tài khoản | `homefit-users-db` | `active → banned` | Quản trị viên | Kiểm duyệt viên |
 
-Đồng bộ liên vai trò: mỗi trang lắng nghe `window.addEventListener("storage", ...)` để tab của vai trò khác cập nhật ngay (đã có ở 6 file JS trên `Dev`).
+Mỗi màn hình lắng nghe `window.addEventListener("storage", ...)` nên thao tác ở tab của vai trò này cập nhật ngay sang tab của vai trò kia — đây là mắt xích chứng minh sản phẩm là một hệ thống thống nhất, không phải các trang rời rạc.
 
-## 4. Liên kết đang thiếu (chết) trên `Dev`
+## 5. Ba tính năng AI theo đặc tả đề tài
 
-- `assets/js/common.js` điều hướng tới `seeker-profile.html` — file chưa tồn tại ⇒ bấm menu là 404, mục 2.4 trừ -0.10 mỗi lỗi.
-- Không có `index.html` và `login.html` ⇒ demo phải gõ tay URL, mục 2.1 trừ -0.20 vì thiếu màn hình dùng chung.
-- Chưa có màn hình moderator/admin trong `assets/html` ⇒ mục 2.1 trừ -0.30 vì mới 2 vai trò.
+| Mã | Tính năng | Vai trò | Màn hình | Luồng 6 bước |
+|---|---|---|---|---|
+| AI-1 | Lifestyle Matcher — chấm điểm phù hợp theo brief | Người tìm nhà | `seeker-brief-form.html`, `seeker-search.html` | Input → Processing → Output → Giải thích % độ tin cậy & tiêu chí khớp → Chấp nhận/Sửa/Từ chối/Tạo lại → Lưu vào brief |
+| AI-2 | Listing Summary — tóm tắt và gợi ý bố cục tin đăng | Môi giới | `agent-post.html` | Input → Processing → Output → Giải thích theo đầu vào → Lưu/Sửa/Từ chối → Cập nhật mô tả tin đăng |
+| AI-3 | Comparison Assistant — xếp hạng nhà đã lưu | Người tìm nhà | `seeker-saved.html` | Chọn căn → Phân tích → Bảng xếp hạng → Lý do đề xuất → Điều chỉnh tiêu chí → Lưu kết quả so sánh |
+
+Kịch bản AI không chắc chắn: khi brief thiếu dữ liệu hoặc độ tin cậy thấp, hệ thống hiển thị cảnh báo "chưa đủ dữ liệu để xác định tiêu chí" thay vì trả kết quả giả, kèm nút bổ sung thông tin.

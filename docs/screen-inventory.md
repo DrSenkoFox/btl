@@ -1,47 +1,32 @@
 # HomeFit AI — Bảng kiểm kê màn hình (Screen Inventory)
 
-Mắt xích 5 của chuỗi truy vết, dùng cho ĐK1 và mục 1.2 (0.30 điểm).
-Cột **Tệp** là đường dẫn thật trong `assets/html/`; cột **Nguồn** cho biết màn hình đã code xong hay còn nằm ở bản `origin/main`.
+Cặp tài liệu với `docs/user-flow.md`. Mỗi dòng là một màn hình độc lập của sản phẩm, đặt tên tệp theo chuẩn `role-function.html`.
 
-| Role | User Goal | User Task | Screen | File | CRUD | States | AI | Assignee | Task ID | Branch | OBS |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| Dùng chung | Vào hệ thống theo đúng vai trò | Chọn vai trò trên Role Switcher | Trang chủ | `index.html` | R | CHƯA TẠO | — | SV1 | TASK-01 | `feature/shared-index` | CHƯA QUAY |
-| Dùng chung | Đăng nhập phiên làm việc | Nhập email/mật khẩu, validate | Đăng nhập | `login.html` | R, Create session | CHƯA TẠO | — | SV1 | TASK-02 | `feature/shared-login` | CHƯA QUAY |
-| Dùng chung | Xem/sửa thông tin tài khoản | Cập nhật hồ sơ cá nhân | Tài khoản | `profile.html` | U | CHƯA TẠO (menu đang trỏ `seeker-profile.html` — liên kết chết) | — | SV1 | TASK-03 | `feature/shared-profile` | CHƯA QUAY |
-| Người tìm nhà | Tìm nhà hợp nhu cầu sống | Gõ từ khóa, lọc ≥2 tiêu chí, sắp xếp | Tìm nhà | `seeker-search.html` | R, Delete (bỏ lưu) | Normal, Empty — thiếu Loading, Error | AI-1 điểm khớp theo brief | SV1 | TASK-04 | `feature/seeker-search` | CHƯA QUAY |
-| Người tìm nhà | Hiểu rõ một căn nhà | Xem ảnh, thông tin, đặt lịch xem | Chi tiết nhà | `seeker-detail.html` | R, Create (lịch hẹn) | Normal, Empty — thiếu Loading, Error | AI Living Summary (thiếu Processing, thiếu nút Accept/Edit/Reject) | SV1 | TASK-05 | `feature/seeker-detail` | CHƯA QUAY |
-| Người tìm nhà | Diễn đạt nhu cầu thành brief | Điền form, AI gợi ý tiêu chí | Tạo brief | `seeker-brief-form.html` | C, U | Normal, Empty, Error — thiếu Loading | AI-1 Lifestyle Matcher (đủ 6 bước, có Confidence + Failure UX) | SV1 | TASK-06 | `feature/seeker-brief` | CHƯA QUAY |
-| Người tìm nhà | So sánh các căn đã lưu | Lưu/bỏ căn, đọc bảng so sánh | Nhà đã lưu | `seeker-saved.html` | C, R, U, D | Normal, Empty — thiếu Loading, Error | AI-3 Comparison Assistant (thiếu Processing, thiếu nút điều khiển) | SV1 | TASK-07 | `feature/seeker-saved` | CHƯA QUAY |
-| Người tìm nhà | Chọn người đồng hành | Lọc và chọn môi giới theo brief | Chọn môi giới | `seeker-agent-selection.html` | R, U (gán lead) | Normal, Empty — thiếu Loading, Error | Gợi ý khớp brief (không có Processing) | SV1 | TASK-08 | `feature/seeker-agent-select` | CHƯA QUAY |
-| Người tìm nhà | Đánh giá năng lực môi giới | Xem hồ sơ, bài đăng, phản hồi | Hồ sơ môi giới | `seeker-agent-profile.html` | R | Normal, Empty — thiếu Loading, Error | — | SV1 | TASK-09 | `feature/seeker-agent-profile` | CHƯA QUAY |
-| Người tìm nhà | Báo tin đăng sai lệch | Gửi report cho kiểm duyệt | Báo cáo bài đăng | `seeker-report.html` | C | Normal — thiếu Empty, Loading, Error | — | SV1 | TASK-10 | `feature/seeker-report` | CHƯA QUAY |
-| Môi giới | Đăng tin chất lượng | Nhập thông tin, AI gợi ý bố cục, checklist | Tạo bài đăng | `agent-post.html` | C, U | Normal, Error — thiếu Loading, Empty | AI-2 Listing Summary / gợi ý bố cục (có nút Áp dụng, thiếu Processing) | SV3 | TASK-11 | `feature/agent-post-create` | CHƯA QUAY |
-| Môi giới | Quản lý vòng đời tin | Sửa/ẩn/rút nháp/xóa, xuất CSV | Quản lý bài đăng | `agent-posts.html` | R, U, D | Normal, Empty — thiếu Loading, Error | Điểm tin cậy từng tin | SV3 | TASK-12 | `feature/agent-listing-mgmt` | CHƯA QUAY |
-| Môi giới | Bắt khách tiềm năng | Đọc brief seeker, phản hồi, chốt lịch | Yêu cầu & khách hàng | `agent-requests.html` | R, U | Normal, Empty — thiếu Loading, Error | Xếp hạng lead | SV3 | TASK-13 | `feature/agent-leads` | CHƯA QUAY |
-| Môi giới | Sắp lịch xem nhà | Xác nhận/hoàn tất/hủy theo tuần–tháng | Lịch hẹn | `agent-appointments.html` | R, U, D | Normal, Empty — thiếu Loading, Error | Gợi ý khung giờ | SV3 | TASK-14 | `feature/agent-schedule` | CHƯA QUAY |
-| Kiểm duyệt viên | Lọc tin đạt chuẩn | Duyệt pending → approved/rejected kèm lý do | Duyệt bài đăng | `moderator-listing-review.html` | R, U | CHƯA port (mới có Normal; 0 Empty/Loading/Error) | Cảnh báo tin nghi vấn | SV2 | TASK-15 | `feature/moderator-review` | CHƯA QUAY |
-| Kiểm duyệt viên | Xử lý báo cáo | Mở report, giữ/ẩn tin, kết luận | Trung tâm vi phạm | `moderator-report-center.html` | R, U | CHƯA port (chỉ Normal) | Phân loại mức độ vi phạm | SV2 | TASK-16 | `feature/moderator-reports` | CHƯA QUAY |
-| Kiểm duyệt viên | Giám sát chất lượng dữ liệu | Lọc tin thiếu ảnh/giá, độ tin cậy thấp | Giám sát dữ liệu | `moderator-data-quality.html` | R, U | CHƯA port (chỉ Normal) | Chấm điểm chất lượng tin | SV2 | TASK-17 | `feature/moderator-quality` | CHƯA QUAY |
-| Quản trị viên | Nhìn toàn sàn | Xem thống kê, lọc theo thời gian/trạng thái | Dashboard nền tảng | `admin-platform-dashboard.html` | R | CHƯA port (chỉ Normal) | Biểu đồ xu hướng | SV2 | TASK-18 | `feature/admin-dashboard` | CHƯA QUAY |
-| Quản trị viên | Kiểm soát tài khoản | Khóa/mở tài khoản, gán quyền | Tài khoản & phân quyền | `admin-user-management.html` | R, C, U, D | CHƯA port (chỉ Normal) | — | SV2 | TASK-19 | `feature/admin-users` | CHƯA QUAY |
-| Quản trị viên | Chuẩn hóa danh mục | Thêm/sửa khu vực, loại hình dùng cho bộ lọc | Taxonomy | `admin-category-management.html` | C, R, U, D | CHƯA port (chỉ Normal) | — | SV2 | TASK-20 | `feature/admin-taxonomy` | CHƯA QUAY |
+| Vai trò | Mục tiêu người dùng | Nhiệm vụ người dùng | Màn hình | Tệp | CRUD/Trạng thái | AI | SV phụ trách |
+|---|---|---|---|---|---|---|---|
+| Người tìm nhà | Tìm được căn nhà hợp nhu cầu sống | Tìm và lọc bài đăng bán/cho thuê theo từ khóa, bộ lọc đa tiêu chí và brief | Tìm nhà | `assets/html/seeker-search.html` | R · tin `approved` hiển thị, tin `draft/pending` bị ẩn | Đề xuất mức độ khớp theo brief (AI-1 Lifestyle Matcher) | SV1 |
+| Người tìm nhà | Hiểu rõ giá trị thực của một căn | Xem thư viện ảnh, thông số, tiện ích và đặt lịch xem nhà | Chi tiết nhà | `assets/html/seeker-detail.html` | R, Create (lịch hẹn) · `pending → confirmed` | Living Summary tóm tắt ưu/nhược điểm căn nhà | SV1 |
+| Người tìm nhà | Diễn đạt nhu cầu sống thành bản mô tả có cấu trúc | Điền biểu mẫu nhu cầu, duyệt gợi ý tiêu chí của AI rồi lưu brief | Tạo brief tìm nhà | `assets/html/seeker-brief-form.html` | C, U · brief `draft → published` | AI-1 Lifestyle Matcher: chấm điểm phù hợp, % độ tin cậy, cảnh báo thiếu dữ liệu | SV1 |
+| Người tìm nhà | So sánh nhiều căn đã chọn | Lưu/bỏ căn, đọc bảng tiêu chí so sánh và xếp hạng | Nhà đã lưu | `assets/html/seeker-saved.html` | C, R, U, D · `saved → removed` | AI-3 Comparison Assistant: xếp hạng và bảng tiêu chí so sánh | SV1 |
+| Người tìm nhà | Chọn người đồng hành phù hợp brief | Lọc danh sách môi giới theo chuyên khu và mức khớp | Chọn môi giới | `assets/html/seeker-agent-selection.html` | R, U · lead `new → contacted` | Xếp hạng môi giới theo brief | SV1 |
+| Người tìm nhà | Đánh giá năng lực từng môi giới | Xem hồ sơ, bài đăng và phản hồi của môi giới | Hồ sơ môi giới | `assets/html/seeker-agent-profile.html` | R · lead `contacted → scheduled` | — | SV1 |
+| Người tìm nhà | Phản ánh tin đăng sai lệch | Soạn và gửi báo cáo cho kiểm duyệt viên | Báo cáo bài đăng | `assets/html/seeker-report.html` | C · report `open → reviewing → resolved/dismissed` | Phân loại mức độ nghiêm trọng của báo cáo | SV1 |
+| Môi giới | Đăng tin chất lượng, đủ hồ sơ | Nhập thông tin tin đăng, tải ảnh, đối chiếu checklist trước khi gửi | Tạo bài đăng | `assets/html/agent-post.html` | C, U · tin `draft → pending` | AI-2 Listing Summary: gợi ý bố cục và tóm tắt tin đăng | SV1 |
+| Môi giới | Kiểm soát vòng đời tin đăng | Sửa, ẩn/hiện, rút về nháp, xóa và xuất dữ liệu | Quản lý bài đăng | `assets/html/agent-posts.html` | R, U, D · tin `pending → approved/rejected` | Chấm điểm độ hoàn thiện từng tin | SV1 |
+| Môi giới | Bắt đúng khách tiềm năng | Đọc brief của người tìm nhà, phản hồi và đề xuất khung giờ | Yêu cầu & khách hàng | `assets/html/agent-requests.html` | R, U · lead `new → contacted → scheduled/closed` | Gợi ý khung giờ và kịch bản tư vấn theo brief | SV1 |
+| Môi giới | Sắp xếp lịch xem nhà khoa học | Chuyển đổi lịch tuần/tháng, xác nhận, hoàn tất hoặc hủy hẹn | Lịch hẹn | `assets/html/agent-appointments.html` | R, U, D · hẹn `pending → confirmed → completed/cancelled` | — | SV1 |
+| Kiểm duyệt viên | Chỉ tin đạt chuẩn lên sàn | Duyệt hàng đợi tin chờ, đối chiếu pháp lý, chấp nhận hoặc từ chối kèm lý do | Duyệt bài đăng | `assets/html/moderator-listing-review.html` | R, U · tin `pending → approved/rejected` | Cảnh báo tin nghi vấn thiếu căn cứ | SV2 |
+| Kiểm duyệt viên | Xử lý phản ánh của người dùng | Mở báo cáo, kiểm tra tin bị phản ánh, kết luận và ghi hướng xử lý | Trung tâm xử lý vi phạm | `assets/html/moderator-report-center.html` | R, U · report `open → reviewing → resolved/dismissed` | Phân loại vi phạm và mức độ ưu tiên xử lý | SV2 |
+| Kiểm duyệt viên | Duy trì chất lượng dữ liệu toàn sàn | Lọc tin thiếu ảnh, thiếu giá, thông tin bất thường và yêu cầu bổ sung | Giám sát chất lượng dữ liệu | `assets/html/moderator-data-quality.html` | R, U · tin `approved → needs-revision` | Chấm điểm chất lượng dữ liệu từng tin | SV2 |
+| Quản trị viên | Nắm tình hình nền tảng | Xem thống kê tin, lead, báo cáo theo bộ lọc thời gian và trạng thái | Dashboard nền tảng | `assets/html/admin-platform-dashboard.html` | R · số liệu tổng hợp theo trạng thái nghiệp vụ | Biểu đồ xu hướng đăng tin và duyệt tin | SV2 |
+| Quản trị viên | Kiểm soát tài khoản và phân quyền | Tạo tài khoản, gán vai trò, khóa hoặc mở lại quyền | Tài khoản & phân quyền | `assets/html/admin-user-management.html` | C, R, U, D · tài khoản `active → banned` | — | SV2 |
+| Quản trị viên | Chuẩn hóa dữ liệu danh mục | Thêm/sửa khu vực, loại hình, tiện ích dùng cho bộ lọc toàn hệ thống | Taxonomy | `assets/html/admin-category-management.html` | C, R, U, D · danh mục `active → archived` | — | SV2 |
 
-Nguồn bản gốc của 6 dòng Kiểm duyệt viên / Quản trị viên: `origin/main` → `Homefit Ai/pages/`, có `js/api.js` với 8 khoá `homefit-*` và `js/modules/{moderator,admin}.js`.
+## Bốn vai trò của hệ thống
 
-## Tổng kết theo vai trò
-
-| Vai trò | Đã code trên `Dev` | Cần port từ `main` | Cần tạo mới | Tổng màn hình |
-|---|---|---|---|---|
-| Dùng chung | 0 | 0 (`index.html` của main chỉ là redirect) | 3 | 3 |
-| Người tìm nhà | 7 | 0 | 0 | 7 |
-| Môi giới | 4 | 0 | 0 | 4 |
-| Kiểm duyệt viên | 0 | 3 | 0 | 3 |
-| Quản trị viên | 0 | 3 | 0 | 3 |
-| **Cộng** | **11** | **6** | **3** | **20** |
-
-## Hole cần xử lý trước khi chốt bảng
-
-1. Loading/Skeleton **chưa tồn tại trên bất kỳ màn hình nào** ⇒ mục 2.3 mất điểm và cả 4 tính năng AI thiếu bước 2 trong 6 bước AI UX.
-2. Error State chỉ có ở `agent-post.html`, `agent-requests.html`, `seeker-brief-form.html`; các trang còn lại gộp Empty chung với lỗi ⇒ -0.15.
-3. 6 trang moderator/admin chưa có Empty/Loading/Error và dùng 13–15 thẻ `<div>` mỗi trang; khi port phải chuyển sang thẻ ngữ nghĩa và tách CSS theo từng trang.
-4. Số video OBS bắt buộc = số dòng "đã hoàn thành" của bảng này (mục 8.1), nên chỉ đánh dấu Hoàn thành khi màn hình đủ Definition of Done 14 bước.
+| Vai trò | Trách nhiệm chính | Số màn hình | SV phụ trách |
+|---|---|---|---|
+| Người tìm nhà | Tìm, lưu và so sánh nhà theo nhu cầu sống | 7 | SV1 |
+| Môi giới | Quản lý tin đăng và khách hàng tiềm năng | 4 | SV1 |
+| Kiểm duyệt viên | Duyệt tin đăng và xử lý báo cáo | 3 | SV2 |
+| Quản trị viên | Quản lý tài khoản và danh mục nền tảng | 3 | SV2 |
