@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yêu cầu & khách hàng | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="../js/api.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/modules/agent.js" defer></script>
+  </head>
+  <body>
+    <aside class="agent-nav" id="agent-nav" aria-label="Điều hướng môi giới"></aside>
+
+    <main class="agent-requests-page">
+      <header class="agent-header">
+        <hgroup class="agent-header-main">
+          <p class="agent-header-meta">
+            <span class="prefix">KHÔNG GIAN MÔI GIỚI</span>
+            <span class="sep">/</span>
+            <span id="agent-broker-name">Nguyễn Lan Hương</span>
+          </p>
+          <p class="agent-eyebrow">CRM / BRIEF &amp; LEAD</p>
+          <h1 class="agent-title">Hiểu nhu cầu, bắt đầu cuộc trò chuyện</h1>
+          <p class="agent-desc">
+            Yêu cầu mới từ Người tìm nhà chỉ trở thành khách đang tư vấn sau khi bạn tiếp nhận.
+          </p>
+        </hgroup>
+      </header>
+
+      <section class="requests-layout">
+        <!-- Cột trái: Bảng danh sách khách hàng gửi Brief -->
+        <article class="req-card req-list-card">
+          <h2 style="margin:0 0 12px;font-size:16px;">Danh sách khách hàng quan tâm</h2>
+          <section class="req-table-scroll">
+            <table class="req-table">
+              <thead>
+                <tr>
+                  <th>Khách / Mã Lead</th>
+                  <th>Nguồn Brief</th>
+                  <th>Trạng thái</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="agent-req-tbody"></tbody>
+            </table>
+          </section>
+        </article>
+
+        <!-- Cột phải: Chi tiết Brief & Tạo lịch hẹn nhanh -->
+        <article class="req-card req-detail-card" id="agent-req-detail-box">
+          <p style="color:#77817b;font-size:12.5px;text-align:center;margin:48px 0;">
+            Chọn một yêu cầu từ danh sách bên trái để xem chi tiết Brief nhu cầu sống và tiếp nhận tư vấn.
+          </p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

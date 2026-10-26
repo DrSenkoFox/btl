@@ -1,0 +1,84 @@
+<!-- ==================== pages/seeker-home-brief.html ==================== -->
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nhu cầu nhà ở | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+    <script src="../js/api.js" defer></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/modules/seeker.js" defer></script>
+  </head>
+  <body>
+    <nav id="site-navigation"></nav>
+    <header class="page-header">
+      <p class="page-header__eyebrow"><span>BRIEF</span><span>/</span><span>GIA ĐÌNH</span></p>
+      <h1 class="page-header__title">Nói về ngôi nhà bạn cần</h1>
+      <p class="page-header__description">Chia sẻ nhu cầu để nhận gợi ý phù hợp.</p>
+    </header>
+    <main class="brief-layout">
+      <form class="brief-form" id="brief-form">
+        <section class="form-section">
+          <h2>01 / Thông tin tìm nhà</h2>
+          <fieldset class="form-fields">
+            <p class="form-field">
+              <label class="field-label" for="brief-title">Tên nhu cầu <span>*</span></label>
+              <input id="brief-title" required placeholder="Ví dụ: Gia đình Minh Anh - Nhà gần trường" />
+            </p>
+            <p class="form-field">
+              <label class="field-label">Ngân sách tối thiểu <span>*</span></label>
+              <input id="budget-min" type="number" required />
+            </p>
+            <p class="form-field">
+              <label class="field-label">Ngân sách tối đa <span>*</span></label>
+              <input id="budget-max" type="number" required />
+            </p>
+            <p class="form-field">
+              <label class="field-label">Khu vực mong muốn <span>*</span></label>
+              <input id="preferred-area" required placeholder="Quận 2, Thảo Điền" />
+            </p>
+            <p class="form-field">
+              <label class="field-label">Số thành viên <span>*</span></label>
+              <input id="household-size" type="number" value="3" required />
+            </p>
+          </fieldset>
+        </section>
+        <section class="form-section">
+          <h2>02 / Cuộc sống của bạn</h2>
+          <section class="lifestyle-fields">
+            <p class="form-field">
+              <label class="field-label" for="lifestyle">Mô tả nhu cầu sống <span>*</span></label>
+              <textarea id="lifestyle" rows="4" required placeholder="Gia đình 3 người cần không gian yên tĩnh, gần trường học và có góc làm việc WFH..."></textarea>
+            </p>
+            <ul class="need-tags" id="need-tags" hidden></ul>
+            <button class="lifestyle-analyze-button" id="analyze-lifestyle" type="button" disabled>
+              <span>✧</span> Phân tích với Lifestyle Matcher
+            </button>
+          </section>
+        </section>
+        <section class="form-section">
+          <h2>03 / Chọn môi giới &amp; gửi</h2>
+          <footer class="brief-actions">
+            <button id="submit-brief" type="submit" disabled>Gửi brief</button>
+          </footer>
+          <p class="brief-action-status" id="brief-action-status" hidden></p>
+        </section>
+      </form>
+      <aside class="brief-sidebar">
+        <section class="sidebar-section">
+          <header class="matcher-heading-row">
+            <h2><span>✧</span> AI Lifestyle Matcher</h2>
+            <span class="matcher-support"><span></span> AI hỗ trợ</span>
+          </header>
+          <p id="matcher-status">Nhập nhu cầu sinh hoạt để bắt đầu phân tích.</p>
+          <section class="matcher-result" id="matcher-result" hidden>
+            <h3 id="matcher-summary"></h3>
+            <ul id="matcher-reasons"></ul>
+          </section>
+        </section>
+      </aside>
+    </main>
+  </body>
+</html>
