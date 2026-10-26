@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tạo bài đăng | HomeFit AI</title>
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/agent-post.css" />
+    <script src="../js/common.js" defer></script>
+    <script src="../js/agent-posts.js" defer></script>
+    <script src="../js/agent-post.js" defer></script>
+  </head>
+  <body>
+    <main class="agent-post-page">
+      <p class="agent-header-meta">
+        <span class="prefix">KHÔNG GIAN MÔI GIỚI</span>
+        <span class="sep" id="agent-meta-sep" style="display: none;">/</span>
+        <span id="agent-broker-name"></span>
+        <span class="dot">•</span>
+        <span id="agent-broker-notif">Thông báo (0)</span>
+      </p>
+
+      <a href="agent-posts.html" class="agent-post-back-btn">
+        ← Quay lại quản lý bài đăng
+      </a>
+
+      <header class="agent-post-heading">
+        <p class="agent-post-eyebrow" id="agent-post-eyebrow">CHỈNH SỬA HF-104 / PALM RESIDENCE</p>
+        <h1>Thông tin rõ ràng, niềm tin vững vàng</h1>
+        <p id="agent-post-subtitle">
+          Bản sửa được lưu riêng. AI chỉ hỗ trợ nội dung; môi giới gửi duyệt và kiểm duyệt viên quyết định công khai.
+        </p>
+      </header>
+
+      <p class="agent-post-notice">
+        <strong>Trước khi gửi:</strong> Tin đăng sẽ được kiểm duyệt. Chỉ tin
+        được chấp nhận mới xuất hiện trong danh sách tìm nhà.
+      </p>
+
+      <section
+        class="agent-post-layout"
+        aria-label="Biểu mẫu bài đăng, gợi ý AI, xem trước và kiểm tra"
+      >
+        <form class="agent-post-form" id="agent-post-form">
+          <section class="agent-post-section">
+            <h2>01 / Thông tin căn nhà</h2>
+            <fieldset class="agent-post-switch">
+              <legend class="visually-hidden">Loại giao dịch</legend>
+              <label
+                ><input
+                  type="radio"
+                  name="transaction"
+                  value="rent"
+                  checked
+                /><span>Thuê</span></label
+              >
+              <label
+                ><input type="radio" name="transaction" value="buy" /><span
+                  >Mua</span
+                ></label
+              >
+            </fieldset>
+            <fieldset class="agent-post-fields">
+              <label class="agent-post-field agent-post-field--wide">
+                Tiêu đề bài đăng <span>*</span>
+                <input
+                  name="title"
+                  required
+                  maxlength="110"
+                  placeholder="Palm Residence • Căn hộ 2PN cho gia đình"
+                />
+              </label>
+              <label class="agent-post-field">
+                Loại nhà <span>*</span>
+                <input
+                  name="houseType"
+                  required
+                  placeholder="Căn hộ • 2 phòng ngủ"
+                />
+              </label>
+              <label class="agent-post-field">
+                Giá thuê <span>*</span>
+                <input name="price" required placeholder="19.000.000 đ / tháng" />
+              </label>
+              <label class="agent-post-field">
+                Diện tích <span>*</span>
+                <input name="size" required placeholder="90 m²" />
+              </label>
+              <label class="agent-post-field">
+                Phòng ngủ / phòng tắm <span>*</span>
+                <input name="rooms" required placeholder="2 / 2" />
+              </label>
+              <label class="agent-post-field agent-post-field--wide">
+                Địa chỉ đầy đủ <span>*</span>
+                <input
+                  name="location"
+                  required
+                  placeholder="36 Song Hành, An Phú, TP. Thủ Đức, TP.HCM"
+                />
+              </label>
+              <label class="agent-post-field agent-post-field--wide">
+                Pháp lý <span>*</span>
+                <input
+                  name="legal"
+                  required
+                  placeholder="Giấy chứng nhận chủ sở hữu • Được ủy quyền cho thuê"
+                />
+              </label>
+              <label
+                class="agent-post-field agent-post-field--wide agent-post-doc"
+                id="agent-post-doc-field"
+              >
+                Tài liệu kiểm duyệt (không công khai) <span>*</span>
+                <input
+                  name="docFile"
+                  id="agent-post-doc-input"
+                  type="file"
+                  accept="image/*,application/pdf"
+                />
+                <span class="agent-post-field__hint" id="agent-post-doc-state"
+                  >Chưa tải tài liệu</span
+                >
+                <span class="agent-post-field__error"
+                  >Vui lòng bổ sung chứng từ quyền cho thuê trước khi gửi
+                  duyệt.</span
+                >
+              </label>
+              <label class="agent-post-field">
+                Phí quản lý <span>*</span>
+                <input
+                  name="managementFee"
+                  required
+                  placeholder="1.300.000 đ / tháng"
+                />
+                <span class="agent-post-field__hint"
+                  >Tách riêng phí để người tìm nhà thấy tổng chi phí.</span
+                >
+              </label>
+              <label class="agent-post-field">
+                Người liên hệ <span>*</span>
+                <input name="brokerName" required placeholder="Tên môi giới" />
+              </label>
+              <label class="agent-post-field">
+                Số điện thoại <span>*</span>
+                <input
+                  name="contact"
+                  type="tel"
+                  required
+                  placeholder="090..."
+                />
+              </label>
+            </fieldset>
+          </section>
+
+          <section class="agent-post-section">
+            <h2>02 / Tiện ích &amp; nhu cầu sống</h2>
+            <fieldset class="agent-post-fields agent-post-fields--single">
+              <label class="agent-post-field">
+                Tiện ích có sẵn <span>*</span>
+                <input
+                  name="amenities"
+                  required
+                  placeholder="Hồ bơi • Gym • Bảo vệ 24/7 • Bãi xe"
+                />
+              </label>
+              <label class="agent-post-field">
+                Tiêu chí mềm có căn cứ
+                <input
+                  name="softCriteria"
+                  placeholder="Góc WFH 5 m² • Trường học cách 800 m"
+                />
+              </label>
+              <label class="agent-post-field">
+                Nguồn thông tin / lưu ý
+                <input
+                  name="sourceNote"
+                  placeholder="Khoảng cách do môi giới ước tính; mức yên tĩnh chưa đo thực tế."
+                />
+              </label>
+              <label class="agent-post-field">
+                Mô tả chi tiết <span>*</span>
+                <textarea
+                  name="description"
+                  required
+                  rows="4"
+                  placeholder="Căn hộ 90 m² có 2 phòng ngủ, ban công hướng nội khu..."
+                ></textarea>
+              </label>
+            </fieldset>
+          </section>
+
+          <section class="agent-post-section">
+            <h2>03 / Ảnh &amp; video</h2>
+            <figure class="agent-post-photos" id="agent-post-photos"></figure>
+            <p class="agent-post-photos__meta" id="agent-post-photos-meta">
+              Chưa có ảnh nào được tải.
+            </p>
+            <label class="agent-post-upload">
+              Tải ảnh / video
+              <input
+                id="agent-post-photo-input"
+                type="file"
+                accept="image/*,video/mp4"
+                multiple
+              />
+            </label>
+            <p class="agent-post-field__hint">
+              Ảnh JPG/PNG ≤ 10 MB; video MP4 ≤ 100 MB. Tối thiểu 3 ảnh nội thất,
+              không chụp giấy tờ tùy thân.
+            </p>
+            <p class="agent-post-alert" id="agent-post-photo-alert" hidden>
+              <span aria-hidden="true">ⓘ</span>
+              <span
+                ><strong id="agent-post-photo-alert-title">Cần thêm 3 ảnh</strong
+                ><span class="agent-post-alert__body"
+                  >Thêm ảnh khu vực làm việc hoặc mặt ngoài trước khi gửi
+                  duyệt.</span
+                ></span
+              >
+            </p>
+            <p
+              class="agent-post-form-message"
+              id="agent-post-message"
+              role="status"
+              hidden
+            ></p>
+          </section>
+        </form>
+
+        <aside class="agent-post-sidebar">
+          <section class="agent-post-aside agent-post-ai">
+            <h2>AI gợi ý bố cục</h2>
+            <p class="agent-post-ai__state" id="agent-post-ai-state" role="status">
+              Bản gợi ý • Chưa áp dụng
+            </p>
+            <h3 id="agent-post-ai-title"></h3>
+            <menu class="agent-post-ai__list" id="agent-post-ai-list"></menu>
+            <label class="agent-post-ai__rename" id="agent-post-ai-rename-field" hidden>
+              Đổi tên gợi ý
+              <input id="agent-post-ai-rename" maxlength="70" />
+            </label>
+            <p class="agent-post-ai__note" id="agent-post-ai-note">
+              Nguồn cấu trúc bạn vừa nhập. AI không thêm tiện ích hoặc luật mới.
+            </p>
+            <button
+              class="agent-post-ai__apply"
+              id="agent-post-ai-apply"
+              type="button"
+            >
+              Áp dụng vào bài đăng
+            </button>
+            <menu class="agent-post-ai__actions">
+              <li class="agent-post-ai__edit">
+                <button type="button" id="agent-post-ai-edit">Sửa</button>
+              </li>
+              <li>
+                <button type="button" id="agent-post-ai-reload">Tạo lại</button>
+              </li>
+              <li>
+                <button type="button" id="agent-post-ai-clear">Bỏ gợi ý</button>
+              </li>
+            </menu>
+          </section>
+
+          <section class="agent-post-aside agent-post-preview">
+            <h2>Xem trước bài đăng</h2>
+            <figure class="agent-post-preview__media">
+              <img id="agent-post-preview-image" alt="Ảnh chính của bài đăng" hidden />
+              <p class="agent-post-preview__empty" id="agent-post-preview-empty">
+                Chưa có ảnh chính. Ảnh đầu tiên ở mục 03 sẽ là ảnh hiển thị ở
+                trang tìm nhà.
+              </p>
+            </figure>
+            <p class="agent-post-preview__title" id="agent-post-preview-title">
+              Tiêu đề bài đăng
+            </p>
+            <p class="agent-post-preview__price" id="agent-post-preview-price">
+              Chưa có giá
+            </p>
+            <p class="agent-post-preview__meta" id="agent-post-preview-meta"></p>
+            <p
+              class="agent-post-preview__badge"
+              id="agent-post-preview-badge"
+              hidden
+            ></p>
+            <a
+              class="agent-post-preview__link"
+              id="agent-post-preview-link"
+              href="seeker-detail.html"
+              >Mở xem trước đầy đủ</a
+            >
+          </section>
+
+          <section class="agent-post-aside agent-post-check">
+            <h2>Kiểm tra trước khi gửi</h2>
+            <ul id="agent-post-checklist" aria-live="polite"></ul>
+            <button
+              class="agent-post-check__draft"
+              id="agent-post-save-draft"
+              type="button"
+            >
+              Lưu nháp
+            </button>
+            <button
+              class="agent-post-submit"
+              id="agent-post-submit-btn"
+              type="submit"
+              form="agent-post-form"
+              disabled
+            >
+              Gửi duyệt
+            </button>
+            <p class="agent-post-check__note" id="agent-post-check-note"></p>
+          </section>
+        </aside>
+      </section>
+    </main>
+  </body>
+</html>
