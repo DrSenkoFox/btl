@@ -1,0 +1,58 @@
+.compare-homes {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 6px;
+  padding: 0;
+  list-style: none;
+}
+
+.compare-homes > li {
+  display: grid;
+  gap: 6px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.compare-homes [data-top] {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+.compare-homes header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+}
+
+.compare-homes strong {
+  color: var(--green-dark);
+  font-size: 13px;
+}
+
+.compare-bar {
+  height: 6px;
+  margin: 0;
+  border-radius: 999px;
+  background: var(--green-soft);
+}
+
+.compare-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--green);
+}
+
+.compare-points {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 12px;
+}
