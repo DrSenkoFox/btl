@@ -27,17 +27,7 @@ function submitPropertyReport(report) {
   return storePropertyReports([...getPropertyReports(), report]);
 }
 
-function markPropertyReportReviewed(reportId) {
-  const reports = getPropertyReports();
-  const report = reports.find((item) => item.id === reportId);
-  if (!report) return false;
-
-  report.status = "reviewed";
-  return storePropertyReports(reports);
-}
-
 window.HomeFitReports = Object.freeze({
   getAll: getPropertyReports,
   submit: submitPropertyReport,
-  markReviewed: markPropertyReportReviewed,
 });
