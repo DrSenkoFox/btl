@@ -15,13 +15,7 @@ const checkNote = document.querySelector("#agent-post-check-note");
 const aiState = document.querySelector("#agent-post-ai-state");
 const aiTitle = document.querySelector("#agent-post-ai-title");
 const aiList = document.querySelector("#agent-post-ai-list");
-const aiNote = document.querySelector("#agent-post-ai-note");
-const aiApplyBtn = document.querySelector("#agent-post-ai-apply");
-const aiEditBtn = document.querySelector("#agent-post-ai-edit");
-const aiReloadBtn = document.querySelector("#agent-post-ai-reload");
-const aiClearBtn = document.querySelector("#agent-post-ai-clear");
-const aiRenameField = document.querySelector("#agent-post-ai-rename-field");
-const aiRename = document.querySelector("#agent-post-ai-rename");
+const aiOpenBtn = document.querySelector("#agent-post-ai-open");
 const previewImage = document.querySelector("#agent-post-preview-image");
 const previewEmpty = document.querySelector("#agent-post-preview-empty");
 const previewTitle = document.querySelector("#agent-post-preview-title");
@@ -39,10 +33,6 @@ let photos = [];
 let docName = "";
 let draftStamp = "";
 let savedPostId = editId || "";
-let aiSeed = 0;
-let aiCleared = false;
-let aiApplied = false;
-let aiCustomTitle = "";
 
 function showMessage(text) {
   agentPostMessage.textContent = text;
@@ -108,66 +98,6 @@ function updateChecks() {
   return missing + (requiredLeft ? 1 : 0);
 }
 
-const aiCard = document.querySelector(".agent-post-ai");
-const aiFocusTags = [
-  [/wfh|làm việc|work/i, "góc WFH"],
-  [/gia đình|con nhỏ|trường/i, "gia đình"],
-  [/yên tĩnh|ngủ/i, "không gian yên tĩnh"],
-  [/hồ bơi|gym|công viên/i, "tiện ích nội khu"],
-];
-
-function aiFocus(values) {
-  const text = `${values.softCriteria} ${values.sourceNote} ${values.description}`;
-  const hits = aiFocusTags
-    .filter(([pattern]) => pattern.test(text))
-    .map(([, label]) => label);
-  if (!hits.length) return hits;
-  const cut = aiSeed % hits.length;
-  return [...hits.slice(cut), ...hits.slice(0, cut)];
-}
-
-function aiItems(values) {
-  const focus = aiFocus(values);
-  return [
-    "Không gian & nội thất",
-    `Tổng chi phí ${values.transaction === "buy" ? "mua" : "thuê"}`,
-    focus[0] ? `Trường học & ${focus[0]}` : "Tiện ích quanh nhà",
-    "Pháp lý, ngân sách và lưu ý",
-  ];
-}
-
-function aiHeading(values) {
-  if (aiCustomTitle) return aiCustomTitle;
-  const focus = aiFocus(values);
-  return focus.length
-    ? `Trải nghiệm ${focus.slice(0, 2).join(" & ")}`
-    : "Bố cục theo tiêu chí bạn vừa nhập";
-}
-
-function renderAi() {
-  const values = formValues();
-
-  aiCard.toggleAttribute("data-cleared", aiCleared);
-  aiList.replaceChildren(
-    ...aiItems(values).map((item) => {
-      const row = document.createElement("li");
-      row.textContent = item;
-      return row;
-    }),
-  );
-  aiTitle.textContent = aiHeading(values);
-  aiState.textContent = aiCleared
-    ? "Đã bỏ gợi ý"
-    : aiApplied
-      ? "Bản gợi ý • Đã áp dụng vào bài đăng"
-      : aiCustomTitle
-        ? "Bản gợi ý • Đã chỉnh sửa"
-        : "Bản gợi ý • Chưa áp dụng";
-  aiNote.textContent = aiCleared
-    ? "Bấm Tạo lại để AI dựng lại bố cục từ thông tin bạn nhập."
-    : "Nguồn cấu trúc bạn vừa nhập. AI không thêm tiện ích hoặc luật mới.";
-}
-
 function renderPreview() {
   const values = formValues();
   const parts = (values.location || "")
@@ -196,7 +126,6 @@ function renderPreview() {
 
 function refresh() {
   updateChecks();
-  renderAi();
   renderPreview();
 }
 
@@ -312,34 +241,36 @@ function saveDraft() {
 }
 
 draftBtn.addEventListener("click", saveDraft);
-aiApplyBtn.addEventListener("click", () => {
-  const values = formValues();
-  agentPostForm.elements.description.value = `${aiHeading(values)}\n${aiItems(values)
-    .map((item, index) => `${index + 1}. ${item}`)
-    .join("\n")}`;
-  aiApplied = true;
-  refresh();
-});
-aiEditBtn.addEventListener("click", () => {
-  aiRenameField.hidden = false;
-  aiRename.value = aiTitle.textContent;
-  aiRename.focus();
-});
-aiRename.addEventListener("input", () => {
-  aiCustomTitle = aiRename.value.trim();
-  renderAi();
-});
-aiReloadBtn.addEventListener("click", () => {
-  aiSeed += 1;
-  aiCleared = false;
-  aiApplied = false;
-  aiCustomTitle = "";
-  aiRenameField.hidden = true;
-  renderAi();
-});
-aiClearBtn.addEventListener("click", () => {
-  aiCleared = true;
-  renderAi();
+
+function renderAiResult() {
+  const ai = window.HomeFitAPI?.getAi("summary");
+  const applied = ai?.postId === draftId ? ai : null;
+
+  aiState.textContent = applied
+    ? `Đã áp dụng bố cục AI · lưu lúc ${new Date(applied.savedAt).toLocaleString("vi-VN")}`
+    : "Chưa có kết quả AI cho bài đăng này.";
+  aiTitle.textContent = applied?.heading || "";
+  aiTitle.hidden = !applied;
+  aiList.hidden = !applied;
+  aiList.replaceChildren(
+    ...(applied?.blocks || []).map((block) => {
+      const row = document.createElement("li");
+      row.textContent = block.note
+        ? `${block.label} · ${block.note}`
+        : block.label;
+      return row;
+    }),
+  );
+}
+
+aiOpenBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  const id = saveDraft();
+  if (!id) {
+    showMessage("Chưa lưu được bản nháp nên AI chưa có dữ liệu để phân tích.");
+    return;
+  }
+  window.location.href = `ai-summary.html?id=${encodeURIComponent(id)}`;
 });
 previewLink.addEventListener("click", (event) => {
   event.preventDefault();
@@ -487,3 +418,5 @@ if (!editId && storedDraft) {
 }
 loadHeading();
 updateUserInfo();
+renderAiResult();
+window.addEventListener("pageshow", renderAiResult);
