@@ -1,0 +1,124 @@
+.agent-nav {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 3;
+  display: flex;
+  width: 232px;
+  flex-direction: column;
+  padding: 20px 16px;
+  border-right: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 13px;
+}
+
+body.has-agent-nav {
+  padding-left: 232px;
+}
+
+.agent-nav__brand {
+  display: flex;
+  margin-bottom: 28px;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.agent-nav__brand img {
+  width: 22px;
+}
+
+.agent-nav__label {
+  margin: 0 0 8px;
+  padding-left: 10px;
+  color: var(--muted);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.agent-nav__list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.agent-nav__list a,
+.agent-nav__foot a {
+  display: flex;
+  padding: 8px 10px;
+  align-items: center;
+  gap: 9px;
+  border-radius: 7px;
+  color: #3b4e45;
+  text-decoration: none;
+}
+
+.agent-nav__list a::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: transparent;
+  flex: 0 0 auto;
+}
+
+.agent-nav__list a:hover,
+.agent-nav__foot a:hover {
+  background: var(--green-soft);
+}
+
+.agent-nav__list a.is-active {
+  color: var(--green);
+  font-weight: 600;
+}
+
+.agent-nav__list a.is-active::before {
+  background: var(--green);
+}
+
+.agent-nav__foot {
+  display: flex;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  flex-direction: column;
+  gap: 2px;
+}
+
+@media (max-width: 900px) {
+  .agent-nav {
+    position: static;
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+    padding: 10px 14px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  body.has-agent-nav {
+    padding-left: 0;
+  }
+
+  .agent-nav__brand {
+    margin: 0 10px 0 0;
+  }
+
+  .agent-nav__label,
+  .agent-nav__foot,
+  .agent-nav__list a::before {
+    display: none;
+  }
+
+  .agent-nav__list {
+    flex-direction: row;
+  }
+}
