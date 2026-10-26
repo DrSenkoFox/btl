@@ -45,5 +45,7 @@ reportForm.addEventListener("submit", (event) => {
     return;
   }
 
-  window.location.href = `moderator-reports.html?reportId=${encodeURIComponent(report.id)}`;
+  document.querySelector("#report-status").textContent =
+    `Đã ghi nhận báo cáo cho ${report.propertyCode}. Kiểm duyệt viên sẽ phản hồi trong 24 giờ.`;
+  reportForm.reset();
 });
