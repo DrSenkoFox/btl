@@ -2959,3 +2959,220 @@ body.has-agent-nav {
     grid-template-columns: 1fr;
   }
 }
+/* ==========================================================================
+   9. BRIEF FORM VALIDATION, TAGS, WEIGHTED PRIORITIES & CHAR COUNTER
+   ========================================================================== */
+.form-field.is-invalid,
+.agent-select-box.is-invalid {
+  border-color: #d92d20 !important;
+  background: #fffbfa !important;
+}
+
+.field-error {
+  margin: 4px 0 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #d92d20;
+}
+
+.field-error[hidden] {
+  display: none !important;
+}
+
+/* Bộ đếm ký tự 0 / 200 (cam khi > 180, đỏ khi > 200) */
+.char-counter-wrap {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #6e7c75;
+}
+
+#lifestyle.over180 {
+  color: #b56b27;
+}
+
+#lifestyle.over200 {
+  color: #d92d20;
+  font-weight: 600;
+}
+
+.char-counter-wrap.is-warn {
+  color: #d97706;
+}
+
+.char-counter-wrap.is-danger {
+  color: #d92d20;
+  font-weight: 700;
+}
+
+/* Danh sách Tag tự động sinh (#need-tags) */
+.need-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.need-tags[hidden],
+.generated-criteria__group[hidden],
+.selected-agent[hidden],
+.brief-consent[hidden],
+.matcher-warning[hidden],
+.brief-status[hidden] {
+  display: none !important;
+}
+
+.need-tag {
+  padding: 4px 10px;
+  border: 1px solid #cce3d4;
+  border-radius: 999px;
+  background: var(--green-soft);
+  color: #17684d;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.need-tag::before {
+  content: "✓ ";
+}
+
+/* Ưu tiên có trọng số (#weighted-priorities-group) */
+.generated-criteria {
+  display: grid;
+  gap: 12px;
+}
+
+.generated-criteria__group {
+  padding: 12px 14px;
+  border: 1px solid #dce4df;
+  border-radius: 8px;
+  background: #f9fbfa;
+}
+
+.generated-criteria__group h3 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  color: #14221d;
+}
+
+.weighted-priorities__results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  font-weight: 650;
+  color: #17684d;
+}
+
+.weighted-priorities__results li + li::before {
+  content: "• ";
+  margin-right: 6px;
+  color: #8fa399;
+}
+
+/* Khối môi giới đã chọn (.selected-agent) */
+.selected-agent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border: 1px solid #cfe3d6;
+  border-radius: 8px;
+  background: #f4faf6;
+  margin-bottom: 10px;
+}
+
+.selected-agent__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.selected-agent__details {
+  flex: 1;
+  min-width: 0;
+}
+
+.selected-agent__name,
+.selected-agent__meta {
+  margin: 0;
+  font-size: 11.5px;
+}
+
+.selected-agent__meta {
+  color: var(--muted);
+  font-size: 10.5px;
+}
+
+.brief-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 11.5px;
+  color: #3b4a43;
+  cursor: pointer;
+}
+
+.brief-consent input {
+  margin-top: 2px;
+  accent-color: var(--green);
+}
+
+/* Cảnh báo AI Uncertainty (.matcher-warning) */
+.matcher-warning {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 9px;
+  background: #fff4dc;
+  border: 1px solid #f2dfb3;
+  font-size: 11px;
+  color: #5f4314;
+}
+
+.matcher-warning p {
+  margin: 0;
+}
+
+.matcher-warning__title {
+  font-weight: 700;
+  margin-bottom: 2px !important;
+}
+
+.matcher-result[data-state="empty"] > h4,
+.matcher-result[data-state="empty"] > .matcher-reasons,
+.matcher-result[data-state="empty"] > .matcher-disclaimer,
+.matcher-result[data-state="empty"] > .matcher-actions {
+  display: none;
+}
+
+.brief-status {
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 9px;
+  background: var(--green-soft);
+  border: 1px solid #cfe3d6;
+}
+
+.brief-status p {
+  margin: 0;
+  font-size: 12px;
+}
+
+.brief-status__title {
+  font-weight: 700;
+  color: var(--green-dark);
+}

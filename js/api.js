@@ -1,16 +1,16 @@
 /* ==========================================================================
-   HomeFit AI – JSON File Data Layer & Per-User Isolated State (js/api.js)
-   - Đọc dữ liệu khởi tạo từ tệp cục bộ: ../assets/data/data.json
-   - Mặc định khởi đầu ở trạng thái Chưa đăng nhập (Guest)
-   - Mỗi tài khoản (user.id) có kho Nhà đã lưu (savedByUser) và Nhu cầu nhà ở (briefByUser) riêng biệt
+   HomeFit AI – Unified Data Store & API (js/api.js)
+   - Hợp nhất toàn bộ helper của Dev (HomeFitAgentPosts, HomeFitSavedHomes,
+     HomeFitBrief, HomeFitReports, Appointments) và Main (HomeFitAPI)
+   - Sử dụng duy nhất nguồn dữ liệu từ ../assets/data/data.json
+   - Phân tách Nhà đã lưu (savedByUser) & Nhu cầu nhà ở (briefByUser) theo từng tài khoản
    ========================================================================== */
 
 window.HomeFitAPI = (() => {
   const JSON_FILE_URL = "../assets/data/data.json";
-  const STORAGE_DB_KEY = "homefit_json_db_v5";
-  const SESSION_KEY = "homefit_session_v5";
+  const STORAGE_DB_KEY = "homefit_unified_db_v6";
+  const SESSION_KEY = "homefit_session_v6";
 
-  /* 1. Đọc tệp ../assets/data/data.json lần đầu */
   function fetchInitialJsonFile() {
     try {
       const xhr = new XMLHttpRequest();
@@ -20,7 +20,7 @@ window.HomeFitAPI = (() => {
         return JSON.parse(xhr.responseText);
       }
     } catch (err) {
-      console.error("[HomeFitAPI] Không thể đọc đồng bộ data.json:", err);
+      console.error("[HomeFitAPI] Lỗi đọc data.json:", err);
     }
     return {
       users: [],
@@ -37,14 +37,14 @@ window.HomeFitAPI = (() => {
   async function reloadFromJsonFileAsync() {
     try {
       const response = await fetch(JSON_FILE_URL, { cache: "no-store" });
-      if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
       data.savedByUser = data.savedByUser || {};
       data.briefByUser = data.briefByUser || {};
       saveDatabase(data);
       return data;
-    } catch (error) {
-      console.error("[HomeFitAPI] Lỗi khi fetch assets/data/data.json:", error);
+    } catch (err) {
+      console.error("[HomeFitAPI] Fetch data.json error:", err);
       return getDatabase();
     } finally {
       window.dispatchEvent(new CustomEvent("homefit:db-synced"));
@@ -53,9 +53,9 @@ window.HomeFitAPI = (() => {
 
   function getDatabase() {
     try {
-      const cached = localStorage.getItem(STORAGE_DB_KEY);
-      if (cached) {
-        const parsed = JSON.parse(cached);
+      const raw = localStorage.getItem(STORAGE_DB_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
         if (parsed && Array.isArray(parsed.users) && Array.isArray(parsed.posts)) {
           parsed.savedByUser = parsed.savedByUser || {};
           parsed.briefByUser = parsed.briefByUser || {};
@@ -63,18 +63,21 @@ window.HomeFitAPI = (() => {
         }
       }
     } catch {
-      // Bỏ qua lỗi cache
+      // Nạp lại từ file data.json nếu cache hỏng
     }
-    const initialData = fetchInitialJsonFile();
-    initialData.savedByUser = initialData.savedByUser || {};
-    initialData.briefByUser = initialData.briefByUser || {};
-    saveDatabase(initialData);
-    return initialData;
+    const fresh = fetchInitialJsonFile();
+    fresh.savedByUser = fresh.savedByUser || {};
+    fresh.briefByUser = fresh.briefByUser || {};
+    saveDatabase(fresh);
+    return fresh;
   }
 
   function saveDatabase(db) {
     localStorage.setItem(STORAGE_DB_KEY, JSON.stringify(db));
     window.dispatchEvent(new CustomEvent("homefit:db-changed"));
+    window.dispatchEvent(new CustomEvent("homefit:agent-posts-change"));
+    window.dispatchEvent(new CustomEvent("homefit:saved-homes-change"));
+    window.dispatchEvent(new CustomEvent("homefit:agent-requests-change"));
   }
 
   async function exportOrSaveToJsonFile() {
@@ -85,7 +88,7 @@ window.HomeFitAPI = (() => {
       try {
         const handle = await window.showSaveFilePicker({
           suggestedName: "data.json",
-          types: [{ description: "JSON Database File", accept: { "application/json": [".json"] } }],
+          types: [{ description: "JSON Database", accept: { "application/json": [".json"] } }],
         });
         const writable = await handle.createWritable();
         await writable.write(jsonString);
@@ -104,13 +107,13 @@ window.HomeFitAPI = (() => {
     return true;
   }
 
-  /* 2. Quản lý Phiên đăng nhập (Mặc định chưa đăng nhập sẽ trả về null) */
+  /* Phiên đăng nhập (Mặc định chưa đăng nhập trả về null) */
   function getSession() {
     try {
       const raw = localStorage.getItem(SESSION_KEY);
       if (!raw) return null;
-      const sessionUser = JSON.parse(raw);
-      return sessionUser && sessionUser.id ? sessionUser : null;
+      const user = JSON.parse(raw);
+      return user && user.id ? user : null;
     } catch {
       return null;
     }
@@ -124,49 +127,71 @@ window.HomeFitAPI = (() => {
     }
   }
 
-  /* 3. Quản lý Tài khoản & Danh sách Môi giới */
+  /* Users & Brokers */
   function getUsers() {
     return getDatabase().users || [];
   }
 
-  function saveUsers(usersList) {
+  function saveUsers(list) {
     const db = getDatabase();
-    db.users = usersList;
+    db.users = list;
     saveDatabase(db);
   }
 
   function getBrokers() {
+    const posts = getPosts().filter((p) => p.status === "approved");
     return getUsers()
       .filter((u) => u.role === "agent")
-      .map((u) => ({
-        id: u.brokerId || u.id,
-        userId: u.id,
-        name: u.name,
-        initials: u.initials || u.name.slice(0, 2).toUpperCase(),
-        verified: u.verified !== false,
-        location: u.location || u.area || "TP.HCM",
-        specialty: u.specialty || "Tư vấn thuê & mua bất động sản theo nhu cầu sống",
-        bio: u.bio || "Đồng hành cùng khách hàng tìm kiếm ngôi nhà phù hợp nhịp sống gia đình.",
-        tags: Array.isArray(u.tags) && u.tags.length ? u.tags : ["Gia đình", "WFH", "Pháp lý"],
-        fit: u.fit || 90,
-        fitLabel: u.fitLabel || "Khớp brief của bạn",
-        deals: u.deals || 12,
-        fast: u.fast !== false,
-        areas: u.areas || "all thao-dien binh-thanh thu-duc",
-        specialties: u.specialties || "all family wfh rental buying",
-        note: u.note || "Thường phản hồi trong 2 giờ • Đủ dữ liệu hồ sơ",
-      }));
+      .map((u) => {
+        const brokerId = u.brokerId || u.id;
+        const brokerPosts = posts.filter(
+          (p) => p.broker === brokerId || p.brokerName === u.name
+        );
+        return {
+          id: brokerId,
+          userId: u.id,
+          name: u.name,
+          initials: u.initials || u.name.slice(0, 2).toUpperCase(),
+          verified: u.verified !== false,
+          location: u.location || u.area || "TP.HCM",
+          specialty: u.specialty || "Tư vấn thuê & mua bất động sản",
+          bio: u.bio || "Đồng hành cùng khách hàng tìm kiếm ngôi nhà phù hợp.",
+          tags: Array.isArray(u.tags) && u.tags.length ? u.tags : ["Gia đình", "WFH"],
+          fit: u.fit || 90,
+          fitLabel: u.fitLabel || "Khớp brief B-024",
+          deals: u.deals || brokerPosts.length || 10,
+          fast: u.fast !== false,
+          areas: u.areas || "all tp-hcm thao-dien binh-thanh thu-duc",
+          specialties: u.specialties || "all family wfh rental buying",
+          note: u.note || "Thường phản hồi trong 2 giờ • Đủ dữ liệu hồ sơ",
+          contact: u.phone || "0901 234 567",
+          listings: brokerPosts,
+        };
+      });
   }
 
-  /* 4. Quản lý Bài đăng BĐS */
+  /* Posts */
   function getPosts() {
     return getDatabase().posts || [];
   }
 
-  function savePosts(postsList) {
+  function savePosts(list) {
     const db = getDatabase();
-    db.posts = postsList;
+    db.posts = list;
     saveDatabase(db);
+  }
+
+  function saveSinglePost(post) {
+    if (!post?.id && !post?.title) return false;
+    const posts = getPosts();
+    if (!post.id) post.id = `HF-${101 + posts.length}`;
+    if (!post.code) post.code = post.id;
+    if (!post.area) post.area = post.location ? post.location.split(",")[0].trim() : "TP.HCM";
+    const idx = posts.findIndex((item) => item.id === post.id || item.code === post.id);
+    if (idx >= 0) posts[idx] = { ...posts[idx], ...post };
+    else posts.unshift(post);
+    savePosts(posts);
+    return true;
   }
 
   function updatePost(postId, patchData) {
@@ -178,21 +203,26 @@ window.HomeFitAPI = (() => {
     return true;
   }
 
-  /* 5. [QUAN TRỌNG] Quản lý Nhà đã lưu & Nhu cầu nhà ở RIÊNG BIỆT theo từng User ID */
+  function deletePost(postId) {
+    const posts = getPosts();
+    const filtered = posts.filter((p) => p.id !== postId && p.code !== postId);
+    if (filtered.length === posts.length) return false;
+    savePosts(filtered);
+    return true;
+  }
+
+  /* Per-User Saved Homes & Per-User Brief */
   function getSaved() {
     const session = getSession();
-    // Nếu chưa đăng nhập -> Không có nhà nào được lưu (trả về mảng rỗng [])
     if (!session || !session.id) return [];
-
     const db = getDatabase();
-    const userSaved = db.savedByUser[session.id];
-    return Array.isArray(userSaved) ? userSaved : [];
+    const list = db.savedByUser[session.id];
+    return Array.isArray(list) ? list : [];
   }
 
   function saveSaved(list) {
     const session = getSession();
     if (!session || !session.id) return false;
-
     const db = getDatabase();
     db.savedByUser[session.id] = Array.isArray(list) ? list : [];
     saveDatabase(db);
@@ -201,9 +231,7 @@ window.HomeFitAPI = (() => {
 
   function getBrief() {
     const session = getSession();
-    // Nếu chưa đăng nhập -> Không có Brief nào
     if (!session || !session.id) return null;
-
     const db = getDatabase();
     return db.briefByUser[session.id] || null;
   }
@@ -211,52 +239,41 @@ window.HomeFitAPI = (() => {
   function saveBrief(briefObj) {
     const session = getSession();
     if (!session || !session.id) return false;
-
     const db = getDatabase();
-    if (briefObj) {
-      db.briefByUser[session.id] = briefObj;
-    } else {
-      delete db.briefByUser[session.id];
-    }
+    if (briefObj) db.briefByUser[session.id] = briefObj;
+    else delete db.briefByUser[session.id];
     saveDatabase(db);
     return true;
   }
 
-  /* 6. Quản lý Leads, Lịch hẹn, Báo cáo & Thông báo */
+  /* Leads, Appointments, Reports, Notifications */
   function getLeads() {
     return getDatabase().leads || [];
   }
-
   function saveLeads(list) {
     const db = getDatabase();
     db.leads = list;
     saveDatabase(db);
   }
-
   function getAppts() {
     return getDatabase().appointments || [];
   }
-
   function saveAppts(list) {
     const db = getDatabase();
     db.appointments = list;
     saveDatabase(db);
   }
-
   function getReports() {
     return getDatabase().reports || [];
   }
-
   function saveReports(list) {
     const db = getDatabase();
     db.reports = list;
     saveDatabase(db);
   }
-
   function getNotifs() {
     return getDatabase().notifications || [];
   }
-
   function saveNotifs(list) {
     const db = getDatabase();
     db.notifications = list;
@@ -264,6 +281,37 @@ window.HomeFitAPI = (() => {
   }
 
   getDatabase();
+
+  /* Tương thích ngược với các đối tượng global của nhánh Dev */
+  window.HomeFitAgentPosts = Object.freeze({
+    getAll: getPosts,
+    save: saveSinglePost,
+    updateStatus: (id, status) => updatePost(id, { status }),
+    delete: deletePost,
+  });
+
+  window.HomeFitSavedHomes = Object.freeze({
+    getAll: getSaved,
+    save: (home) => {
+      const list = getSaved();
+      if (list.some((item) => item.id === home.id)) return false;
+      return saveSaved([...list, home]);
+    },
+    remove: (homeId) => saveSaved(getSaved().filter((item) => item.id !== homeId)),
+  });
+
+  window.HomeFitBrief = Object.freeze({
+    get: () => getBrief() || {},
+    exists: () => Boolean(getBrief()?.lifestyle),
+  });
+
+  window.HomeFitReports = Object.freeze({
+    getAll: getReports,
+    submit: (report) => {
+      saveReports([report, ...getReports()]);
+      return true;
+    },
+  });
 
   return {
     JSON_FILE_URL,
@@ -276,7 +324,9 @@ window.HomeFitAPI = (() => {
     getBrokers,
     getPosts,
     savePosts,
+    saveSinglePost,
     updatePost,
+    deletePost,
     getSession,
     setSession,
     getSaved,
